@@ -30,7 +30,6 @@ export default {
     return {
       course: [
         {
-          id: 0,
           name: "Introduction",
           lessons: [
             { name: "Pawn" , description:"Hey"},
@@ -41,7 +40,6 @@ export default {
           ]
         },
         {
-          id: 1,
           name: "Opening",
           lessons: [
             { name: "Petrov Defence",description:"Hey" },

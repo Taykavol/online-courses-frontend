@@ -1,27 +1,64 @@
 <template>
-  <div>
+  <div >
+       <!-- <div class="" @click="">Create module {{parent_index+2}} </div> -->
+      <div
+                class="ignore-elements-module flex justify-center h-full w-full bg-transparent self-start opacity-0   hover:opacity-100  relative transition-opacity duration-1000"
+              >
+                <!-- Create lesson Icon -->
+                <div
+                  @click="createEmptyModule(0)"
+                  class="  h-12 w-12  hover:text-red-500   cursor-pointer"
+                >
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="plus-circle"
+                    class=" transition duration-200 transform hover:scale-125  svg-inline--fa fa-plus-circle fa-w-16"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+
     <draggable
       @sort="onSort"
+      filter=".ignore-elements-module"
       :disabled="!sortableElement"
       class=""
       :list="course"
       :animation="500"
       group="mod"
+      handle=".module-handle"
     >
+    <transition-group :name="transitionName" tag="div">
       <div
         v-for="(item, parent_index) in course"
-        :key="item.name"
-        class=" m-16 bg-gray-200 border-2 rounded-lg p-8 cursor-move "
+        :key="item.id"
+        class="transition-all duration-1000"
       >
-        <div class=" text-5xl flex items-baseline">
+      <div class=" bg-gray-200 border-2 rounded-lg cursor-move module-handle transition-all duration-1000  bigLesson ">
+        
+        <div class=" text-5xl flex items-baseline mt-2 ml-8">
+          <!-- Number module -->
           <div
-            class="mr-6 span--module flex justify-center items-center font-bold text-yellow-500"
+            :class="
+              item.name != ''
+                ? 'mr-6 span--module-access flex justify-center items-center font-bold text-yellow-500 p-4'
+                : 'mr-6 span--module-fail flex justify-center items-center font-bold text-yellow-500 p-4'
+            "
           >
             {{ parent_index + 1 }}
           </div>
+          <!-- Input module -->
           <div class="">
             <input
-              v-once
               @focus="stopSort"
               @blur="onChangeName(parent_index)"
               class=" font-sans outline-none w-full max-w-full bg-gray-200  "
@@ -33,23 +70,34 @@
             />
           </div>
         </div>
-        <!-- 1 Button on the left -->
+        <!-- First area between lessons -->
         <div
-          :class="
-            !payload[course[parent_index].lessons[0].order + parent_index]
-              ? 'visible h-8'
-              : 'invisible h-0'
-          "
+          class="filtered w-full flex flex-col justify-between module-handle "
         >
           <div
-            @click="
-              payloadCreate(
-                course[parent_index].lessons[0].order + parent_index
-              )
-            "
-            class="h-full bg-gray-200 flex items-center opacity-0 cursor-pointer hover:opacity-100 hover:bg-teal-700 z-20 relative "
+            class=" h-full w-full bg-transparent self-start opacity-0 cursor-move hover:opacity-100  relative transition-opacity duration-1000 "
           >
-            <div class=" h-full w-full">button2 0</div>
+            <!-- First button add -->
+            <div
+              @click="createLesson(-1, parent_index)"
+              class=" h-12 w-12  hover:text-red-500 ignore-elements-module cursor-pointer "
+            >
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                data-prefix="fas"
+                data-icon="plus-circle"
+                class=" transition duration-200 transform hover:scale-125  svg-inline--fa fa-plus-circle fa-w-16"
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  fill="currentColor"
+                  d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
+                ></path>
+              </svg>
+            </div>
           </div>
         </div>
 
@@ -59,32 +107,46 @@
           :list="course[parent_index].lessons"
           group="people"
           :disabled="!sortableElement"
+          filter=".ignore-elements-lesson"
+          handle=".lesson-handle"
         >
+        <transition-group :name="transitionName2" tag="div">
           <div
             v-for="(lesson, index) in course[parent_index].lessons"
-            :key="lesson.name"
+            :key="lesson.id"
+            class=" "
           >
             <!-- Lesson -->
             <div
-              class="flex mx-6 bg-white shadow-lg rounded-lg overflow-hidden lesson"
+              :id="lesson.order"
+              class="flex mx-16 bg-white shadow-lg rounded-lg overflow-hidden  lesson relative ignore-elements-module lesson-handle "
             >
-              <div class="w-2 bg-gray-800"></div>
+              <!-- Black stripe -->
+              <div
+                :class="lesson.name ? 'w-2 bg-gray-800' : 'w-2 bg-red-500'"
+              ></div>
+              <!-- Info -->
               <div class="flex items-center px-2 py-3">
-                <div class=" text-4xl  ">{{ index + 1 }}</div>
+                <!-- Number of chapter -->
+                <div class=" text-4xl ">{{ index + 1 }}</div>
+                <!-- Main info, includes  -->
                 <div class="mx-3">
+                  <!-- Lesson name -->
                   <div class="">
                     <input
-                      placeholder="Chapter"
                       v-focus="true"
+                      placeholder="Chapter (require)"
                       @focus="stopSort"
-                      @keypress.enter="onChangeLessonInput(lesson)"
+                      @keypress.prevent.enter="onChangeLessonInput(lesson)"
                       @blur="onChangeLessonInput(lesson)"
-                      v-if="showLessonInput[lesson.order]"
+                      v-if="
+                        showLessonInput[lesson.order] || lesson.name.length == 0
+                      "
                       type="text"
-                      class=" text-xl font-semibold text-gray-800 outline-none"
+                      class=" text-2xl font-semibold text-gray-800 outline-none"
                       :value="lesson.name"
                     />
-                    <h2
+                    <div
                       v-if="!showLessonInput[lesson.order]"
                       @click="
                         showLessonInput[lesson.order] = !showLessonInput[
@@ -92,114 +154,158 @@
                         ];
                         showLessonInput.splice();
                       "
-                      class="text-xl font-semibold text-gray-800 inline-block cursor-pointer"
+                      class="text-2xl font-semibold text-gray-800 inline-block cursor-pointer"
                     >
                       {{ lesson.name }}
-                    </h2>
-                    <!-- <div v-if="showLessonInput[lesson.order]" class=" inline-block bg-blue-500">Save</div> -->
-                    <!-- <div
-                      v-if="!showLessonInput[lesson.order]"
-                      @click="
-                        showLessonInput[lesson.order] = !showLessonInput[
-                          lesson.order
-                        ];
-                        showLessonInput.splice();
-                      "
-                      class="inline-block h-6 w-6 cursor-pointer"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        focusable="false"
-                        data-prefix="far"
-                        data-icon="edit"
-                        class="  svg-inline--fa fa-edit fa-w-18"
-                        role="img"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 576 512"
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"
-                        ></path>
-                      </svg>
-                    </div> -->
-                  </div>
-                  <div class="">
-                    <div class=" flex w-64">
-                    <div @click="showDescriptionInput[
-                          lesson.order
-                        ] = !showDescriptionInput[lesson.order];
-                        showDescriptionInput.splice();" v-if="!showDescriptionInput[lesson.order]&&lesson.description.length>0" class="text-gray-600 break-words w-2/3 cursor-pointer w-full "> {{lesson.description}} </div>
-                    <!-- <div
-                      v-if="!showDescriptionInput[lesson.order]"
-                      @click="showDescriptionInput[
-                          lesson.order
-                        ] = !showDescriptionInput[lesson.order];
-                        showDescriptionInput.splice();
-                      "
-                      class="inline-block h-6 w-6 cursor-pointer"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        focusable="false"
-                        data-prefix="far"
-                        data-icon="edit"
-                        class=" inline-block pb-2 h-6 w-6 svg-inline--fa fa-edit fa-w-18"
-                        role="img"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 576 512"
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"
-                        ></path>
-                      </svg>
-                    </div> -->
                     </div>
-                    <textarea
-                      placeholder="Description"
-                      @blur="onChangeDescriptionInput(lesson)"
-                      @keypress.enter="onChangeDescriptionInput(lesson)"
-                      v-if="showDescriptionInput[lesson.order]"
-                      cols="50"
-                      rows="3"
-                      v-focus="true"
-                      class=" outline-none "
-                      type="text"
-                      :value="lesson.description"
-                    />
-                    
                   </div>
-                  <!-- <a href="#" class="text-blue-500">Upload Image</a>. -->
-                  <!-- </input> -->
+                  <!-- Description -->
+                  <div class="">
+                    <div class=" flex description">
+                      <!-- Div description  -->
+                      <div
+                        @click="
+                          showDescriptionInput[
+                            lesson.order
+                          ] = !showDescriptionInput[lesson.order];
+                          showDescriptionInput.splice();
+                        "
+                        v-if="
+                          !showDescriptionInput[lesson.order] &&
+                            lesson.description.length > 0
+                        "
+                        class="text-gray-600 break-words cursor-pointer w-full "
+                      >
+                        {{ lesson.description }}
+                      </div>
+                      <!-- Input description -->
+                      <textarea
+                        v-focus
+                        placeholder="Description"
+                        @focus="stopSort"
+                        @blur="onChangeDescriptionInput(lesson)"
+                        @keypress.prevent.enter="
+                          onChangeDescriptionInput(lesson)
+                        "
+                        v-if="showDescriptionInput[lesson.order]"
+                        rows="1"
+                        cols="80"
+                        maxlength="150"
+                        class=" outline-none w-full h-full rounded-lg break-words overflow-hidden "
+                        type="text"
+                        :value="lesson.description"
+                      />
+
+                      <!-- Button Add description -->
+                      <div
+                        class=" p-1 bg-blue-500 text-white rounded-lg cursor-pointer align-text-top"
+                        @click="
+                          showDescriptionInput[
+                            lesson.order
+                          ] = !showDescriptionInput[lesson.order];
+                          showDescriptionInput.splice();
+                        "
+                        v-if="
+                          !showDescriptionInput[lesson.order] &&
+                            lesson.description.length == 0
+                        "
+                      >
+                        Add description
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- <div class="lesson">{{ lesson.name }} {{ index }}</div> -->
-            <!-- Button -->
-            <div class="filtered w-full flex flex-col justify-between  ">
-              <div
-                :class="
-                  !payload[lesson.order + parent_index + 1]
-                    ? 'visible h-8'
-                    : 'invisible h-0'
-                "
-                :key="index"
-                @click="payloadCreate(lesson.order + parent_index + 1)"
-                class=" h-full w-full bg-gray-200 self-start opacity-0 cursor-pointer hover:opacity-100 hover:bg-teal-700 z-20 relative "
-              >
+              <!-- Components for delete -->
+              <div  class="border border-dashed border-gray-500 relative h-8 my-6 ">
+                <input accept="videos/mp4" :ref="`input${lesson.id}`" @change="consoleMethod(`input${lesson.id}`, lesson)"  type="file" class="cursor-pointer relative block h-8  w-full opacity-0 z-50 ">
+                <div class="text-center absolute top-0 right-0 left-0 ">{{lesson.video?lesson.video.name:'Upload video'}}</div>
+              </div>
+              
+              <!-- Delete icon. -->
+              <div class=" ml-auto self-center flex cursor-pointer ">
                 <div
-                  :class="
-                    !payload[lesson.order + parent_index + 1] ? 'h-8' : 'h-0'
-                  "
+                  class=" mr-4 rounded-full  "
+                  @click.stop="deleteLesson(index, parent_index)"
                 >
-                  button {{ lesson.order }}
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="trash-alt"
+                    class="transition duration-200 h-6 w-6 transform hover:scale-150 text-yellow-900 svg-inline--fa fa-trash-alt fa-w-14"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M32 464a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128H32zm272-256a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zM432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z"
+                    ></path>
+                  </svg>
                 </div>
               </div>
             </div>
+            <!-- Area between lessons: -->
+              <div
+                class="module-handle h-full w-full bg-transparent self-start opacity-0 cursor-move  hover:opacity-100  relative transition-opacity duration-1000 "
+              >
+                <!-- Create lesson Icon -->
+                <div
+                  @click="createLesson(index, parent_index)"
+                  class=" h-12 w-12  hover:text-red-500  ignore-elements-module cursor-pointer"
+                >
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="plus-circle"
+                    class=" transition duration-200 transform hover:scale-125  svg-inline--fa fa-plus-circle fa-w-16"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+           
           </div>
+          </transition-group>
+          <!-- End lesson -->
         </draggable>
       </div>
+      <!-- <div class="" @click="">Create module {{parent_index+2}} </div> -->
+      <div
+                class="ignore-elements-module flex justify-center h-full w-full bg-transparent self-start opacity-0   hover:opacity-100  relative transition-opacity duration-1000"
+              >
+                <!-- Create lesson Icon -->
+                <div
+                  @click="createEmptyModule(parent_index+1)"
+                  class="  h-12 w-12  hover:text-red-500   cursor-pointer"
+                >
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="plus-circle"
+                    class=" transition duration-200 transform hover:scale-125  svg-inline--fa fa-plus-circle fa-w-16"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+      </div>
+      </transition-group>
     </draggable>
 
     <rawDisplayer class="col-3" :value="course" title="List" />
@@ -229,12 +335,16 @@ export default {
   },
   data() {
     return {
-      tempName: "",
       payload: [],
       tempIndex: 0,
       showLessonInput: [],
       showDescriptionInput: [],
-      sortableElement: true
+      videos:[],
+      sortableElement: true,
+      moduleID:0,
+      lessonID:0,
+      transitionName:'',
+      transitionName2:''
     };
   },
   props: {
@@ -246,68 +356,79 @@ export default {
   created() {
     this.onSort();
     this.payloadSetFalse();
-    this.inputLessonShowSetFalse();
-    this.inputDescriptionShowSetFalse();
-    
+    this.initialazeModuleIDs();
+    this.initialazeLessonIDs();
   },
   methods: {
+      initialazeVideos() {
+        this.videos
+      },
+      consoleMethod(ref, lesson) {
+        this.$set(lesson,'video',{name:this.$refs[ref][0].files[0].name})
+        // lesson.video = this.$refs[ref][0].files[0].name;
+        console.log(this.$refs[ref][0].files[0])
+      },
+    //on Change
+
     onChangeDescriptionInput(lesson) {
       lesson.description = event.target.value;
-      console.log(event.target.value)
       this.showDescriptionInput[lesson.order] = false;
-      this.showDescriptionInput.splice();
-      this.course.splice();
-      this.startSort()
+      // this.showDescriptionInput.splice();
+      // this.course.splice();
+      this.startSort();
     },
     onChangeLessonInput(lesson) {
       lesson.name = event.target.value;
       this.showLessonInput[lesson.order] = false;
-      this.showLessonInput.splice();
-      this.course.splice();
-      this.startSort()
+      // this.showLessonInput.splice();
+      // this.course.splice();
+      this.startSort();
     },
     onChangeName(index) {
-      this.course[index].name = event.target.value;
-      console.log(event.target.value);
-      this.startSort()
+      console.log(index, event.target.value)
+      this.$set(this.course[index],'name',event.target.value)
+      // this.course[index].name = event.target.value;
+      this.startSort();
     },
+
+    // Handle sorting
+
     startSort() {
-      console.log("startSort");
+      // console.log("startSort");
       this.sortableElement = true;
     },
     stopSort() {
-      console.log("stopSort");
+      // console.log("stopSort");
       this.sortableElement = false;
     },
-    onSort() {
+    onSort(trans2=true) {
+      if(trans2)
+      this.transitionName2=''
+      this.transitionName=''
       let temp = 0;
       for (let i = 0; i < this.course.length; i++) {
         for (let j = 0; j < this.course[i].lessons.length; j++) {
-          this.course[i].lessons[j].order = temp;
+          // this.course[i].length[j].order =temp
+          this.$set(this.course[i].lessons[j],'order',temp)
           temp++;
         }
-        this.course[i].id = i;
+        // this.course[i].order = i
+        this.$set(this.course[i],'order',i)
       }
-      this.course.splice();
     },
-    inputLessonShowSetFalse() {
-      let temp = 0;
-      for (let i = 0; i < this.course.length; i++) {
+    initialazeLessonIDs() {
+      for(let i =0; i<this.course.length; i++) {
         for (let j = 0; j < this.course[i].lessons.length; j++) {
-          this.showLessonInput[temp] = false;
-          temp++;
+          this.$set(this.course[i].lessons[j],'id',this.lessonID++)
         }
       }
     },
-    inputDescriptionShowSetFalse() {
-      let temp = 0;
+    initialazeModuleIDs() {
       for (let i = 0; i < this.course.length; i++) {
-        for (let j = 0; j < this.course[i].lessons.length; j++) {
-          this.showDescriptionInput[temp] = false;
-          temp++;
-        }
+        this.$set(this.course[i],'id',this.moduleID++)
       }
     },
+    // Payload 
     payloadSetFalse() {
       let temp = 0;
       for (let i = 0; i < this.course.length; i++) {
@@ -318,48 +439,138 @@ export default {
         this.payload[temp] = false;
         temp++;
       }
-      this.tempName = "";
       this.payload.splice();
     },
-    payloadCreate(number) {
-      this.payloadSetFalse();
-      console.log(number, this.payload[+number]);
-      this.payload[+number] = !this.payload[+number];
-      this.payload.splice();
+    createPayload(number) {
+      this.payload.splice(number, 0, false);
+    },
 
-      console.log("next");
+    // Lesson
+
+    createLesson(number, group) {
+      let bool = false;
+      let j = 0;
+      let index;
+      while (bool == false && j < this.course.length) {
+        bool = this.course[j].lessons.some(lesson => lesson.name == "");
+        index = this.course[j].lessons.find(lesson => lesson.name == "");
+        if (index) index = index.order;
+        j++;
+      }
+
+      if (bool) {
+        window.location.href = `#${index}`;
+      } else {
+        this.transitionName2="list2"
+        this.course[group].lessons.splice(number + 1, 0, {
+          name: "",
+          description: "",
+          id:this.lessonID++
+        });
+        this.onSort(false);
+        this.createPayload(number);
+        this.payloadSetFalse();
+      }
+    },
+    deleteLesson(number, group) {
+      if (this.course[0].lessons.length == 1 && this.course.length == 1) {
+        this.course[0].name = "";
+        this.course[0].lessons[0] = { name: "", description: "", order: "0", id:"" };
+        this.course.splice();
+      } else if (this.course[group].lessons.length == 1) {
+       this.transitionName='list'
+       this.course.splice(group, 1);
+       
+
+      } else {
+        this.transitionName2="list2"
+        this.course[group].lessons.splice(number, 1);
+        this.onSort(false);
+        this.payload.pop();
+        this.payloadSetFalse();
+      }
+    },
+
+    createEmptyModule(number) {
+      this.transitionName='list'
+      console.log(number)
+      for(let i=number; i<this.course.length;i++) {
+        // this.course[i].id++
+        this.$set(this.course[i],'order',this.course[i].order+1)
+      }
+      this.course.splice(number,0,{order:number,id:this.moduleID++,name:'',lessons:[{name:'',description:'',id:this.lessonID++}]})
+      // this.onSort()
+      
     }
-  }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.bigLesson {
+  height: 120%
+}
 .lesson {
-  transition: all 2s ease-out;
+  transition: transform 2s;
   @apply cursor-move;
 }
-// .lesson > div >  svg {
-//   padding: 100px;
 
-// }
 .span {
-  &--module {
+  &--module-access {
     background: #183153;
     border-radius: 20%;
     height: 3.5rem;
     width: 3.5rem;
   }
-}
-.buttonBuilder {
-  @apply visible h-16;
-  transition: all 0.5s linear;
-  transition-delay: -250ms;
-}
-.buttonBuilder2 {
-  @apply opacity-100;
-  transition: opacity 0.5s linear;
+  &--module-fail {
+    background: #b40036;
+    border-radius: 20%;
+    height: 3.5rem;
+    width: 3.5rem;
+  }
 }
 textarea {
   resize: none;
+}
+.description {
+  width: 30rem;
+}
+.list-leave-active {
+  transition: all 0s;
+  opacity: 0;
+  position: absolute;
+}
+  .list-move {
+    transition: all .5s;
+  }
+.list-enter-active {
+  // transition: all .5s;
+  transition: all .5s;
+  transform: translate(30px);
+  position: absolute;
+} 
+.list-enter {
+  opacity: 0;
+}
+.list-enter-to {
+  // transition: all .5s;
+}
+.list2-leave-active {
+  opacity: 0;
+  position: absolute;
+}
+  .list2-move {
+    transition: all .5s;
+  }
+.list2-enter-active {
+  position: absolute;
+}
+
+
+
+
+
+.trash {
+  transform: translate(50%, -50%);
 }
 </style>
