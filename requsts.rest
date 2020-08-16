@@ -1,0 +1,20 @@
+POST https://api.vimeo.com/me/videos 
+Authorization: Bearer 3e92014e848e2e2cf2be98351cf18204
+Content-Type: application/json
+Accept: application/vnd.vimeo.*+json;version=3.4
+
+{
+  "upload": {
+    "approach": "tus",
+    "size":"8000"
+  }
+}
+
+###
+GET https://api.vimeo.com/me
+Authorization: Bearer 3e92014e848e2e2cf2be98351cf18204
+
+
+### 
+GET https://lichess.org/api/account
+Authorization: Bearer def50200263ad57252380fe91f143bb356411f94fbb7a955c167ea194c88eeadcb73789c3fb8bdecba736d6c7d6d5858494d3f8cc33f5187769ea180d8787ca4ede98efb738e799d01b92891edfd85b0c9bf503a147c2a7bff5fd6f32d8ad5d7a8f9873a5e2f9544a60a5ae5bfffa718e7a69da93b6679b500f8736d1bba0291a7b2c3df5a6995d992d5ff55fc5d9ccf14aa15c10dbf1121ed390eff914c9eedcfe86c1acf387374ecbf6fba0fad45a129c980537dd5f876e057c19076c6c745de88378bdba68bb2839c6f732b34c00858c97e3c37e31093be8722fbf9d7380d3c394e4fc65668ea20331e5517f7c1ed658447adeb5faa48efe8874ff4992e748522757f39194968e50830995d4c13327983f130c7c44d3ff86fd07c70fc1540550b378c48c5aa8bff4cad8807c85b9a14f3f270cb15b551165ea68ada84a17d7fe0912dbbe35e6f9c445bec3e12de8ff62e7af030257b4d9ac64a585f3b95d4c72931ad0928fb8451a821e9b1121b881f484595e9cd525d61
