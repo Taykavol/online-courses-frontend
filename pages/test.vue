@@ -18,9 +18,10 @@ async beforeCreate() {
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
   // fetch(url).then(...)
   const data = await fetch(url)
-  const {email,token} = await data.json()
+  const {email,token,role} = await data.json()
   localStorage.setItem('email',email)
   localStorage.setItem('token',token)
+  localStorage.setItem('role',role)
   axios.defaults.headers.common['Authorization'] = token
   this.$store.commit('auth_success',{token,user:{email}})
   // window.href.s
@@ -31,7 +32,7 @@ created() {
   const interval = setInterval(()=>{
     if(localStorage.getItem('email')) {
       clearInterval(interval)
-      this.$router.push('/home')
+      this.$router.push('/')
     }
   },100)
   

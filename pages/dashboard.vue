@@ -17,6 +17,7 @@ import NavComponent from "~/components/dashboard/Nav.vue";
 import Settings from "~/components/dashboard/Settings.vue";
 import Earnings from "~/components/dashboard/Earnings.vue";
 import MyCourses from "~/components/dashboard/MyCourses.vue"
+import LichessVerification from "~/components/dashboard/LichessVerification.vue"
 
 // import AsideComponent from "~/components/dashboard/Aside.vue"
 
@@ -27,7 +28,8 @@ export default {
     CoursePuzzle,
     Settings,
     Earnings,
-    MyCourses
+    MyCourses,
+    LichessVerification
     // AsideComponent
   },
   data(){

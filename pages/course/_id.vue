@@ -6,7 +6,9 @@
       <course-nav :setComponent="setComponent" :course='course1'></course-nav>
       </div>
       <div class=" w-5/6 ">
+      <keep-alive>
         <component v-bind:is="currentComponent" v-bind="currentProperties" ></component>
+      </keep-alive>
       </div>
     </div>
   </div>
@@ -16,7 +18,7 @@ import CourseNav from "~/components/publishcourse/CourseNav";
 import CourseBuilder from "~/components/publishcourse/CourseBuilder";
 import TargetStudents from "~/components/publishcourse/TargetStudents";
 import CourseSettings from "~/components/publishcourse/CourseSettings"
-
+import axios from "axios"
 export default {
   middleware:['auth'],
   name: "two-lists",
@@ -30,13 +32,16 @@ export default {
       if(this.course1)
       switch (this.currentComponent) {
         case 'course-builder' : return {course:this.course1.curriculum}; 
+        case 'course-settings' : return {course:this.course1}; 
       }
     }
   },
   async created(){
     try {
-      const data =  await fetch(`http://localhost:4000/buildcourse/${this.$route.params.id}`)
-      let JSONcourse = await data.json()
+      // const data =  await fetch(`http://localhost:4000/buildcourse/${this.$route.params.id}`)
+      const data = await axios({url:`http://localhost:4000/buildcourse/${this.$route.params.id}`})
+      console.log(data)
+      let JSONcourse = data.data
       console.log(JSONcourse)
       let course =  JSONcourse
       course.curriculum = JSON.parse(JSONcourse.curriculum)

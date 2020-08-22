@@ -1,10 +1,10 @@
 <template>
   <!-- <div class="flex justify-center p-24  bg-gray-100"> -->
-    <div class="bg-white rounded m-4 p-4 shadow flex flex-col cursor-pointer duration-300 transform hover:-translate-y-1">
+    <div @click="consol" class="bg-white rounded m-4 p-4 shadow flex flex-col cursor-pointer duration-300 transform hover:-translate-y-1">
       <div class="flex">
         <div class=" text-center w-full">
           <h1 class="font-semibold">
-            {{courseInfo.name}}
+            {{courseInfo.title}}
           </h1>
           <span class="block text-xs uppercase text-blue-400">{{courseInfo.category}}</span>
         </div>
@@ -27,7 +27,7 @@
         </div> -->
       </div>
       <div class="py-4 text-sm">
-        {{courseInfo.description}}
+        {{courseInfo.subtitle}}
         
       </div>
         <div class=" mt-auto  ">
@@ -37,21 +37,10 @@
             <span class="flex justify-center text-gray-500">Lessons</span>
           </div>
           <div class="w-1/2 flex-col">
-            <span class="flex justify-center text-2xl font-semibold">{{courseInfo.hours}}</span>
+            <span class="flex justify-center text-2xl font-semibold">{{totalDuration}}</span>
             <span class="flex justify-center text-gray-500">Hours</span>
           </div>
         </div>
-
-        <!-- <div class="flex">
-          <span class="text-xs font-semibold py-1">Progress</span>
-          <span class="text-xs font-semibold py-1 ml-auto text-blue-600"
-            >{{courseInfo.progress}}%</span
-          >
-        </div>
-        <div class="flex ">
-          <div :style="`width:${courseInfo.progress}%`" class=" h-2 rounded rounded-r-none bg-blue-400"></div>
-          <div :style="`width:${100-courseInfo.progress}%`" class=" bg-blue-100"></div>
-        </div> -->
         </div>
 
     </div>
@@ -64,6 +53,24 @@ export default {
     courseInfo:{
       type:Object,
       require:true
+    }
+  },
+  computed:{
+    totalDuration() {
+      let temp = this.courseInfo.duration;
+      const hours = Math.floor(temp / 3600);
+      const minutes = Math.floor(Math.floor(temp / 60) % 60);
+      const second = (Math.floor(temp) % 3600) % 60;
+      console.log(temp);
+      return `${hours}:${minutes > 10 ? minutes : "0" + minutes}:${
+        second > 10 ? second : "0" + second
+      } `;
+    },
+  },
+  methods:{
+    consol() {
+      console.log('sdgdfg')
+      this.$router.push(`/course/${this.courseInfo.id}`)
     }
   }
 };

@@ -5,7 +5,7 @@
 		<div class="flex w-full h-full    p-4 ">
 			<div class="flex flex-col w-full">
 				<div class="my-px">
-					<div 
+					<div @click="$router.push('/dashboard')"
 					   class="flex flex-row items-center h-12 px-2 rounded-lg text-gray-600 bg-gray-100 cursor-pointer">
 						<span class="flex items-center justify-center text-lg text-gray-500">
 							<svg viewBox="0 0 20 20" fill="currentColor" class="chevron-left w-6 h-6"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>

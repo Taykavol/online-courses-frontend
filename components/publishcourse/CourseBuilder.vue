@@ -509,11 +509,11 @@ export default {
 
   computed: {
     totalDuration() {
-      let temp = 0;
-      if (this.course.length == 0) return;
-      this.course.forEach(curriculum => {
-        curriculum.lessons.forEach(lesson => (temp += lesson.video.duration));
-      });
+      let temp = this.totalDuration2;
+      // if (this.course.length == 0) return;
+      // this.course.forEach(curriculum => {
+      //   curriculum.lessons.forEach(lesson => (temp += lesson.video.duration));
+      // });
       const hours = Math.floor(temp / 3600);
       const minutes = Math.floor(Math.floor(temp / 60) % 60);
       const second = (Math.floor(temp) % 3600) % 60;
@@ -530,6 +530,7 @@ export default {
       });
       return temp
     },
+   
     courseWithoutOrdering() {
       const newCourse = JSON.parse(JSON.stringify(this.course));
       for (let i = 0; i < this.course.length; i++) {
@@ -550,6 +551,7 @@ export default {
       sortableElement: true,
       moduleID: 0,
       lessonID: 0,
+      lastLessonOrder:0,
       transitionName: "",
       transitionName2: "",
       saveInterval:null
@@ -570,6 +572,7 @@ export default {
           temp++;
         }
       }
+      this.lastLessonOrder = temp;
   },
 
   methods: {
@@ -585,7 +588,7 @@ export default {
 
       this.saveInterval = setTimeout( async ()=>{
        
-       const good=  await axios({url:`http://localhost:4000/buildcourse/${this.$route.params.id}`,data:JSON.stringify(this.courseWithoutOrdering),method:"PUT",headers:{"Content-Type":"application/json"}})
+       const good=  await axios({url:`http://localhost:4000/buildcourse/${this.$route.params.id}`,data:{curriculum:this.courseWithoutOrdering,lessons:this.lastLessonOrder,duration:this.totalDuration2},method:"PUT",headers:{"Content-Type":"application/json"}})
       console.log('Save',good)
       }, seconds*1000)
     },
@@ -642,7 +645,7 @@ export default {
           this.$set(this.process, lesson.order, percentage);
           console.log(bytesUploaded, bytesTotal, percentage + "%");
         },
-        onSuccess() {
+         onSuccess: ()=> {
           validateFile(file);
           this.saveData()
           console.log("Download %s from %s", upload.file.name, upload.url);
@@ -689,6 +692,7 @@ export default {
           temp++;
         }
       }
+      this.lastLessonOrder = temp
       this.saveData()
     },
     // Lesson

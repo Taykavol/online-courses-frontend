@@ -36,8 +36,10 @@ export const actions = {
         const user = resp.data.user
         console.log('user',user)
         localStorage.setItem('token', token)
-        if(user)
-        localStorage.setItem('email', user.email)
+        if(user) {
+          localStorage.setItem('email', user.email)
+          localStorage.setItem('role',user.role)
+        }
         axios.defaults.headers.common['Authorization'] = token
         commit('auth_success', {token, user})
         resolve(resp)
@@ -58,8 +60,11 @@ export const actions = {
         const user = resp.data.user
         console.log('user',user)
         localStorage.setItem('token', token)
-        if(user)
-        localStorage.setItem('email', user.email)
+        if(user) {
+          localStorage.setItem('email', user.email)
+          console.log(user.role)
+          localStorage.setItem('role',user.role)
+        }
         axios.defaults.headers.common['Authorization'] = token
         commit('auth_success', {token, user})
         resolve(resp)
@@ -76,6 +81,7 @@ export const actions = {
       commit('logout')
       localStorage.removeItem('token')
       localStorage.removeItem('email')
+      localStorage.removeItem('role')
       delete axios.defaults.headers.common['Authorization']
       resolve()
     })
@@ -99,9 +105,6 @@ export const actions = {
       const state = Math.random().toString(36).substring(2);
       const authorizationUri = `${tokenHost}${authorizePath}?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&state=${state}`;
       window.location.href = authorizationUri;
-      // this.$router.push(authorizationUri)
-      // axios({url:authorizationUri})
-      // .then(data=>console.log('data',data))
      })
    }
 

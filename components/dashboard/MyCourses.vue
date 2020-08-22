@@ -10,7 +10,7 @@
     <div class="flex">
       <div
         class="mr-6  mt-8 py-2  flex flex-col bg-gray-100
-				dark:bg-gray-600 rounded-lg"
+				dark:bg-gray-600 rounded-lg w-full"
       >
         <!-- Card list container -->
 
@@ -41,13 +41,12 @@
         </div>
         <div class=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4   ">
           <my-own-course
-            
-            :courseInfo="item.info"
+            :courseInfo="item"
             class=" "
             v-for="(item, index) in courses"
             :key="index"
           ></my-own-course>
-          <div @click="createCourse" class="bg-white rounded m-4 p-4 shadow flex flex-col justify-center items-center cursor-pointer duration-300 transform hover:-translate-y-1 add ">
+          <div v-if="isLoaded" @click="createCourse" class="bg-white rounded m-4 p-4 shadow flex flex-col justify-center items-center cursor-pointer duration-300 transform hover:-translate-y-1 add ">
               <div class="">+</div>
           </div>
         </div>
@@ -70,68 +69,27 @@ export default {
       const course = await axios.post('http://localhost:4000/buildcourse/create')
       if(!course) return
       const {id} = course.data
+      if(!id) return 
       this.$router.push('/course/'+id)
       console.log(course)
     }
+  },
+  async created() {
+    const data = await axios({url:'/buildcourse/all', method:"GET"})
+    if(typeof(data.data)=="string") {
+      this.isLoaded=true
+      return
+    } 
+    this.courses=data.data
+    this.isLoaded=true
   },
   data() {
     return {
       user: {
         name: "Vadim"
       },
-      courses: [
-        {
-          info: {
-            name: "Ruy Lopez opening 2020 edition",
-            category: "openings",
-            description: `RxJS is an incredible tool for reactive programming, and today we’re
-                going to dive a little deeper into what Observables and Observers are -
-                as well as learn how to create our own operators. This class will teach
-                you everything ground-level that you need to understand Observables!`,
-            progress: 100,
-            hours: "5:32",
-            lessons: 34
-          }
-        },
-        {
-          info: {
-            name: "What do you think about it?",
-            category: "openings",
-            description: `RxJS is an incredible tool for reactive programming, and today we’re
-                going to dive a little deeper into what Observables and Observers are -
-                as well as learn how to create our own operators. This class will teach
-                you everything ground-level that you need to understand Observables!`,
-            progress: 25,
-            hours: "5:32",
-            lessons: 34
-          }
-        },
-        {
-          info: {
-            name: "Ruy Lopez",
-            category: "openings",
-            description: `RxJS is an incredible tool for reactive programming, and today we’re
-                going to dive a little deeper into what Observables and Observers are -
-                as well as learn how to create our own operators. s!`,
-            progress: 0,
-            hours: "5:32",
-            lessons: 34
-          }
-        }
-      ],
-      puzzles: [
-        {
-          description: "Course for begginers",
-          author: "created by GM Moiseenko Vadim",
-          fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq",
-          solution: ["e4", "e5", "Nf3"]
-        },
-        {
-          description: "",
-          fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq",
-          solution: ["e4", "e5", "Nf3"]
-        }
-      ]
+      courses: "",
+      isLoaded:false
     };
   }
 };
