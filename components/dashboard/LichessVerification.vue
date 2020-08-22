@@ -8,7 +8,7 @@
 export default {
 methods:{
     verification() {
-
+        
     }
 }
 }
