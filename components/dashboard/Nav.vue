@@ -2,9 +2,7 @@
   <nav class="w-24 flex flex-col items-center bg-white dark:bg-gray-800 py-4">
     <!-- Left side NavBar -->
 
-    <div>
-      <!-- App Logo -->
-
+    <!-- <div>
       <svg
         class="h-8 w-8 fill-current text-blue-600 dark:text-blue-300"
         viewBox="0 0 24 24"
@@ -15,7 +13,7 @@
 					15l5-2.73V16z"
         ></path>
       </svg>
-    </div>
+    </div> -->
 
     <div class="mt-2 text-gray-700 dark:text-gray-400 capitalize">
       <!-- Links -->
@@ -55,8 +53,20 @@
         </li>
       </ul>
     <!-- Divider -->
-    <div v-if="isTeacher=='ADMIN'||isTeacher=='TEACHER'" class="">
-      <div class="mt-20 text-base text-blue-600 text-center font-bold">Teacher</div>
+    <div v-if="isTeacher=='ADMIN'||isTeacher=='TEACHER'" class=" flex flex-col items-center mt-auto ">
+      <div class="">
+      <svg
+        class="h-8 w-8 fill-current text-blue-600 dark:text-blue-300"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3m6.82
+					6L12 12.72 5.18 9 12 5.28 18.82 9M17 16l-5 2.72L7 16v-3.73L12
+					15l5-2.73V16z"
+        ></path>
+      </svg>
+    </div>
+      <!-- <div class="mt-20 text-base text-blue-600 text-center font-bold">Teacher</div> -->
       <div class=" bg-black opacity-25 h-px w-full mt-2  "></div>
       <ul>
         <li

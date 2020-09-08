@@ -101,6 +101,10 @@ $height:20rem;
 .chessboard {
     width:calc(#{$height}) ;
     height: $height;
+    @media (max-width:1000px) {
+      height: 15rem;
+      width: 15rem;
+    }
 }
 
 // Bug 

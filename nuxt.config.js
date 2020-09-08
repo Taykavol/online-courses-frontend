@@ -52,7 +52,6 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
-    '@nuxtjs/axios',
     'vue-scrollto/nuxt'
   ],
   /*
@@ -60,6 +59,5 @@ export default {
   ** See https://nuxtjs.org/api/configuration-build/
   */
   build: {
-    transpile: ['@nuxtjs/auth']
   }
 }

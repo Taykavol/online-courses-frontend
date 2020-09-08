@@ -9,7 +9,7 @@
     </div>
     <div class="flex">
       <div
-        class="mr-6  mt-8 py-2  flex flex-col bg-gray-100
+        class="mr-6  mt-8 py-2 w-full  flex flex-col bg-gray-100
 				dark:bg-gray-600 rounded-lg"
       >
         <!-- Card list container -->
@@ -39,9 +39,9 @@
             </div>
           </div>
         </div>
-        <div class=" grid grid-cols-2 xl:grid-cols-3   ">
+        <div class=" grid grid-cols-2   ">
           <Bought-Course
-            :courseInfo="item.info"
+            :boughtCourse="item"
             class=" "
             v-for="(item, index) in courses"
             :key="index"
@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import axios from "axios"
 import BoughtCourse from "~/components/dashboard/BoughtCourse";
 import AsideComponent from "~/components/dashboard/Aside.vue";
 import Puzzle from "~/components/dashboard/Puzzle.vue";
@@ -76,51 +77,16 @@ export default {
     BoughtCourse,
     Puzzle
   },
+  async created() {
+    const courses = await axios({url:"/boughtcourse/all"})
+    this.courses = courses.data
+  },
   data() {
     return {
       user: {
         name: "Vadim"
       },
-      courses: [
-        {
-          info: {
-            name: "Ruy Lopez",
-            category: "openings",
-            description: `RxJS is an incredible tool for reactive programming, and today we’re
-                going to dive a little deeper into what Observables and Observers are -
-                as well as learn how to create our own operators. This class will teach
-                you everything ground-level that you need to understand Observables!`,
-            progress: 100,
-            hours: "5:32",
-            lessons: 34
-          }
-        },
-        {
-          info: {
-            name: "Ruy Lopez",
-            category: "openings",
-            description: `RxJS is an incredible tool for reactive programming, and today we’re
-                going to dive a little deeper into what Observables and Observers are -
-                as well as learn how to create our own operators. This class will teach
-                you everything ground-level that you need to understand Observables!`,
-            progress: 25,
-            hours: "5:32",
-            lessons: 34
-          }
-        },
-        {
-          info: {
-            name: "Ruy Lopez",
-            category: "openings",
-            description: `RxJS is an incredible tool for reactive programming, and today we’re
-                going to dive a little deeper into what Observables and Observers are -
-                as well as learn how to create our own operators. s!`,
-            progress: 0,
-            hours: "5:32",
-            lessons: 34
-          }
-        }
-      ],
+      courses: [],
       puzzles: [
         {
           description: "Course for begginers",

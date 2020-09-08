@@ -13,6 +13,7 @@
     <div class=" stripe absolute"></div>
     <div class=" mx-auto section__video overflow-hidden ">
       <div class="    ">
+        <!-- <nav-home/> -->
         <nav class="  flex h-16   justify-end items-center   z-10  relative">
           <div class=" mr-3">Hey,</div>
           <dropdown v-if="$store.getters.isLoggedIn" class=" z-50 relative mr-5"/>
@@ -438,6 +439,7 @@
 
 <script>
 import Registration from "~/components/home/Registration"
+import NavHome from "~/components/home/NavHome"
 import Dropdown from "~/components/home/Dropdown"
 import { Chessboard } from "cm-chessboard";
 import SwiperCourse from "~/components/home/SwiperCourse";
@@ -445,7 +447,7 @@ import Chess from "chess.js";
 // import dsf from ''
 export default {
   components: {
-    SwiperCourse,Registration,Dropdown
+    SwiperCourse,Registration,Dropdown,NavHome
   },
   mounted() {
     const chess = new Chess();

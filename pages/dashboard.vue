@@ -59,7 +59,4 @@ export default {
 <style>
 @import url("~/assets/css/cm-chessboard");
 
-.position {
-  height: 50rem;
-}
 </style>
