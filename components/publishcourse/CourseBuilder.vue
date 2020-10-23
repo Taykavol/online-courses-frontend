@@ -1,9 +1,9 @@
 <template>
-  <div class="">
+ <div class=" flex flex-col">
+   
     <!-- <div class="" @click="">Create module {{parent_index+2}} </div> -->
-    <div class=" fixed w-5/6 z-40 ">
+    <!-- <div class=" fixed w-5/6 z-40 ">
       <div class=" flex   h-12 bg-gray-800   ">
-        <!-- <div class="">Duration</div> -->
         <div class=" ml-auto flex justify-end items-center h-full">
           <div class=" text-3xl mr-2  font-mono text-gray-200 ">
             {{ totalDuration }}
@@ -23,14 +23,14 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div
-      class=" flex justify-center h-full w-full  bg-transparent self-start opacity-0   hover:opacity-100  relative transition-opacity duration-1000"
-    >
+      class="   flex justify-center w-full  bg-transparent self-start opacity-0   hover:opacity-100  relative transition-opacity duration-1000"
+     >
       <!-- Create lesson Icon -->
       <div
         @click="createEmptyModule(0)"
-        class="  h-12 w-12 mt-12  hover:text-red-500   cursor-pointer"
+        class="  h-10 w-10   hover:text-green-700   cursor-pointer"
       >
         <svg
           aria-hidden="true"
@@ -54,7 +54,7 @@
       @sort="onSort"
       filter=".ignore-elements-module"
       :disabled="!sortableElement"
-      class=" mx-16"
+      class=" "
       :list="course"
       :animation="500"
       group="mod"
@@ -65,14 +65,15 @@
           <div
             class=" bg-gray-200 border-2 rounded-lg cursor-move module-handle transition-all duration-1000  bigLesson "
           >
-            <div class=" text-5xl flex items-baseline mt-2 ml-8">
+            <div class=" text-4xl font-medium flex items-baseline mt-2 ml-4">
               <!-- Number module -->
               <div
                 :class="
                   item.name != ''
-                    ? 'mr-6 span--module-access flex justify-center items-center font-bold text-yellow-500 p-4'
-                    : 'mr-6 span--module-fail flex justify-center items-center font-bold text-yellow-500 p-4'
+                    ? ' span--module-access '
+                    : ' span--module-fail'
                 "
+                class=" h-10 w-10 flex-none mr-2 flex justify-center items-center font-bold text-yellow-500 p-2"
               >
                 {{ parent_index + 1 }}
               </div>
@@ -81,18 +82,20 @@
                 <div
                   v-if="!showModuleInput[parent_index]"
                   @click="$set(showModuleInput, parent_index, true)"
-                  class="font-sans outline-none w-full max-w-full bg-gray-200 cursor-pointer "
+                  class=" outline-none w-full max-w-full bg-gray-200 cursor-pointer ignore-elements-module "
                 >
                   {{ item.name }}
                 </div>
                 <input
-                  v-focus
+                v-focus
                   v-if="showModuleInput[parent_index] || item.name.length == 0"
                   :ref="'input' + item.id"
+                  @click="$event.target.focus()"
                   @focus="stopSort"
-                  @blur="onChangeName(parent_index)"
-                  @keypress.prevent.enter="onChangeName(parent_index)"
-                  class=" font-sans outline-none w-full max-w-full bg-gray-200  "
+                  @blur="onBlurName(parent_index)"
+                  @change="onChangeName(parent_index)"
+                  @keypress.stop.enter="onBlurName(parent_index);onChangeName(parent_index)"
+                  class="  outline-none w-full max-w-full bg-gray-200 ignore-elements-module "
                   maxlength="40"
                   size="50"
                   type="text"
@@ -132,7 +135,7 @@
                 <!-- First button add -->
                 <div
                   @click="createLesson(-1, parent_index)"
-                  class=" h-12 w-12  hover:text-red-500 ignore-elements-module cursor-pointer "
+                  class=" h-10 w-10  hover:text-green-700 ignore-elements-module cursor-pointer "
                 >
                   <svg
                     aria-hidden="true"
@@ -174,36 +177,38 @@
                   <!-- Lesson -->
                   <div
                     :id="lesson.order"
-                    class="flex mx-1 xl:mx-16 bg-white shadow-lg rounded-lg overflow-hidden  lesson relative ignore-elements-module lesson-handle "
+                    class="flex mx-1 xl:mx-16  bg-white shadow-lg rounded-lg overflow-hidden  lesson relative ignore-elements-module lesson-handle "
                   >
                     <!-- Black stripe -->
                     <div
-                      :class="
-                        lesson.name ? 'w-2 bg-gray-800' : 'w-2 bg-red-500'
-                      "
+                      :class="{'bg-gray-800':lesson.name, 'bg-red-500':!lesson.name,'bg-green-700':lesson.video.duration>0 &&lesson.name}"
+                      class="w-2 flex-none"
                     ></div>
                     <!-- Info -->
                     <div class="flex items-center px-2 py-3 ">
                       <!-- Number of chapter -->
                       <div class=" text-4xl  ">{{ lesson.order + 1 }}</div>
                       <!-- Main info, includes  -->
-                      <div class="mx-3 ">
+                      <div class="ml-3 ">
                         <!-- Lesson name -->
-                        <div class="">
+                        <div class=" ">
                           <input
                             v-focus="true"
                             placeholder="Chapter (require)"
                             @focus="stopSort"
                             @keypress.prevent.enter="
-                              onChangeLessonInput(lesson)
+                            onBlurLessonInput(lesson); onChangeLessonInput(lesson);
                             "
-                            @blur="onChangeLessonInput(lesson)"
+                            @blur="onBlurLessonInput(lesson)"
+                            @change="onChangeLessonInput(lesson)"
                             v-if="
                               showLessonInput[lesson.order] ||
                                 lesson.name.length == 0
                             "
+                            maxlength="60"
+                            size="40"
                             type="text"
-                            class=" text-2xl font-semibold text-gray-800 outline-none"
+                            class=" text-xl text-gray-800 outline-none"
                             :value="lesson.name"
                           />
                           <div
@@ -214,13 +219,13 @@
                               ];
                               showLessonInput.splice();
                             "
-                            class="text-2xl font-semibold text-gray-800 inline-block cursor-pointer"
+                            class="text-xl font-medium tracking-tight text-gray-800 inline-block cursor-pointer "
                           >
                             {{ lesson.name }}
                           </div>
                         </div>
                         <!-- Description -->
-                        <div class="">
+                        <div class=" ">
                           <div class=" flex description">
                             <!-- Div description  -->
                             <div
@@ -243,9 +248,10 @@
                               v-focus
                               placeholder="Description"
                               @focus="stopSort"
-                              @blur="onChangeDescriptionInput(lesson)"
+                              @blur="onBlurDescriptionInput(lesson)"
+                              @change="onChangeDescriptionInput(lesson)"
                               @keypress.prevent.enter="
-                                onChangeDescriptionInput(lesson)
+                               onBlurDescriptionInput(lesson); onChangeDescriptionInput(lesson);
                               "
                               v-if="showDescriptionInput[lesson.order]"
                               rows="1"
@@ -258,7 +264,7 @@
 
                             <!-- Button Add description -->
                             <div
-                              class=" p-1 bg-blue-500 text-white rounded-lg cursor-pointer align-text-top"
+                              class=" px-1 border-2 text-sm border-blue-700 text-blue-700 hover:bg-blue-700 hover:text-white cursor-pointer align-text-top"
                               @click="
                                 showDescriptionInput[
                                   lesson.order
@@ -278,13 +284,13 @@
                     </div>
 
                     <!-- Delete icon. -->
-                    <div class=" ml-auto  flex  items-center ">
+                    <div class=" ml-auto  flex  items-center flex-none  ">
                       <!-- Video -->
                       <!-- <div class="">Process: {{ process }}</div> -->
-                      <div class="w-32 overflow-hidden flex flex-col">
+                      <div v-if='process[lesson.order]>0' class=" overflow-hidden flex flex-col">
                         <div
                           v-if="process[lesson.order]"
-                          class="shadow  bg-gray-100 mt-2"
+                          class="shadow  bg-gray-100 mt-2 w-32"
                         >
                           <div
                             class=" bg-teal-500 text-xs leading-none py-1 text-center text-white duration-500"
@@ -293,29 +299,43 @@
                             {{ process[lesson.order] }}%
                           </div>
                         </div>
-                        <div v-if="lesson.video.duration" class="">
+                        <!-- <div v-if="lesson.video.duration&&lesson.video.duration!=0" class="">
                           Duration:
                           {{ Math.floor(lesson.video.duration / 60) }}:{{
                             Math.floor(lesson.video.duration) % 60 > 10
                               ? Math.floor(lesson.video.duration) % 60
                               : "0" + (Math.floor(lesson.video.duration) % 60)
                           }}
-                        </div>
+                        </div> -->
                       </div>
-
+                      <!-- v-if="process[lesson.order]==0" -->
+                      <svg v-if="process[lesson.order]==-1" class="w-10 h-10 animate-bounce text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                      <!-- <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg> -->
+                        <!-- <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"></path></svg>
+                        <svg  version="1.1" xmlns="http://www.w3.org/2000/svg" class=" overflow-visible w-10 h-10" >
+                            <circle cx="20" cy="20"  r="20" stroke="red" fill="transparent" stroke-width="5"/>
+                        </svg> -->
                       <div
-                        class=" relative h-10 w-10 mx-2 cursor-pointer  transition duration-200 transform hover:scale-150"
+                        :class="{'text-green-700':lesson.video.duration}"
+                        class=" relative h-10 w-10 mx-2 cursor-pointer   transition duration-200 transform text-gray-700 hover:text-gray-900"
                       >
+                      <div v-if="lesson.video.duration" class=" absolute lesson-duration ">
+                        {{ Math.floor(lesson.video.duration / 60) }}:{{
+                            Math.floor(lesson.video.duration) % 60 > 10
+                              ? Math.floor(lesson.video.duration) % 60
+                              : "0" + (Math.floor(lesson.video.duration) % 60)
+                          }}
+                      </div>
                         <input
                           accept="video/mp4,video/x-m4v,video/*"
                           :ref="`input${lesson.id}`"
                           @change="uploadVideo(`input${lesson.id}`, lesson)"
                           type="file"
-                          class=" relative block h-8 w-8  opacity-0 z-20 cursor-pointer "
+                          class=" relative block h-10 w-10 overflow-hidden opacity-0 z-20 cursor-pointer "
                         />
                         <svg
                           version="1.1"
-                          class="w-10 h-10 absolute inset-0 text-gray-700 cursor-pointer"
+                          class="w-10 h-10 absolute inset-0  hover:text-gray-900 cursor-pointer"
                           xmlns="http://www.w3.org/2000/svg"
                           xmlns:xlink="http://www.w3.org/1999/xlink"
                           x="0px"
@@ -345,7 +365,7 @@
 
                       <modal
                         :name="'my-first-modal' + lesson.id"
-                        width="80%"
+                        width="70%"
                         height="80%"
                         @opened="stopSort"
                         @closed="startSort"
@@ -360,7 +380,7 @@
                       <!-- Puzzle -->
                       <div
                         @click="showPuzzleComponent(lesson.id)"
-                        class=" w-10 h-10 transition duration-200 transform hover:scale-125 mr-8 cursor-pointer relative"
+                        class=" w-8 h-8 transition duration-200 transform hover:scale-125 mr-8 cursor-pointer relative"
                       >
                         <div
                           class=" badge absolute bg-pink-600 flex justify-center"
@@ -389,6 +409,15 @@
                       <div
                         class=" w-px bg-gray-900 opacity-25 self-stretch h-full  "
                       ></div>
+                      <div class=" flex flex-col justify-center items-center mx-2 text-gray-700">
+                        <svg v-if="lesson.preview" @click="setPreviewFalse(lesson)" class="w-10 h-10 mx-2 stroke-2 cursor-pointer hover:text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        <svg v-else @click="setPreviewTrue(lesson)"  class="w-10 h-10 mx-2 stroke-2 cursor-pointer hover:text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg>
+                        <!-- <div class=" text-sm">preview</div> -->
+                      </div>
+                      <!-- Divider -->
+                      <div
+                        class=" w-px bg-gray-900 opacity-25 self-stretch h-full  "
+                      ></div>
                       <!-- Delete Icon -->
                       <div
                         class=" rounded-full mx-6   "
@@ -399,7 +428,7 @@
                           focusable="false"
                           data-prefix="fas"
                           data-icon="trash-alt"
-                          class="transition duration-200 h-8 w-8 transform hover:scale-125 text-red-700 cursor-pointer svg-inline--fa fa-trash-alt fa-w-14"
+                          class="transition duration-200 w-8 h-8 transform hover:scale-125 text-red-700 cursor-pointer svg-inline--fa fa-trash-alt fa-w-14"
                           role="img"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 448 512"
@@ -419,7 +448,7 @@
                     <!-- Create lesson Icon -->
                     <div
                       @click="createLesson(index, parent_index)"
-                      class=" h-12 w-12  hover:text-red-500  ignore-elements-module cursor-pointer"
+                      class=" h-10 w-10  hover:text-green-700  ignore-elements-module cursor-pointer"
                     >
                       <svg
                         aria-hidden="true"
@@ -450,7 +479,7 @@
             <!-- Create lesson Icon -->
             <div
               @click="createEmptyModule(parent_index + 1)"
-              class="  h-12 w-12  hover:text-red-500   cursor-pointer"
+              class="  h-10 w-10  hover:text-green-600   cursor-pointer"
             >
               <svg
                 aria-hidden="true"
@@ -476,7 +505,7 @@
     <rawDisplayer class="col-3" :value="course" title="List" />
     <rawDisplayer class="col-3" :value="showLessonInput" title="List" />
     <rawDisplayer class="col-3" :value="courseWithoutOrdering" title="List" />
-  </div>
+ </div>
 </template>
 <script>
 // import Progress from 'easy-circular-progress'
@@ -491,6 +520,8 @@ export default {
     focus: {
       // определение директивы
       inserted: function(el) {
+        // console.log('sdf',el.value)
+        // if(el.value)        
         el.focus();
       }
     }
@@ -528,17 +559,26 @@ export default {
       this.course.forEach(curriculum => {
         curriculum.lessons.forEach(lesson => (temp += lesson.video.duration));
       });
+  
+
       return temp
     },
-   
+    totalPuzzles() {
+      let temp = 0;
+      this.course.forEach(curriculum => {
+        curriculum.lessons.forEach(lesson => (temp += lesson.puzzles.length));
+      });
+      console.log('Total puzzles:', temp)
+      return temp
+    },
     courseWithoutOrdering() {
-      const newCourse = JSON.parse(JSON.stringify(this.course));
-      for (let i = 0; i < this.course.length; i++) {
-        for (let j = 0; j < newCourse[i].lessons.length; j++) {
-          this.$delete(newCourse[i].lessons[j], "order");
-        }
-      }
-      return newCourse;
+      // const newCourse = JSON.parse(JSON.stringify(this.course));
+      // for (let i = 0; i < this.course.length; i++) {
+      //   for (let j = 0; j < newCourse[i].lessons.length; j++) {
+      //     this.$delete(newCourse[i].lessons[j], "order");
+      //   }
+      // }
+      return this.course;
     }
   },
   data() {
@@ -576,23 +616,29 @@ export default {
   },
 
   methods: {
-     saveData(seconds=5) {
+     saveData(seconds=0) {
+
       if(this.saveInterval) {
         console.log('hey')
         clearTimeout(this.saveInterval);
       } 
       // if(this.saveInterval.type)
       // this.saveInterval.clear()
+        console.log('interval',this.saveInterval)
       
       
-
       this.saveInterval = setTimeout( async ()=>{
-       
-       const good=  await axios({url:`http://localhost:4000/buildcourse/${this.$route.params.id}`,data:{curriculum:this.courseWithoutOrdering,lessons:this.lastLessonOrder,duration:this.totalDuration2},method:"PUT",headers:{"Content-Type":"application/json"}})
-      console.log('Save',good)
+      const curriculum = JSON.stringify(this.courseWithoutOrdering)
+      const good=  await axios({url:`/buildcourse/${this.$route.params.id}`,data:{curriculum,lessons:this.lastLessonOrder,duration:this.totalDuration2,totalPuzzles:this.totalPuzzles},method:"PUT",headers:{"Content-Type":"application/json"}})
+      console.log('Save')
+      if(this.$store.getters.myBuildCourses)
+      this.$store.commit('setMyBuildCourseCurriculum',{courseId:this.$route.params.id,curriculum})
       }, seconds*1000)
+      // this.saveInterval
     },
     async uploadVideo(ref, lesson) {
+      // if(lesson.video.vimeoId) {
+      // }
       let tus = require("tus-js-client");
       const file = this.$refs[ref][0].files[0];
       if (!file) {
@@ -602,41 +648,38 @@ export default {
       const validateFile = file => {
         var video = document.createElement("video");
         video.preload = "metadata";
-        video.onloadedmetadata = () => {
+        video.onloadedmetadata = async () => {
           window.URL.revokeObjectURL(video.src);
           if (video.duration < 1) return;
           this.$set(lesson.video, "duration", video.duration);
+          // this.saveData()
+          const curriculum = JSON.stringify(this.courseWithoutOrdering)
+          const good=  await axios({url:`/buildcourse/${this.$route.params.id}`,data:{curriculum,lessons:this.lastLessonOrder,duration:this.totalDuration2},method:"PUT",headers:{"Content-Type":"application/json"}})
+          console.log('Save')
+          if(this.$store.getters.myBuildCourses)
+          this.$store.commit('setMyBuildCourseCurriculum',{courseId:this.$route.params.id,curriculum})
+          
         };
         video.src = URL.createObjectURL(file);
       };
+      this.$set(this.process, lesson.order, -1);
 
-      let data = {
-        upload: {
-          approach: "tus",
-          size: file.size
-        }
-      };
+      // Get link and vimeoId to the system.
+      const data = await axios({url:`video/video/${this.$route.params.id}`,method:"POST", data:{
+        size:file.size
+      },
+      headers:{
+        "Content-Type":"application/json"
+      }})
+      const {vimeoId,uploadLink} = data.data
 
-      const info = await fetch("https://api.vimeo.com/me/videos", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          Authorization: "Bearer 3e92014e848e2e2cf2be98351cf18204",
-          "Content-Type": "application/json",
-          Accept: "application/vnd.vimeo.*+json;version=3.4"
-        }
-      });
-
-      const jsonInfo = await info.json();
-      if (!jsonInfo.uri) {
-        console.log("Sorry, but request not allows");
-        return;
-      }
-      const videoId = jsonInfo.uri.split("/")[2];
-      this.$set(lesson.video, "vimeoId", videoId);
+      // console.log('Upload info:', vimeoId,uploadLink)
+      // Set lesson video.
+      if(lesson.video.vimeoId) await axios.delete(`/video/${lesson.video.vimeoId}/${this.$route.params.id}`)
+      this.$set(lesson.video, "vimeoId", vimeoId);
 
       let upload = new tus.Upload(file, {
-        uploadUrl: jsonInfo.upload.upload_link,
+        uploadUrl: uploadLink,
         onError(error) {
           console.log("Failed because: " + error);
         },
@@ -645,9 +688,20 @@ export default {
           this.$set(this.process, lesson.order, percentage);
           console.log(bytesUploaded, bytesTotal, percentage + "%");
         },
-         onSuccess: ()=> {
+         onSuccess: async ()=> {
           validateFile(file);
-          this.saveData()
+          // setTimeout(()=>{
+
+          // })
+          // let tumbl =  await fetch(`https://api.vimeo.com/videos/${vimeoId}/pictures`, {
+          //   method: "GET",
+          //   headers: {
+          //   Authorization: "Bearer 3e92014e848e2e2cf2be98351cf18204"
+          // }
+          // });
+          // tumbl = await tumbl.json()
+          // console.log('tumbe',tumbl)
+          // await this.saveData()
           console.log("Download %s from %s", upload.file.name, upload.url);
         }
       });
@@ -656,24 +710,34 @@ export default {
       if (event) event.target.value = "";
     },
     //on Change
+    onBlurDescriptionInput(lesson) {
+      this.showDescriptionInput[lesson.order] = false; 
+      this.startSort();
 
+    },
     onChangeDescriptionInput(lesson) {
       lesson.description = event.target.value;
-      this.showDescriptionInput[lesson.order] = false;
-      this.saveData()
+      // this.showDescriptionInput[lesson.order] = false;
+      this.saveData(4)
+    },
+    onBlurLessonInput(lesson) {
+      this.showLessonInput[lesson.order] = false;
       this.startSort();
     },
     onChangeLessonInput(lesson) {
+      // this.$set(lesson, "name", event.target.value)
       lesson.name = event.target.value;
-      this.showLessonInput[lesson.order] = false;
-      this.saveData()
+      this.saveData(4)
+    },
+    onBlurName(index) {
+      this.showModuleInput[index] = false
+      // this.$set(this.showModuleInput, index, false);
       this.startSort();
     },
     onChangeName(index) {
-      this.$set(this.showModuleInput, index, false);
+      
       this.$set(this.course[index], "name", event.target.value);
       this.saveData()
-      this.startSort();
     },
     startSort() {
       this.sortableElement = true;
@@ -722,31 +786,58 @@ export default {
         this.onSort(false);
       }
     },
-    deleteLesson(number, group) {
+    async deleteLesson(number, group) {
       const isDeleted = confirm("Are you sure, you want to delete lesson?");
 
       if (!isDeleted) return;
       this.$set(this.process, this.course[group].lessons[number].order, 0);
+      // console.log('DELETED COURSE',this.course[group].lessons[number].video.vimeoId)
+      if(this.course[group].lessons[number].video.vimeoId)
+      await axios.delete(`/video/${this.course[group].lessons[number].video.vimeoId}/${this.$route.params.id}`)
       if (this.course[0].lessons.length == 1 && this.course.length == 1) {
-        this.course[0].name = "";
-        this.course[0].lessons[0] = {
-          name: "",
-          description: "",
-          order: "0",
-          id: Math.random(),
-          puzzles: [],
-          video: {
-            id: Math.random(),
-            vimeoId: null,
+        // this.course[0].name = "";
+        // this.course[0].lessons[0].id = Math.random()
+        this.course[0].lessons[0].name =""
+        this.course[0].lessons[0].description = ""
+        this.course[0].lessons[0].puzzles = []
+        this.course[0].lessons[0].video = {
+          // id: Math.random(),
+          //   vimeoId: null,
             duration: 0
           }
-        };
-        this.course.splice();
-        this.saveData()
+        this.$set(this.course[0].lessons[0],'id',Math.random())
+        
+        // this.course[0].lessons[0] = {
+        //   name: "",
+        //   description: "",
+        //   id: Math.random(),
+        //   puzzles: [],
+        //   video: {
+        //     id: Math.random(),
+        //     vimeoId: null,
+        //     duration: 0
+        //   }
+        // };
+        this.course[0].lessons.splice();
+        // this.saveInterval=null
+        console.log(this.saveInterval)
+
+        const curriculum = JSON.stringify(this.courseWithoutOrdering)
+        const good=  await axios({url:`/buildcourse/${this.$route.params.id}`,data:{curriculum,lessons:this.lastLessonOrder,duration:this.totalDuration2},method:"PUT",headers:{"Content-Type":"application/json"}})
+        console.log('Save')
+        if(this.$store.getters.myBuildCourses)
+        this.$store.commit('setMyBuildCourseCurriculum',{courseId:this.$route.params.id,curriculum})
+        // clearTimeout(this.saveInterval);
+        // this.saveData()
+        // thi
+        // this.onSort(false);
+        
       } else if (this.course[group].lessons.length == 1) {
         this.transitionName = "list";
         this.course.splice(group, 1);
         this.saveData()
+        this.onSort(false);
+
       } else {
         this.transitionName2 = "list2";
         this.course[group].lessons.splice(number, 1);
@@ -770,7 +861,7 @@ export default {
             description: "",
             id: Math.random(),
             puzzles: [],
-            video: { id: null, duration: 0 }
+            video: { duration: 0 }
           }
         ]
       });
@@ -784,6 +875,14 @@ export default {
 
     showPuzzleComponent(id) {
       this.$modal.show("my-first-modal" + id);
+    },
+    setPreviewFalse(lesson) {
+      this.$set(lesson,'preview',false)
+      this.saveData(5)
+    },
+    setPreviewTrue(lesson) {
+      this.$set(lesson,'preview',true)
+      this.saveData(5)
     }
   }
 };
@@ -802,14 +901,12 @@ export default {
   &--module-access {
     background: #183153;
     border-radius: 20%;
-    height: 3.5rem;
-    width: 3.5rem;
+    
   }
   &--module-fail {
     background: #b40036;
     border-radius: 20%;
-    height: 3.5rem;
-    width: 3.5rem;
+    
   }
 }
 textarea {
@@ -877,5 +974,12 @@ input[type="file"]::-webkit-file-upload-button {
 }
 .modal-css-2 {
   z-index: 2;
+}
+.lesson-duration {
+  font-size: .8rem;
+   bottom: -1rem;
+   left: .4rem;
+  //  right: 0;
+  //  left: 50%;
 }
 </style>

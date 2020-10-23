@@ -79,166 +79,6 @@ export default {
       isWatching:[],
       currentLesson: null,
       selectedComponent: "Video-Player",
-      // curriculum: [
-      //   {
-      //     id: "0",
-      //     name: "Introduction",
-      //     lessons: [
-      //       {
-      //         order: 0,
-      //         id: "1",
-      //         name: "Pawn",
-      //         description: "Hey",
-      //         video: { name: "", id: "121334077" },
-      //         exercises: ["1"]
-      //       },
-      //       {
-      //         order: 1,
-      //         id: "2",
-      //         name: "Knight",
-      //         description: "Hey",
-      //         video: { name: "", id: "435280746" }
-      //       },
-      //       {
-      //         order: "2",
-      //         id: "3",
-      //         name: "Bishop",
-      //         description: "Hey",
-      //         video: { name: "", id: "76979871" }
-      //       },
-      //       {
-      //         order: "3",
-      //         id: "4",
-      //         name: "Rook",
-      //         description: "Hey",
-      //         video: { name: "", id: "76979871" }
-      //       },
-      //       {
-      //         order: "4",
-      //         id: "5",
-      //         name: "Queen",
-      //         description: "Hey",
-      //         video: { name: "", id: "76979871" }
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     id: "1",
-      //     name: "Opening",
-      //     lessons: [
-      //       {
-      //         order: "5",
-      //         id: "6",
-      //         name: "Petrov Defence",
-      //         description: "Hey",
-      //         video: { name: "", id: "435280746" }
-      //       },
-      //       {
-      //         order: "6",
-      //         id: "7",
-      //         name: "Sicilian Defence",
-      //         description: "Hey",
-      //         video: { name: "", id: "76979871" }
-      //       },
-      //       {
-      //         order: "7",
-      //         id: "8",
-      //         name: "Queen Gambit",
-      //         description: "Hey",
-      //         video: { name: "", id: "435280746" }
-      //       },
-      //       {
-      //         order: "8",
-      //         id: "9",
-      //         name: "Benoni System",
-      //         description: "Hey",
-      //         video: { name: "", id: "76979871" }
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     id: "2",
-      //     name: "Introduction",
-      //     lessons: [
-      //       {
-      //         order: "9",
-      //         id: "10",
-      //         name: "Pawn",
-      //         description: "Hey",
-      //         video: { name: "", id: "76979871" }
-      //       },
-      //       {
-      //         order: "10",
-      //         id: "11",
-      //         name: "Knight",
-      //         description: "Hey",
-      //         video: { name: "", id: "435280746" }
-      //       },
-      //       {
-      //         order: "11",
-      //         id: "12",
-      //         name: "Bishop",
-      //         description: "Hey",
-      //         video: { name: "", id: "76979871" }
-      //       },
-      //       {
-      //         order: "12",
-      //         id: "13",
-      //         name: "Rook",
-      //         description: "Hey",
-      //         video: { name: "", id: "435280746" }
-      //       },
-      //       {
-      //         order: "13",
-      //         id: "14",
-      //         name: "Queen",
-      //         description: "Hey",
-      //         video: { name: "", id: "76979871" }
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     id: "3",
-      //     name: "Introduction",
-      //     lessons: [
-      //       {
-      //         order: "14",
-      //         id: "15",
-      //         name: "Pawn",
-      //         description: "Hey",
-      //         video: { name: "", id: "76979871" }
-      //       },
-      //       {
-      //         order: "15",
-      //         id: "16",
-      //         name: "Knight",
-      //         description: "Hey",
-      //         video: { name: "", id: "435280746" }
-      //       },
-      //       {
-      //         order: "16",
-      //         id: "17",
-      //         name: "Bishop",
-      //         description: "Hey",
-      //         video: { name: "", id: "76979871" }
-      //       },
-      //       {
-      //         order: "17",
-      //         id: "18",
-      //         name: "Rook",
-      //         description: "Hey",
-      //         video: { name: "", id: "435280746" }
-      //       },
-      //       {
-      //         order: "18",
-      //         id: "19",
-      //         name: "Queen",
-      //         description: "Hey",
-      //         video: { name: "", id: "76979871" }
-      //       }
-      //     ]
-      //   }
-      // ]
       curriculum:[
         {
           id:Math.random(),
@@ -282,21 +122,12 @@ export default {
     
     setTimeout(() => {
     // this.$refs.plyr.player.fullscreen.enter()
-
+      // this.lesson = 6
       this.$refs.plyr.player.play();
-    }, 200);
+    }, 1000);
   },
   methods: {
     onClick(lesson) {
-      // console.log(lesson.video.id);
-
-      //   const nextOrder = lesson.order+1
-      //   let less;
-      //   for(let i=0; i<this.curriculum.length; i++) {
-      //       less=this.curriculum[i].lessons.find(lesson=>lesson.order==nextOrder)
-      //   }
-      //   console.log(less)
-      //   if(less)
       this.$set(this.currentLesson,"name", lesson.name)
       this.$set(this.currentLesson,"order", lesson.order)
       this.$set(this.currentLesson.video, "vimeoId", lesson.video.vimeoId);

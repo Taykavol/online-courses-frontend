@@ -1,7 +1,8 @@
 <template>
   <div class="">
-    hey
-      <!-- <puzzle-component></puzzle-component> -->
+    <div class="fixed top-0 right-0 h-screen w-screen z-50 flex justify-center items-center">
+      <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+    </div>
   </div>
 </template>
 
@@ -9,6 +10,7 @@
 // import PuzzleComponent from "~/components/publishcourse/puzzlebuilder/PuzzleComponent.vue"
 import axios from 'axios'
 export default {
+  layout:'test',
 // middleware:['lichessAuth'],
 // components:[PuzzleComponent],
 async beforeCreate() {
@@ -18,7 +20,10 @@ async beforeCreate() {
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
   // fetch(url).then(...)
   const data = await fetch(url)
-  const {email,token,role} = await data.json()
+  const {email,token,role,courses} = await data.json()
+  // console.log('courses',courses.map(value=>value.courseId) )
+  // localStorage.setItem('boughtcourses', )
+  localStorage.setItem('boughtcourses',JSON.stringify(courses.map(value=>value.courseId)))
   localStorage.setItem('email',email)
   localStorage.setItem('token',token)
   localStorage.setItem('role',role)

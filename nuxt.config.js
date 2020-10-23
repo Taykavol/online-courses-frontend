@@ -35,7 +35,7 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    "~plugins/vue-js-modal.js"
+    "~plugins/vue-js-modal.js",
   ],
   /*
   ** Auto import components
@@ -54,6 +54,7 @@ export default {
   modules: [
     'vue-scrollto/nuxt'
   ],
+  
   /*
   ** Build configuration
   ** See https://nuxtjs.org/api/configuration-build/

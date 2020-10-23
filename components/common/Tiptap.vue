@@ -139,7 +139,7 @@ export default {
       }, true)
       // HTML string is also supported
       // this.editor.setContent('<p>This is some inserted text. 👋</p>')
-      this.editor.focus()
+      // this.editor.focus()
     },
     getHTML() {
         this.json = this.editor.getHTML()

@@ -799,11 +799,11 @@ methods:{
 
 <style lang="scss" scoped>
 .chessboard {
-    width: 30rem;
-    height: 30rem;
+    width: 25rem;
+    height: 25rem;
     @media (min-width: 1200px) {
-        width: 38rem;
-        height: 38rem;
+        width: 30rem;
+        height: 30rem;
     }
 }
 .btn {

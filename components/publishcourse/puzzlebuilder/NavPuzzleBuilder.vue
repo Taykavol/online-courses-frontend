@@ -1,5 +1,5 @@
 <template>
-  <div class=" h-full w-64">
+  <div class=" h-full bg-gray-700 w-64 ">
       <!-- component -->
 <div class=" flex items-center  bg-gray-800 justify-center puzzle-scroll h-full w-64  overflow-y-auto nav">
 		<div class="flex w-full h-full    p-4 ">
