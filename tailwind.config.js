@@ -56,6 +56,7 @@ module.exports = {
     }
   },
   variants: {
+    animation: ['responsive', 'hover'],
     // rotate: ["responsive", "hover", "group-hover"],
     // scale: ["responsive", "hover", "group-hover"]
   },

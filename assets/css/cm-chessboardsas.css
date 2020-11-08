@@ -70,22 +70,15 @@
 /* line 97, cm-chessboard.scss */
 .cm-chessboard .markers .marker.move {
   stroke: black;
-  stroke-width: 2px;
   opacity: 0; }
 
-/* line 102, cm-chessboard.scss */
+/* line 101, cm-chessboard.scss */
 .cm-chessboard .markers .marker.emphasize {
   stroke: blue;
-  stroke-width: 4px;
   opacity: 0.5; }
 
-/* line 109, cm-chessboard.scss */
+/* line 107, cm-chessboard.scss */
 .cm-chessboard .pieces, .cm-chessboard .markers {
-  pointer-events: none; 
-  z-index: 200;
-}
+  pointer-events: none; }
 
-.cm-chessboard-draggable-piece {
-  z-index: 200;
-}
 /*# sourceMappingURL=cm-chessboard.css.map */

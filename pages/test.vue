@@ -10,12 +10,12 @@
 // import PuzzleComponent from "~/components/publishcourse/puzzlebuilder/PuzzleComponent.vue"
 import axios from 'axios'
 export default {
-  layout:'test',
+  // layout:'test',
 // middleware:['lichessAuth'],
 // components:[PuzzleComponent],
 async beforeCreate() {
   console.log(this.$route.query.code)
-  let url = new URL("http://localhost:4000/lichess/callback"),
+  let url = new URL(process.env.baseUrlBackend+"/lichess/callback"),
     params = {code:this.$route.query.code, state:this.$route.query.state}
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
   // fetch(url).then(...)

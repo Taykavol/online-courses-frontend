@@ -1,13 +1,12 @@
 <template>
-  <div class=" container mx-auto">
+  <div class="">
     <!-- <div class=" bg-transparent h-16 fixed w-full z-30">Navigation</div> -->
-    <div class=" bg-white h-16 border-b border-r border-l flex justify-center">
+    <!-- <div class=" bg-white h-16 border-b border-r border-l flex justify-center">
       <div class=" flex items-center text-xl">
         
         <div @click="$router.push('/teacher')" class="border-2 border-gray-700 text-gray-700  hover:bg-gray-700 hover:text-white mx-10  px-3 cursor-pointer">&larr; Back to courses</div>
       </div>
       <div class=" ml-auto flex items-center justify-center h-full text-lg">
-        <!-- <div class=""></div> -->
         <div class=" border-red-700 border-2 rounded-full w-8 h-8 flex items-center justify-center mx-2">1</div>
         <div @click="isSettings=true" :class="{'text-blue-700 border-b-2 border-blue-700':isSettings}" class="  cursor-pointer mr-2"> Curriculum </div>
         &rarr;
@@ -20,18 +19,18 @@
       <div class=" ml-auto flex items-center justify-center text-lg    ">
         <div class="border-2 border-blue-700 text-blue-700  hover:bg-blue-700 hover:text-white mx-10 px-3 cursor-pointer">Preview</div>
       </div>
-    </div>
+    </div> -->
     <div v-if='isLoaded' class=" ">
       <!-- <div class=" w-1/6   ">
       <course-nav :setComponent="setComponent" :course='course1'></course-nav>
       </div> -->
-      <div class=" flex mt-6">
+      <div class=" flex ">
         <!-- <div class=" w-1/3 mr-6 mt-10">
         </div> -->
-        <div :class="{'w-5/6':isSettings, 'w-full':!isSettings }"  class=" mx-auto   ">
+        <div :class="{'w-full':isSettings, 'w-full':!isSettings }"  class="  w-full  ">
         <keep-alive>
-        <CourseBuilder class=" " v-if="isSettings" :course="this.course1.curriculum"/>
-        <CourseSettings v-else class=" " :course="this.course1"/>
+        <CourseBuilder class=" " v-if="isSettings" :courseProp="this.course1"/>
+        <!-- <CourseSettings v-else class=" " :course="this.course1"/> -->
         </keep-alive>
 
         </div>
@@ -52,7 +51,7 @@ import CourseBuilder from "~/components/publishcourse/CourseBuilder";
 import CourseSettings from "~/components/publishcourse/CourseSettings"
 import axios from "axios"
 export default {
-  layout:'test',
+  layout:'builder',
   middleware:['auth'],
   name: "two-lists",
   display: "Two Lists",
@@ -71,7 +70,6 @@ export default {
   },
   async created(){
     try {
-      // const data =  await fetch(`http://localhost:4000/buildcourse/${this.$route.params.id}`)
       if(this.$store.getters.myBuildCourses&&this.$store.getters.myBuildCourses.find(course=>course.id ==this.$route.params.id)) {
         console.log('We were here',this.$store.getters.myBuildCourses)
         let course = {...this.$store.getters.myBuildCourses.find(course => course.id ==this.$route.params.id)}
@@ -81,7 +79,7 @@ export default {
         this.isLoaded=true
         return;
       }
-      const data = await axios({url:`http://localhost:4000/buildcourse/${this.$route.params.id}`})
+      const data = await axios({url:`/buildcourse/${this.$route.params.id}`})
       console.log(data)
       let JSONcourse = data.data
       console.log(JSONcourse)

@@ -93,9 +93,12 @@ export const mutations = {
     state.boughtCourses = courses
   },
   setProfile(state, profile) {
+
+    console.log('SetProfile!')
     state.profile = profile
     localStorage.setItem('profile',JSON.stringify(profile))
   }
+  
   // nullAlert(state) {
   //   state.alert = {}
   // }
@@ -171,7 +174,7 @@ export const actions = {
       /* --- Fill in your app config here --- */
       const port = 3000;
       const clientId = 'IKGglix7XImcYLPc';
-      const redirectUri = `http://localhost:${port}/test`;
+      const redirectUri = process.env.baseUrl+`/test`;
 
       const scopes = [
         "email:read"
@@ -186,6 +189,7 @@ export const actions = {
       window.location.href = authorizationUri;
      })
    },
+   
    bestCoursesFromHomePage: async ({state,commit}) =>{
     if(state.bestCoursesFromHomePage.length==0) {
       

@@ -13,7 +13,7 @@
         </div>
       </div>
         <div :ref="`card`" class="  panel border-b ">
-          <div :class="{'  striped--lesson   cursor-default':!lesson.preview,'cursor-pointer':lesson.preview, 'border-t':index2==0,'border-b':index2!=2}"  class=" duration-300 relative  flex bg-white " @mouseover="isVisible[index*3+index2+1]=true; isVisible.splice()" @mouseleave="isVisible[index*3+index2+1]=false; isVisible.splice()"  v-for="(lesson,index2) in chapter.lessons" :key="index2"   >
+          <div :class="{'  striped--lesson   cursor-default':!lesson.preview,'cursor-pointer':lesson.preview, 'border-t':index2==0,'border-b':index2!=chapter.lessons.length}"  class=" duration-300 relative  flex bg-white " @mouseover="isVisible[index*3+index2+1]=true; isVisible.splice()" @mouseleave="isVisible[index*3+index2+1]=false; isVisible.splice()"  v-for="(lesson,index2) in chapter.lessons" :key="index2"   >
             <div class=" relative ml-4 self-center flex-none">
               <div class="relative">
                 <img class=" h-16 w-24 p-2 ph2:h-20 ph2:w-32 object-cover " :src="`https://chess-courses.hb.bizmrg.com/${pictureUri}`" alt="">
@@ -130,8 +130,6 @@ export default {
  background: repeating-linear-gradient(
   45deg,
   rgba(255, 255, 255, 0.02),
-  /* rgba(255, 255, 255, 0.02) 10px, */
-  /* rgba(255, 255, 255, 0.80) 10px, */
   rgba(255, 255, 255, 0.80) 20px
 );
 }

@@ -1,8 +1,8 @@
 <template>
 <!-- <div class=""> -->
     <!-- <Alert  v-if="$store.getters.alert" class=" absolute  right-0 top-0 opacity-75" :alert='$store.getters.alert' /> -->
-  <div class="lg:container mx-auto  ">
-    <Header/>
+  <div class="  ">
+    <Header class="lg:container mx-auto" :key="$store.getters.isLoggedIn"/>
     <Nuxt keep-alive />
   </div>
 <!-- </div> -->

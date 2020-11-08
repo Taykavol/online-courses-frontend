@@ -1,9 +1,9 @@
 <template>
-  <div @click="$router.push(`course/${course.id}`)" @mouseover="isVisible=true" @mouseleave="isVisible=false"  class=" cursor-pointer   relative  px-6 pb-3 ">
+  <div @click="$router.push(`course/${course.id}`)" @mouseover="isVisible=true" @mouseleave="isVisible=false"  class=" cursor-pointer   relative      ">
     <div v-if="course.sale==true" class=" absolute z-50 left-0">
-                <div class="sale bg-red-600">88%</div>
-            </div>
-    <div class="md:flex    rounded-lg shadow-lg    max-w-lg md:max-w-2xl md:h-48">
+        <div class="sale bg-red-600">88%</div>
+    </div>
+    <div class="md:flex    rounded-lg shadow-lg    max-w-lg md:max-w-2xl  md:h-48 bg-white">
       <div class="h-40 md:h-full w-full md:w-1/3   rounded-lg rounded-r-none relative">
         <img
           class="h-full  w-full object-cover"
@@ -18,7 +18,7 @@
               <!-- <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg> -->
             </div>
       </div>
-      <div class="w-full md:w-2/3 px-4 py-2 bg-white rounded-lg flex flex-col">
+      <div class="w-full md:w-2/3 px-4 py-2 h-full  rounded-lg flex flex-col">
         <div class=" ">
           <!-- <div class=" flex float-right h-8">
             <div class=" font-semibold tracking-tighter float-right  text-xl text-green-800">
@@ -39,23 +39,23 @@
           <svg
                   v-for="(index,item) of 5"
                   :key="index"
-                  :class="{'text-yellow-500':index<=averageRating}"
+                  :class="{'text-yellow-500':index<=course.averageRating}"
                   class="w-5 h-5 fill-current text-gray-500 "
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                >
                   <defs>
                      <linearGradient id="half_grad0">
-                           <stop :offset="100*(averageRating-Math.floor(averageRating))+'%'" stop-color="#ecc94b"/>
+                           <stop :offset="100*(course.averageRating-Math.floor(course.averageRating))+'%'" stop-color="#ecc94b"/>
                            <stop offset="0%" stop-color="#a0aec0" stop-opacity="1" />
                      </linearGradient>
                   </defs>
                   <path
-                     :fill="index==Math.floor(averageRating)+1?`url(#half_grad0)`:''"
+                     :fill="index==Math.floor(course.averageRating)+1?`url(#half_grad0)`:''"
                      d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
                   />
                </svg>
-                <div v-if="numberReviews" class="ml-1  text-lg text-orange-600 tracking-tighter font-semibold  ">{{ Math.floor(averageRating*100)/100}}</div>
+                <div v-if="numberReviews" class="ml-1  text-lg text-orange-600 tracking-tighter font-semibold  ">{{ Math.floor(course.averageRating*100)/100}}</div>
                <div class="text-sm ml-1 truncate "> 
                  <span  class=" font-semibold">({{numberReviews}})</span> 
                  <span class="  ">{{course.registedStudents}} Students</span>
@@ -93,7 +93,7 @@ export default {
   },
   data() {
     return {
-      // averageRating:4.5,
+      // course.averageRating:4.5,
       isVisible:false
     }
   },
@@ -101,12 +101,6 @@ export default {
     numberReviews() {
       const stats = this.course.reviewStats
       return stats.reduce((acc,val)=>acc+val)
-    },
-    averageRating() {
-      const stats = this.course.reviewStats
-      const numReviews = this.numberReviews
-      if(numReviews==0) return 0 
-      return stats.reduce((acc,val,index)=>acc+val*(index+1))/numReviews
     },
     duration() {
       const temp = this.course.duration
@@ -119,6 +113,7 @@ export default {
 </script>
 
 <style lang='scss'>
+
 .sale {
 	position: relative;
 	// display: inline-block;

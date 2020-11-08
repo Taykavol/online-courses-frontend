@@ -1,6 +1,7 @@
 <template>
-  <div class=" mb-16 ">
-            <div class="mt-16 grid grid-cols-11 ">
+  <div class=" mb-16   ">
+      <div class="lg:container mx-auto">
+            <div class="mt-10 grid grid-cols-11 ">
                 <div class="col-span-3  photo">
                     <puzzle :puzzle='{fen:"start"}'/>
                 </div>
@@ -23,132 +24,289 @@
                     </div>
                 </div>
             </div>
-            <div class=" grid grid-cols-10  mt-16">
-                <div id="courses" class=" col-span-2 hidden lg:block  ">
-                    <div  class=" text-center text-xl  mb-3">Categories</div>
-                    <div class=" bg-white p-4 border-gray-300 border rounded-t-lg">
-                        <div class=" text-center  border-gray-200 border-b-2 rounded-t-lg p-1">Select two options</div>
-                        <div class=" flex flex-col ml-2">
-                            <div class="inline-flex items-center mt-3 relative">
-                                <input v-model="checked[0]" type="checkbox" class=" h-5 w-5 text-orange-600 cursor-pointer" disabled checked><span class="ml-2 text-gray-700">Best courses<span class=" text-red-700">*</span> </span>
-                                <!-- <div class=" absolute  bg-gray-700 text-white">This is temprory</div> -->
-                            </div>
-                            <div @change="onChange(1)" class="inline-flex items-center mt-3">
-                                <input v-model="checked[1]" type="checkbox" class=" h-5 w-5 text-orange-600 cursor-pointer" checked><span class="ml-2 text-gray-700">New courses</span>
-                            </div>
-                            <div @change="onChange(2)" class="inline-flex items-center mt-3">
-                                <input v-model="checked[2]" type="checkbox" class=" h-5 w-5 text-orange-600 cursor-pointer" ><span class="ml-2 text-gray-700">Top players</span>
-                            </div>
-                            <div @change="onChange(3)" class="inline-flex items-center mt-3">
-                                <input v-model="checked[3]" type="checkbox" class=" h-5 w-5 text-orange-600 cursor-pointer" ><span class="ml-2 text-gray-700">Our Recommendation</span>
-                            </div>
+            <div ref="filters" :class="{'pb-32 pt-2 ':visibleFilters}"  class="  col-span-2 hidden lg:flex lg:justify-between  bg-white my-8 px-4  relative filters  ">
+                    <div :class="{'opacity-100':visibleFilters}" class="delay-500 opacity-0 duration-500">
+                        <div class="  border-gray-300 rounded-t-lg">
+                            <div class=" text-sm text-center">Review</div>
+                            <Select  class=" z-50 relative w-48" :ignoreValue="[]" :currentValue="reviewFilter" :options="reviewOptions"/>
+                        </div>
+                        <div class="  border-gray-300 rounded-t-lg">
+                            <div class=" text-sm text-center">Category</div>
+                            <Select  class=" z-40 relative w-48" :ignoreValue="[]" :currentValue="categoryFilter" :options="categoryOptions"/>
+                        </div>
+                    </div>
+                    <div :class="{'opacity-100':visibleFilters}" class=" w-1/2 mx-auto mt-5 delay-500 opacity-0 duration-500">
+                        <div class=" text-sm text-center">Low &larr; Difficulty &rarr; High</div>
+                        <VueSlider :lazy="true"   @change="changeLevel(value)" class=" " :marks="marks1" v-model="value" :data="data" >
+                            <template v-slot:label="{ label,  value }">
+                                <div class="vue-slider-mark-label " 
+                                :class="
+                                {'bg-blue-700 text-white px-1 rounded-lg font-sans font-semibold text-xs':value==2500,
+                                'bg-red-700 text-white px-1 rounded-lg font-sans font-semibold text-xs':value==2400,
+                                'bg-gray-700 text-white px-1 rounded-lg font-sans font-semibold text-xs':value==2300,
+                                'bg-purple-700 text-white px-1 rounded-lg font-sans font-semibold text-xs':value==2000,
+                                'bg-wk w-5 h-5  ':value==2800,
+                                'bg-wch w-5 h-5  ':value==2900,
+                                }">{{label}}</div>
+                            </template>
+                        </VueSlider>
+                        <div class=" mt-8">
+                        </div>
+                    </div>
+
+                    <div :class="{'opacity-100':visibleFilters}" class="delay-500 opacity-0 duration-500">
+                        <div class="  border-gray-300 rounded-t-lg">
+                            <div class=" text-sm text-center">Price</div>
+                            <Select  class=" z-50 relative w-48" :ignoreValue="[]" :currentValue="reviewFilter" :options="reviewOptions"/>
+                        </div>
+                        <div class="  border-gray-300 rounded-t-lg">
+                            <div class=" text-sm text-center">Sale</div>
+                            <Select  class=" z-40 relative w-48" :ignoreValue="[]" :currentValue="categoryFilter" :options="categoryOptions"/>
                         </div>
                     </div>
                     
-                    <div class=" text-center text-xl  my-3">Filters</div>
-                    <div class=" bg-white border-gray-300 border p-4  rounded-t-lg">
-                        <div class=" text-center  border-gray-200 border-b-2 rounded-t-lg p-2">Select any numbers</div>
-                        <div class=" mt-2 flex items-baseline justify-between">
-                            <div class=" text-lg">Category:</div>
-                            <newdrop :fn='changeCategory' :options="['all','openings','middlegame','endgames']"/>
-                            </div>
-                            <div class=" mt-2 flex items-baseline justify-between">
-                            <div class=" text-lg">Reviews:</div>
-                            <newdrop :fn='changeReviews' :options="['all','4+','3+','2+']"/>
-                            </div>
-                            <div class=" mt-2 flex items-baseline justify-between">
-                            <div class=" text-lg">Level:</div>
-                            <newdrop :fn='changeLevel' class=" text-xs" :options="['all','Begginers 1000-1500','Intermideate 1500-2000','Advanced 2000-2800']"/>
-                            </div>
-                            
+            </div>
+            <div class=" grid grid-cols-8  mt-4 section--courses">
+                
+                <div   class="col-span-10 sm:col-span-10 lg:col-span-8 grid grid-cols-9 gap-x-6 relative">
+                    <div v-if="title1&&title2&&title3" class=" ph2:col-span-3 text-center   flex ">
+                        <div @click="toggleSettings();"  class="w-8 h-8 mr-1 ">
+                            <svg :class="{'text-blue-500':visibleFilters,'text-gray-700':!visibleFilters}" class="w-8 h-8 rounded cursor-pointer hover:text-blue-500  hover:animate-spin " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
+                        </div>
+                        <Select class=" z-20 relative w-48" :ignoreValue="[title2.selectedValue,title3.selectedValue]" :currentValue="title1.selectedValue" :options="title1.options"/>
                     </div>
-                    <!-- <div class=" text-center">Title</div> -->
-                </div>
-                <div class="col-span-10 sm:col-span-10 lg:col-span-8 grid grid-cols-8">
-                    <div v-if="checked[0]" class="col-span-8 ph2:col-span-4 select-none ">
-                        <transition name="page">
-                        <column-courses title="Best courses" :courses='filtredCourse( courses )' ></column-courses>
-                        </transition>
+                    <div v-if="title1&&title2&&title3" class=" ph2:col-span-3 text-center flex ">
+                        <div @click="toggleSettings()"  class="w-8 h-8 mr-1 ">
+                            <svg :class="{'text-blue-500':visibleFilters,'text-gray-700':!visibleFilters}" class="w-8 h-8 rounded cursor-pointer hover:text-blue-500  hover:animate-spin " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
+                        </div>
+                        <Select class=" z-20 relative w-48" :ignoreValue="[title1.selectedValue,title3.selectedValue]" :currentValue="title2.selectedValue" :options="title2.options"/>
                     </div>
-                    <div v-if="checked[1]" class="col-span-8 ph2:col-span-4 select-none ">
-                        <column-courses title="New courses" :courses='filtredCourse( newestCourses )'></column-courses>
+                    <div v-if="title1&&title2&&title3" class=" ph2:col-span-3 text-center flex ">
+                        <div @click="toggleSettings()"  class="w-8 h-8 mr-1 ">
+                            <svg :class="{'text-blue-500':visibleFilters,'text-gray-700':!visibleFilters}" class="w-8 h-8 rounded cursor-pointer hover:text-blue-500  hover:animate-spin " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
+                        </div>
+                        <Select class=" z-20 relative w-48" :ignoreValue="[title1.selectedValue,title2.selectedValue]" :currentValue="title3.selectedValue" :options="title3.options"/>
                     </div>
-                    <div v-if="checked[2]" class="col-span-8 ph2:col-span-4 select-none ">
-                        <column-courses title="Top players" :courses='filtredCourse( topCourses )' ></column-courses>
+
+                    <div v-if="loading[0]" class="col-span-8 ph2:col-span-3 mx-8">
+                        <Skeleton class="mt-2" v-for="(item,index) in 5" :key="index"/>
                     </div>
-                    <div v-if="checked[3]" class="col-span-8 ph2:col-span-4 select-none ">
-                        <column-courses title="Recommendations" :courses='filtredCourse( recommendedCourses )'></column-courses>
+                    <div v-else class="col-span-8 ph2:col-span-3 select-none ">
+                        <column-courses :size=3 :title="title1" :courses='setCourse(checked)'></column-courses>
+                    </div>
+                    <div v-if="loading[1]" class="col-span-8 ph2:col-span-3 mx-8">
+                        <Skeleton class="mt-2 " v-for="(item,index) in 5" :key="index"/>
+                    </div>
+                    <div v-else class="col-span-8 ph2:col-span-3 select-none ">
+                        <column-courses :size=3 :title="title1"  :courses='setCourse(checked1)' ></column-courses>
+                    </div>
+                    <div v-if="loading[2]" class="col-span-8 ph2:col-span-3 mx-8">
+                        <Skeleton class="mt-2 " v-for="(item,index) in 5" :key="index"/>
+                    </div>
+                    <div v-else class="col-span-8 ph2:col-span-3 select-none ">
+                        <column-courses :size=3 :title="title1"  :courses='setCourse(checked2)' ></column-courses>
                     </div>
                 </div>
             </div>
+      </div>
+                <div class="prisma-bg   flex justify-center items-center mt-20 relative">
+                    <img  style="height:20rem" class=" absolute right-0 -mr-10 hidden xl:block " src="/images/bg/chess-pieces.png" alt="">
+                    <div class=" w-1/2  xl:w-1/3   ">
+                    <div class="flex justify-around mb-6 text-gray-300 text-xl">
+                        <div class=" bg-blue-600 w-48 h-10 flex justify-center items-center rounded-md cursor-pointer hover:bg-blue-600">I am student</div>
+                        <div class=" bg-gray-600 w-48 h-10 flex justify-center items-center rounded-md cursor-pointer hover:bg-blue-600">I am teacher</div>
+                    </div>
+                    <Plyr    id="76979871"/>
+                        <!-- <img class=" w-full h-64 object-cover" src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt=""> -->
+                    </div>
+                    <div class="  flex flex-col justify-around ml-24 mt-10">
+                        <div v-for="(item,index) in 5" :key="item" :class="{' text-gray-300':index==0,' text-gray-500':index!=0}" class=" my-3 flex items-center cursor-pointer hover:text-gray-300" >
+                            <div  :class="{'bg-red-800':index==0}"  class="text-2xl    w-10 h-10 rounded-full flex justify-center items-center  ">
+                                {{index+1}}
+                            </div> 
+                            <div   class=" text-xl ml-3 font-medium font-sans">We lost but what a final is?</div>
+                        </div>
+                    </div>
+                    
+                </div>
   </div>
 </template>
 
 <script>
+import Select from '~/components/common/Select'
+import Skeleton from '~/components/common/Skeleton'
 import Puzzle from '~/components/common/Puzzle'
 import Registration from '~/components/home/Registration'
 import Newdrop from '~/components/home/Newdrop'
 import ColumnCourses from '~/components/home/Columncourses'
 import Axios from 'axios'
+import VueSlider from "vue-slider-component";
+import Plyr from '~/components/common/PlyrVideo';
+
 
 export default {
 components:{
-    Newdrop,ColumnCourses,Puzzle,Registration
+    Newdrop,ColumnCourses,Puzzle,Registration,Skeleton,Select,VueSlider,Plyr
 },
 middleware:['common'],
-async created() {
-    this.courses = await this.$store.dispatch('bestCoursesFromHomePage')
-    // tcommit('setBestCoursesFromHomePage',data)
-
-    this.newestCourses = await this.$store.dispatch('newestCoursesFromHomePage')
-
-    // this.courses.splice()
-    // console.log("COURSES",data)
+ created() {
+    this.title1={
+        selectedValue:'Best courses',
+        options:[
+        {title:'Best courses',text:'Best courses', url:'/images/courselist/trophy-solid.svg',fn:()=>this.onChange(0,this.checked, this.title1)},
+        {title:'Recommended',text:'Recommended', url:'/images/courselist/thumb.svg',fn:()=>this.onChange(1,this.checked,this.title1)}, 
+        {title:'Top players',text:'Top players', url:'/images/courselist/graphic-designer.svg',fn:()=>this.onChange(2,this.checked,this.title1)}, 
+        {title:'New courses',text:'New courses', url:'/images/courselist/fire.svg',fn:()=>this.onChange(3,this.checked,this.title1)}
+        ]}
+    this.title2= {
+        selectedValue:'Recommended',
+        options:[
+        {title:'Best courses',text:'Best courses', url:'/images/courselist/trophy-solid.svg',fn:()=>this.onChange(0,this.checked1,this.title2)},
+        {title:'Recommended',text:'Recommended', url:'/images/courselist/thumb.svg',fn:()=>this.onChange(1,this.checked1,this.title2)}, 
+        {title:'Top players',text:'Top players', url:'/images/courselist/graphic-designer.svg',fn:()=>this.onChange(2,this.checked1,this.title2)}, 
+        {title:'New courses',text:'New courses', url:'/images/courselist/fire.svg',fn:()=>this.onChange(3,this.checked1,this.title2)}
+        ]}
+    this.title3= {
+        selectedValue:'Top players',
+        options:[
+        {title:'Best courses',text:'Best courses', url:'/images/courselist/trophy-solid.svg',fn:()=>this.onChange(0,this.checked2,this.title3)},
+        {title:'Recommended',text:'Recommended', url:'/images/courselist/thumb.svg',fn:()=>this.onChange(1,this.checked2,this.title3)}, 
+        {title:'Top players',text:'Top players', url:'/images/courselist/graphic-designer.svg',fn:()=>this.onChange(2,this.checked2,this.title3)}, 
+        {title:'New courses',text:'New courses', url:'/images/courselist/fire.svg',fn:()=>this.onChange(3,this.checked2,this.title3)}
+        ]}
+    this.$store.dispatch('bestCoursesFromHomePage').then((data)=>{
+        this.courses = data
+        this.$set(this.loading,0,false);
+    })
+    this.$store.dispatch('newestCoursesFromHomePage').then((data)=>{
+        this.newestCourses = data
+        this.$set(this.loading,1,false);
+    })
+    this.$store.dispatch('topCoursesFromHomePage').then((data)=>{
+        this.topCourses=data
+        this.$set(this.loading,2,false);
+    })
 },
 data() {
     return {
         modalWidth:0,
-        checked:[true,true,false,false],
-        categoryFilter:'all',
-        reviewFilter:'all',
-        levelFilter:'all',
+        visibleFilters:false,
+        checked:[true,false,false,false],
+        checked1:[false,true,false,false],
+        checked2:[false,false,true,false],
+        categoryFilter:'Not selected',
+        reviewFilter:0,
+        levelFilter:[1000,2900],
         courses:[],
         newestCourses:[],
         topCourses:[],
-        recommendedCourses:[]
-        
-        // courses:[{id:1,category:'all',pictureUri:'https://chess-courses.hb.bizmrg.com/course/unsplash-kiss.jpg'},
-        // {id:2,category:'openings',pictureUri:'https://images.unsplash.com/photo-1600711725341-ce0d8dd638c4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=675&q=80'},
-        // {id:3,category:'middlegame',sale:true,level:'begginers',pictureUri:'https://images.unsplash.com/photo-1600872353506-917aeb4194d0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'},
-        // {id:4,category:'endgames',pictureUri:'https://images.unsplash.com/photo-1600725099448-45cbd882f731?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'},
-        // {id:5,category:'middlegame',pictureUri:'https://images.unsplash.com/photo-1600890301202-0041e9801845?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80'},
-        // {id:6,category:'middlegame', review:3.9, level:'begginers', pictureUri:'https://images.unsplash.com/photo-1600877685303-857fde8d40d1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80'},
-        // ],
-        // newestCourses:[{id:1,category:'all',pictureUri:'https://images.unsplash.com/photo-1600398138360-ae1ac2285bc3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'},
-        // {id:2,category:'openings',pictureUri:'https://images.unsplash.com/photo-1600949970629-f1ea4f8414cf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'},
-        // {id:3,category:'middlegame',level:'begginers',pictureUri:'https://images.unsplash.com/photo-1600194991511-4181a2a9bc7c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'},
-        // {id:4,category:'endgames',pictureUri:'https://images.unsplash.com/photo-1600916795407-ae9bd8a104ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80'},
-        // {id:5,category:'middlegame',pictureUri:'https://images.unsplash.com/photo-1600931842703-882bf46cb17e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'},
-        // {id:6,category:'middlegame', review:3.9, level:'begginers', pictureUri:'https://images.unsplash.com/photo-1599687267812-35c05ff70ee9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'},
-        // {id:7,category:'middlegame', review:4.9, level:'advanced', pictureUri:'https://images.unsplash.com/photo-1599687267812-35c05ff70ee9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'},
-        // {id:8,category:'middlegame', review:3.2, level:'begginers', pictureUri:'https://images.unsplash.com/photo-1599687267812-35c05ff70ee9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'},
-        // {id:9,category:'middlegame', review:3.9, level:'begginers', pictureUri:'https://images.unsplash.com/photo-1599687267812-35c05ff70ee9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'},
-        // ],
-
+        recommendedCourses:[],
+        title1:null,
+        title2:null,
+        title3:null,
+        value:[1000,2900],
+        marks1: {
+          '1000': {pos:0,label:'1000 ELO'},
+          '1500': {pos:26.3,label:'1500 ELO'},
+          '2000': {pos:52.63,label:'CM'},
+          '2300': {pos:68.32, label:'FM', },
+          '2400': {pos:73.68, label:'IM', },
+          '2500': {pos:78.93, label:'GM', },
+          '2800': {pos:94.73, label:'', },
+          '2900': {pos:100, label:'', },
+        },
+        data: [
+        1000,
+        1100,
+        1200,
+        1300,
+        1400,
+        1500,
+        1600,
+        1700,
+        1800,
+        1900,
+        2000,
+        2100,
+        2200,
+        2300,
+        2400,
+        2500,
+        2600,
+        2700,
+        2800,
+        2900
+      ],
+        loading:[true,true,true],
+        categoryOptions:[
+        {title:"Not selected",text:"Not selected",fn:()=>this.changeCategory('Not selected') ,url:"https://images.unsplash.com/photo-1593642702909-dec73df255d7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"},
+        {title:"OPENINGS",text:"Openings",fn:()=>this.changeCategory('OPENINGS'), url:"https://images.unsplash.com/photo-1593642702909-dec73df255d7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"},
+        {title:"MIDDLEGAME",text:"Middlegame",fn:()=>this.changeCategory('MIDDLEGAME'), url:"https://images.unsplash.com/photo-1593642702909-dec73df255d7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"},
+        {title:"ENDGAME",text:"Endgame",fn:()=>this.changeCategory('ENDGAME'), url:"https://images.unsplash.com/photo-1593642702909-dec73df255d7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"},
+        {title:"BASICS", text:"Basics", fn:()=>this.changeCategory('BASICS'), url:"https://images.unsplash.com/photo-1593642702909-dec73df255d7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"},
+        ],
+        reviewOptions:[
+            {title:0,text:"Not selected",fn:()=>this.changeReviews(0),url:"/images/courselist/star.svg"},
+            {title:4,text:"4+",fn:()=>this.changeReviews(4),url:"/images/courselist/star.svg"},
+            {title:3,text:"3+",fn:()=>this.changeReviews(3),url:"/images/courselist/star.svg"},
+            {title:2,text:"2+",fn:()=>this.changeReviews(2),url:"/images/courselist/star.svg"},
+            {title:1,text:"1+",fn:()=>this.changeReviews(1),url:"/images/courselist/star.svg"},
+        ]
     }
 },
+computed: {
+
+ filtred1() {
+        console.log(1)
+        let newCourses = this.courses.slice()
+        console.log(this.levelFilter, newCourses[0].level)
+        if(this.categoryFilter != 'Not selected') newCourses = newCourses.filter(course => course.category ==this.categoryFilter)
+        if(this.reviewFilter != 'all') newCourses = newCourses.filter(course => course.averageRating >=this.reviewFilter)
+        if(!(this.levelFilter[0]==1000&&this.levelFilter[1]==2900)) newCourses = newCourses.filter(course => {return course.level[0]>=this.levelFilter[0]&&course.level[1]<=this.levelFilter[1]} )
+        return newCourses
+ },
+ filtred2() {
+        console.log(2)
+
+        let newCourses = this.newestCourses.slice()
+        if(this.categoryFilter != 'Not selected') newCourses = newCourses.filter(course => course.category ==this.categoryFilter)
+        if(this.reviewFilter != 'all') newCourses = newCourses.filter(course => course.averageRating >=this.reviewFilter)
+        if(!(this.levelFilter[0]==1000&&this.levelFilter[1]==2900)) newCourses = newCourses.filter(course =>  {return course.level[0]>=this.levelFilter[0]&&course.level[1]<=this.levelFilter[1]})
+        return newCourses
+ },
+ filtred3() {
+        console.log(3)
+
+        let newCourses = this.topCourses.slice()
+        if(this.categoryFilter != 'Not selected') newCourses = newCourses.filter(course => course.category ==this.categoryFilter)
+        if(this.reviewFilter != 'all') newCourses = newCourses.filter(course => course.averageRating >=this.reviewFilter)
+        if(!(this.levelFilter[0]==1000&&this.levelFilter[1]==2900)) newCourses = newCourses.filter(course => {return course.level[0]>=this.levelFilter[0]&&course.level[1]<=this.levelFilter[1]})
+        return newCourses
+ },
+ filtred4() {
+        console.log(4)
+        let newCourses = this.recommendedCourses.slice()
+        if(this.categoryFilter != 'Not selected') newCourses = newCourses.filter(course => course.category ==this.categoryFilter)
+        if(this.reviewFilter != 'all') newCourses = newCourses.filter(course => course.averageRating >=this.reviewFilter)
+        if(!(this.levelFilter[0]==1000&&this.levelFilter[1]==2900)) newCourses = newCourses.filter(course => {return course.level[0]>=this.levelFilter[0]&&course.level[1]<=this.levelFilter[1]})
+        return newCourses
+ },
+ 
+},
 methods:{
-   async onChange(index) {
-        for(let i=1;i<this.checked.length;i++) {
-            this.checked[i] =false
+   async onChange(index, checked, title) {
+        
+        for(let i=0;i<checked.length;i++) {
+            checked[i] =false
         }
-        this.checked[index]=true
-        this.checked.splice()
+        this.$set(this.loading,index,false)
+        checked[index]=true
+        checked.splice()
         switch (index) {
-            case 0:  this.courses = await this.$store.dispatch('bestCoursesFromHomePage'); return;
-            case 1:  this.newestCourses = await this.$store.dispatch('newestCoursesFromHomePage'); return;
-            case 2:  this.topCourses =await this.$store.dispatch('topCoursesFromHomePage'); return;
-            case 3:  this.recommendedCourses = await this.$store.dispatch('recommendedCoursesFromHomePage'); return;
+            case 0:  this.courses = await this.$store.dispatch('bestCoursesFromHomePage'); this.$set(title,'selectedValue','Best courses'); this.$set(this.loading,index,false);  return;
+            case 1:  this.newestCourses = await this.$store.dispatch('newestCoursesFromHomePage'); this.$set(title,'selectedValue','Recommended'); this.$set(this.loading,index,false); return;
+            case 2:  this.topCourses =await this.$store.dispatch('topCoursesFromHomePage'); this.$set(title,'selectedValue','Top players'); this.$set(this.loading,index,false); return;
+            case 3:  this.recommendedCourses = await this.$store.dispatch('recommendedCoursesFromHomePage'); this.$set(title,'selectedValue','New courses'); this.$set(this.loading,index,false); return;
         }
     },
     changeCategory(category) {
@@ -159,34 +317,41 @@ methods:{
     },
     changeLevel(level) {
         this.levelFilter = level
+        this.levelFilter.splice()
     },
-    filtredCourse( courses ) {
-        console.log('FiltredCourses', courses)
-        let newCourses = courses.slice()
-        if(this.categoryFilter != 'all') newCourses = newCourses.filter(course => course.category ==this.categoryFilter)
-        if(this.reviewFilter != 'all') newCourses = newCourses.filter(course => course.review >=+this.reviewFilter[0])
-        if(this.levelFilter != 'all') newCourses = newCourses.filter(course => course.level ==this.levelFilter.split(' ')[0].toLowerCase())
-        return newCourses
-        // if(this.category)
+    setCourse(checked) {
+        const index = checked.findIndex(item=>item)
+        switch (index) {
+            case 0: return this.filtred1
+            case 1: return this.filtred2
+            case 2: return this.filtred3
+            case 3: return this.filtred4
+        }
+    },
+    toggleSettings() {
+        this.visibleFilters=!this.visibleFilters; 
+        if(this.$refs.filters.style.maxHeight) {
+            this.$refs.filters.style.maxHeight = null
+            this.$refs.filters.style.overflow = "hidden"
+        } else {
+            this.$refs.filters.style.maxHeight = this.$refs.filters.scrollHeight + "px";
+            this.$refs.filters.style.overflow = "visible"
+        }
     }
-    // nextPage(){
-    //      this.pageNumber++;
-    //   },
-    // prevPage(){
-    //     this.pageNumber--;
-    // },
-    // numPage(num) {
-    //     this.pageNumber=num
-    // },
-    // numPage1(num) {
-    //     this.pageNumber1=num
-    // }
-}
+},
+
 }
 </script>
+<style >
+@import url('vue-slider-component/theme/antd.css');
 
+</style>
 <style lang='scss' scoped>
-
+.section {
+    &--courses {
+        min-height:15rem ;
+    }
+}
 .photo {
     height: 20rem;
 }
@@ -195,6 +360,24 @@ methods:{
     stroke: black;
     stroke-width: 5px;
 }
-
-
+.filters {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 1s ease-out;
+}
+.bg-wk {
+    background-image: url('/images/courselist/star.svg');
+    background-repeat: no-repeat;
+  }
+  .bg-wch {
+    background-image: url('/images/courselist/trophy-solid.svg');
+    background-repeat: no-repeat;
+  }
+  .prisma-bg {
+      height: 35rem;
+      background:  radial-gradient( 37.86% 77.79% at 50% 100%, rgba(113,128,150,0.25) 0%, rgba(113,128,150,0) 100% ), linear-gradient(180deg,#1a202c 0%,#2d3748 100%), linear-gradient(180deg,#0d0f14 0%,rgba(27,32,43,0) 100%),#2f3747;
+  }
+  .promo-video-height {
+      height: 25rem;
+  }
 </style>

@@ -1,7 +1,7 @@
 <template>
-  <div class=" flex w-full h-full  ">
+  <div class=" flex w-full h-full bg-gray-800  ">
             <!-- <puzzle class="  z-auto " :puzzle="puzzle" v-for="(puzzle,index) in puzzles" :key="index"/> -->
-    <nav-puzzle-builder class="ignore-elements-lesson" :puzzles="puzzles" :isActiveProp="isActive" :key="isActive" :setPuzzle="setPuzzle" ></nav-puzzle-builder>
+    <nav-puzzle-builder class="ignore-elements-lesson h-full" :puzzles="puzzles" :isActiveProp="isActive" :key="isActive" :setPuzzle="setPuzzle" ></nav-puzzle-builder>
     <puzzle-builder :puzzle="puzzleForBuild" :updatePuzzle="updatePuzzle" :addPuzzle="addPuzzle" :deletePuzzle="deletePuzzle" :key="puzzleForBuild.id"    ></puzzle-builder>
   </div>
 </template>
@@ -48,10 +48,8 @@ console.log('puzzles:',this.puzzles)
 computed:{
  puzzleForBuild() {
    if(!this.puzzleBuild) {
-     console.log('not exists')
      return {id:-1,fen:"good"}
    }
-   console.log('exist')
    return this.puzzleBuild
  }
 },
@@ -67,12 +65,15 @@ methods:{
   },
   addPuzzle(puzzle) {
     this.puzzles.push(puzzle)
+    console.log('Puzzles',this.puzzles)
+    this.isActive=`puzzle${this.puzzles.length-1}`
     this.saveFunction()
   },
   updatePuzzle(id,payload) {
     const index = this.puzzles.findIndex(puzzle => puzzle.id ==id)
     this.$set(this.puzzles[index],'fen', payload.fen)
     this.$set(this.puzzles[index],'solution',payload.solution)
+    this.$set(this.puzzles[index],'moveComments',payload.moveComments)
     this.saveFunction()
   },
   deletePuzzle(id) {
@@ -83,6 +84,9 @@ methods:{
     this.setPuzzle(index-1)
     this.isActive=`puzzle${index-1}`
     this.saveFunction()
+  },
+  setActive(name) {
+    this.isActive = name 
   }
 }
 }

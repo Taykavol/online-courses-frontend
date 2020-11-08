@@ -6,14 +6,21 @@
         <div class=" w-full text-center ">{{puzzle.author}}</div>
         
         </div> -->
-    <div class=" flex flex-col">
+    <div class=" flex ">
       <div ref="chessboard" class=" z-50  chessboard relative ">
-        <div class=" absolute place1 w-64  text-center text-lg  ">
-          <div class="">Moiseenko - Elianov</div>
-        </div>
-        <div class=" absolute place2 w-64  text-center italic  font-light">
-          <div class="">Pardubutse, 2020</div>
-        </div>
+      </div>
+      <div class=" flex">
+          <div class="w-1/3">
+              <img class=" " src="/images/courselist/graphic-designer.svg" alt="">
+          </div>
+          <div class="  w-2/3 mt-2 relative ">
+              <!-- <div style="clip-path: polygon(100% 50%, 0 0, 0 100%);" class=" bg-gray-300 w-10 h-10">
+                  
+              </div> -->
+              <div class=" message  ">
+                  dsf
+              </div>
+          </div>
       </div>
     </div>
   </div>
@@ -30,15 +37,17 @@ import Chess from "chess.js";
 
 export default {
   props: {
-    puzzle: {
-      type: Object
+    puzzles: {
+      type: Array,
+      default:[{}]
     }
   },
   data() {
     return {
       chess: null,
       chessboard: null,
-      temp: 0
+      temp: 0,
+      puzzle:this.puzzles[0]
     };
   },
   mounted() {
@@ -50,7 +59,8 @@ export default {
       responsive: true,
       style: {
         cssClass: "blue",
-        showCoordinates: false, // show ranks and files
+        // aspectRatio: 0.9,
+        showCoordinates: true, // show ranks and files
         showBorder: true // display a border around the board
       }
     });
@@ -98,15 +108,15 @@ export default {
 </style>
 <style lang="scss" scoped>
 
-$height: 20rem;
-.chessboard {
-  width: calc(#{$height});
-  height: $height;
-  @media (max-width: 1000px) {
-    height: 15rem;
-    width: 15rem;
-  }
-}
+// $height: 43rem;
+// .chessboard {
+//   width: calc(#{$height});
+//   height: $height;
+//   @media (max-width: 1000px) {
+//     height: 15rem;
+//     width: 15rem;
+//   }
+// }
 .place1 {
   top: -1.7rem;
   left: 50%;
@@ -118,6 +128,22 @@ $height: 20rem;
   transform: translateX(-50%);
   
 }
-
+.message {
+  background: #e8e7e6;
+  height: 5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  // padding: 1rem 1rem;
+  &::before {
+    content: "";
+    background: #e8e7e6;
+    height: 1rem;
+    width: 1rem;
+    left: 0rem;
+    top: 1rem;
+    position: absolute;
+    clip-path: polygon(0 50%, 100% 100%, 100% 0);
+  }
+}
 
 </style>

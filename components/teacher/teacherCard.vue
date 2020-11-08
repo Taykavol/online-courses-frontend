@@ -1,6 +1,6 @@
 <template>
 
-    <div @click="pushToGo" @mouseover="isVisible=true" @mouseleave="isVisible=false" class="md:flex  rounded-lg shadow-lg cursor-pointer    max-w-lg md:max-w-2xl md:h-48  relative ">
+    <div  @click="mode=='TEACHER'?pushToGo():''" @mouseover="isVisible=true" @mouseleave="isVisible=false" class="md:flex  rounded-lg shadow-lg cursor-pointer    max-w-lg md:max-w-2xl md:h-48  relative ">
 
       
       <!-- <div class=" absolute z-50">

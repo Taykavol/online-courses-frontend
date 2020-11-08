@@ -1,13 +1,13 @@
 <template>
   <div class=" h-full bg-gray-700 w-64 ">
       <!-- component -->
-<div class=" flex items-center  bg-gray-800 justify-center puzzle-scroll h-full w-64  overflow-y-auto nav">
+<div class=" flex items-center  bg-gray-800 justify-center puzzle-scroll h-full w-64  overflow-y-auto overscroll-contain nav">
 		<div class="flex w-full h-full    p-4 ">
 			<ul class="flex flex-col w-full">
 				
-				<li @click="setPuzzle(-1);isActive='puzzle-1'" class="my-px cursor-pointer">
+				<li @click="addNew=true;setPuzzle(-1);  isActive='puzzle-1'" class="my-px cursor-pointer">
 					<div
-					   :class="isActive==`puzzle-1 `?'flex flex-row items-center h-12 px-4 rounded-lg text-gray-500 bg-gray-700':'flex flex-row items-center h-12 px-4 rounded-lg text-gray-500 hover:bg-gray-700' ">
+					   :class="addNew?' flex flex-row items-center h-12 px-4 rounded-lg text-gray-500 bg-gray-700':'flex flex-row items-center h-12 px-4 rounded-lg text-gray-500 hover:bg-gray-700' ">
 						<span class="flex items-center justify-center text-lg text-green-400">
 							<svg fill="none"
 								 stroke-linecap="round"
@@ -26,13 +26,13 @@
 					<span class="flex font-medium text-sm text-gray-400 px-4 my-4 uppercase">Puzzles</span>
 				</li>
 				
-				<li  @click="setPuzzle(index);isActive=`puzzle${index}`" v-for="(puzzle,index) in puzzles" :key="index" class="my-px cursor-pointer">
+				<li  @click="setPuzzle(index);isActive=`puzzle${index}`;   addNew=false" v-for="(puzzle,index) in puzzles" :key="index" class="my-px cursor-pointer">
 					<div 
 					   :class="isActive==`puzzle${index}`?' flex flex-row items-center h-12 px-4 rounded-lg text-gray-500 bg-gray-700':'flex flex-row items-center h-12 px-4 rounded-lg text-gray-500 hover:bg-gray-700 ' ">
 						<span class="flex items-center justify-center text-lg text-gray-500">
-							{{index+1}}
+							№{{index+1}}
 						</span>
-						<span class="ml-2">puzzle</span>
+						<!-- <span class="ml-2">puzzle</span> -->
 					</div>
 				</li>
 				
@@ -53,11 +53,12 @@ export default {
 	 },
 	 isActiveProp:{
 		 type:String,
-	 }
+	 },
  },
  data() {
 	 return {
-		 isActive:'puzzle-1'
+		 isActive:'puzzle-new',
+		 addNew:true
 	 }
  },
 //  computed:{

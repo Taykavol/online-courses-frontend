@@ -1,5 +1,5 @@
 <template>
-<div class="mt-8">
+<div class="mt-8 lg:container mx-auto">
   <div class="grid grid-cols-10">
       <div class="col-span-3 flex items-center">
           <!-- <div class=" mr-2">Sorted by</div> -->

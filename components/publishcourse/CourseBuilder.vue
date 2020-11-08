@@ -1,5 +1,186 @@
 <template>
- <div class=" flex flex-col">
+<div class=" flex   w-full">
+  <div class="  w-1/4 bg-gray-800 text-gray-400 p-6 fixed h-screen overflow-y-auto overscroll-contain   ">
+    <!-- <div class="h-48"></div>
+    <div class="h-48"></div>
+    <div class="h-48"></div> -->
+    <div class=" flex ">
+					<NuxtLink 
+            to='/teacher'
+					   class="flex flex-row justify-center items-center h-10 px-2 rounded-lg text-gray-700 bg-gray-100 w-1/2 cursor-pointer hover:bg-gray-300 mr-3">
+						<span class="flex items-center justify-center text-lg ">
+              <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-left" class="svg-inline--fa fa-arrow-left fa-w-14 w-6 h-6" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"></path></svg>
+							<!-- <svg class="w-6 h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg> -->
+						</span>
+						<span  class="ml-2">Homepage</span>
+						<!-- <span class="flex items-center justify-center text-sm text-gray-500 font-semibold bg-gray-300 h-6 px-2 rounded-full ml-auto">3</span> -->
+					</NuxtLink>
+          <NuxtLink :to="`/course/${$route.params.id}`" target="_blank" v-if="!this.isSaving"
+					   class="flex flex-row justify-center items-center h-10 px-2 rounded-lg text-white bg-teal-500 w-1/2 cursor-pointer hover:bg-teal-600">
+             <div  class=" flex">
+                <span class="flex items-center justify-center text-lg ">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+                </span>
+                <span class="ml-2">Preview</span>
+             </div>
+             
+						<!-- <span class="flex items-center justify-center text-sm text-gray-500 font-semibold bg-gray-300 h-6 px-2 rounded-full ml-auto">3</span> -->
+					</NuxtLink>
+          <div v-else class="flex flex-row justify-center items-center h-10 px-2 rounded-lg text-white bg-teal-500 w-1/2 cursor-pointer hover:bg-teal-600">
+              <div  class="">
+               <svg class="w-6 h-6 animate-spin" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path></svg>
+             </div>
+          </div>
+    </div>
+    <div class="h-px bg-white opacity-50 mx-auto mt-2"></div>
+    <div class=" flex my-4"> 
+      <div @click="helpButton=!helpButton" v-if="helpButton" class=" cursor-pointer">
+        <svg class="w-6 h-6 inline-block text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        Help
+      </div>
+      <div @click="helpButton=!helpButton" v-else class="cursor-pointer ">
+        <svg  class="w-6 h-6 inline-block text-blue-400 " fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        For publishing quality course you need satisfy some conditions by converting all
+      <svg  class="w-5 h-5 mr-1 text-red-400 self-center inline-block " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path></svg>to
+      <svg class="w-5 h-5  text-green-500 inline-block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>.
+      Use tabs "Curriculum" and "Settings" for it and then button "Verification" will be avalable for pushing.
+      </div>
+    </div>
+    <div class=" flex justify-center mt-4 z-10 relative">
+        <div :class="{'bg-yellow-200 cursor-not-allowed text-gray-600 ':((!validateCurriculum(course)||totalPuzzles<5||totalPreview<2 ||totalPreview>5 ||totalDuration2<7200)||!validateSettings(courseProp)) ,'text-gray-800  hover:bg-yellow-500 bg-yellow-400 cursor-pointer':!((!validateCurriculum(course)||totalPuzzles<5||totalPreview<2 ||totalPreview>5||totalDuration2<7200)||!validateSettings(courseProp))}"
+					   class="flex flex-row justify-center items-center h-10 px-2 rounded-lg   w-3/4   mr-3 ">
+						<span class="flex items-center justify-center text-lg ">
+              <svg class="w-6 h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+							<!-- <svg class="w-6 h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg> -->
+						</span>
+						<span class="ml-2">Sent to Verification</span>
+						<!-- <span class="flex items-center justify-center text-sm text-gray-500 font-semibold bg-gray-300 h-6 px-2 rounded-full ml-auto">3</span> -->
+					</div>
+    </div>
+    <div class="  flex justify-center">
+      <div class=" -mt-6 z-0  border-gray-400 border-2 h-full w-full p-4 pt-8"> 
+
+      <div class=" flex  ">
+            <div 
+              @click="isComponent='curriculum'"
+              :class="{' bg-blue-200  text-white':isComponent=='curriculum'}"
+              class="flex flex-row justify-center items-center h-10 px-2 rounded-lg text-gray-700 bg-gray-100 w-1/2 cursor-pointer hover:bg-blue-200 mr-3">
+              <span class="flex items-center justify-center text-lg ">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                <!-- <svg class="w-6 h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg> -->
+              </span>
+              <span class="ml-1">Curriculum</span>
+              <svg  v-if="!validateCurriculum(course)||totalPuzzles<5||totalPreview<2 ||totalPreview>5||totalDuration2<7200" class="w-5 h-5 mr-1 text-red-400 self-center ml-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path></svg>
+              <svg v-else class="w-5 h-5 ml-auto text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+              <!-- <span class="flex items-center justify-center text-sm text-gray-500 font-semibold bg-gray-300 h-6 px-2 rounded-full ml-auto">3</span> -->
+            </div>
+            <div 
+              @click="isComponent='settings'"
+              :class="{' bg-blue-200  text-white':isComponent=='settings'}"
+              class="flex flex-row justify-center items-center h-10 px-2 rounded-lg  w-1/2 cursor-pointer text-gray-800 bg-gray-100 hover:bg-blue-200 ">
+              <span class="flex items-center justify-center text-lg ">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              </span>
+              <span class="ml-1">Settings</span>
+              <svg  v-if="!validateSettings(courseProp)" class="w-5 h-5 mr-1 text-red-400 self-center ml-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path></svg>
+              <svg v-else class="w-5 h-5 ml-auto text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+              <!-- <span class="flex items-center justify-center text-sm text-gray-500 font-semibold bg-gray-300 h-6 px-2 rounded-full ml-auto">3</span> -->
+            </div>
+      </div>
+      </div>
+    </div>
+    <div class="flex justify-around mt-5">
+      <div class=" flex items-center">
+        <div class="">Course name</div>
+        <svg v-if="!courseProp.title" class="w-4 h-4 ml-1 text-red-400 self-center " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path></svg>
+        <svg v-else class="w-4 h-4 ml-auto text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+      </div>
+      <div class="flex items-center">
+        <div class="">Course image</div>
+        <svg v-if="!courseProp.pictureUri" class="w-4 h-4 ml-1 text-red-400 self-center " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path></svg>
+        <svg v-else class="w-4 h-4 ml-auto text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+      </div>
+      <div class="flex items-center">
+        <div class="">Promo video</div>
+        <svg v-if="!courseProp.promoVideo" class="w-4 h-4 ml-1 text-red-400 self-center " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path></svg>
+        <svg v-else class="w-4 h-4 ml-auto text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+      </div>
+    </div>
+    <div class="flex justify-around mt-5">
+      <div class=" flex flex-col ">
+          <div class="">Puzzles</div>
+          <div class="font-medium text-lg flex items-center mb-3 ">
+          <div class=" ml-2">
+          {{totalPuzzles}}<span v-if="totalPuzzles<5">/</span><span v-if="totalPuzzles<5" class=" text-green-500">5</span>
+          </div>
+          <div class="">
+              <svg  v-if="totalPuzzles<5" class="w-5 h-5 mr-1 text-red-400 self-center ml-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path></svg>
+              <svg v-else class="w-5 h-5 ml-auto text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          </div>
+        </div>
+      </div>
+      <div class=" flex flex-col items-center ">
+          <div class="">Free lessons</div>
+          <div class="font-medium text-lg flex items-center mb-3 ">
+            <div class=" ml-2">
+            {{totalPreview}}<span v-if="totalPreview<2">/</span><span v-if="totalPreview<2" class=" text-green-500">2</span>
+            </div>
+            <div class=" flex">
+                <svg  v-if="totalPreview<2 ||totalPreview>5" class="w-5 h-5 mr-1 text-red-400 self-center ml-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path></svg>
+                <svg v-else class="w-5 h-5 ml-auto text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                <div v-if="totalPreview>5" class=" text-sm">(too much)</div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class=" ">
+      <div class=" flex">
+        <div class="  text-center font-medium text-lg text-yellow-400 ">
+          Curriculum
+        </div>
+        <svg v-if="totalDuration2<7200" class="w-5 h-5 mr-1 text-red-400 self-center ml-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path></svg>
+        <svg v-else class="w-6 h-6 ml-auto text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+        <div class=" self-center ">
+
+          
+          {{totalDuration}}<span v-if="totalDuration2<7200">/</span><span v-if="totalDuration2<7200" class=" text-green-400">2:00:00</span>
+        </div>
+      </div>
+      <div class="h-px bg-white opacity-50 mx-auto"></div>
+      <draggable
+        @sort="onSort"
+        filter=".ignore-elements-module"
+        :disabled="!sortableElement"
+        drag-class="drag-class"
+        class=" "
+        :list="course"
+        :animation="500"
+        handle=".module-handle"
+      >
+      <div v-for="(item, index) in course" :key="item.id" class=" flex  justify-between  items-baseline">
+        <a :href="`#item${index}`" class="  mt-1   flex items-center w-full select-none  hover:bg-gray-700 cursor-pointer truncate">
+          <div class="">
+            <svg v-if="validateModule(item)" class="w-4 h-4 mr-1 ml-auto text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+            <svg v-else class="w-4 h-4 mr-1 text-red-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path></svg>
+          
+          </div>
+          <div class="  cursor-pointer truncate ">
+            {{index+1}}. {{item.name}}
+          </div>
+        </a>
+          <div class=" ">
+           <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="expand-arrows-alt" class="module-handle cursor-move svg-inline--fa fa-expand-arrows-alt fa-w-14 text-gray-600 hover:text-gray-300 w-4 h-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M448 344v112a23.94 23.94 0 0 1-24 24H312c-21.39 0-32.09-25.9-17-41l36.2-36.2L224 295.6 116.77 402.9 153 439c15.09 15.1 4.39 41-17 41H24a23.94 23.94 0 0 1-24-24V344c0-21.4 25.89-32.1 41-17l36.19 36.2L184.46 256 77.18 148.7 41 185c-15.1 15.1-41 4.4-41-17V56a23.94 23.94 0 0 1 24-24h112c21.39 0 32.09 25.9 17 41l-36.2 36.2L224 216.4l107.23-107.3L295 73c-15.09-15.1-4.39-41 17-41h112a23.94 23.94 0 0 1 24 24v112c0 21.4-25.89 32.1-41 17l-36.19-36.2L263.54 256l107.28 107.3L407 327.1c15.1-15.2 41-4.5 41 16.9z"></path></svg>
+          </div>
+      </div>
+      </draggable>
+    </div>
+    
+  </div>
+  <div class=" w-1/4"></div>
+  <!-- <transition name="page" mode="out-in"> -->
+  <keep-alive>
+    
+ <div v-if="isComponent=='curriculum'" class=" flex flex-col  w-3/4 px-10  ">
    
     <!-- <div class="" @click="">Create module {{parent_index+2}} </div> -->
     <!-- <div class=" fixed w-5/6 z-40 ">
@@ -61,11 +242,11 @@
       handle=".module-handle"
     >
       <transition-group :name="transitionName" tag="div">
-        <div v-for="(item, parent_index) in course" :key="item.id" class="">
+        <div :id="`item${parent_index}`" v-for="(item, parent_index) in course" :key="item.id" class="">
           <div
             class=" bg-gray-200 border-2 rounded-lg cursor-move module-handle transition-all duration-1000  bigLesson "
           >
-            <div class=" text-4xl font-medium flex items-baseline mt-2 ml-4">
+            <div class=" text-2xl  flex items-baseline mt-2 ml-4">
               <!-- Number module -->
               <div
                 :class="
@@ -96,7 +277,7 @@
                   @change="onChangeName(parent_index)"
                   @keypress.stop.enter="onBlurName(parent_index);onChangeName(parent_index)"
                   class="  outline-none w-full max-w-full bg-gray-200 ignore-elements-module "
-                  maxlength="40"
+                  maxlength="60"
                   size="50"
                   type="text"
                   :value="item.name"
@@ -181,8 +362,8 @@
                   >
                     <!-- Black stripe -->
                     <div
-                      :class="{'bg-gray-800':lesson.name, 'bg-red-500':!lesson.name,'bg-green-700':lesson.video.duration>0 &&lesson.name}"
-                      class="w-2 flex-none"
+                      :class="{'bg-green-700':(lesson.video.vimeoId||lesson.puzzles.length)&&lesson.name}"
+                      class="w-2 flex-none bg-red-500"
                     ></div>
                     <!-- Info -->
                     <div class="flex items-center px-2 py-3 ">
@@ -365,11 +546,15 @@
 
                       <modal
                         :name="'my-first-modal' + lesson.id"
-                        width="70%"
-                        height="80%"
+                        width="100%"
+                        :maxWidth="1200"
+                        height="620px"
+                        :adaptive="true"
+                        transition="page"
                         @opened="stopSort"
                         @closed="startSort"
-                        class=" modal-css cursor-default  "
+                        @before-close="askToCloseModalPuzzleBuilder"
+                        class="  modal-css cursor-default  "
                       >
                         <puzzle-component
                           class=" "
@@ -506,10 +691,16 @@
     <rawDisplayer class="col-3" :value="showLessonInput" title="List" />
     <rawDisplayer class="col-3" :value="courseWithoutOrdering" title="List" />
  </div>
+  <CourseSettings v-else class=" w-3/4 p-8 " :course="courseProp"/>
+  </keep-alive>
+  <!-- </transition> -->
+        <!-- <CourseBuilder class=" " v-else :course="course.curriculum"/> -->
+</div>
 </template>
 <script>
 // import Progress from 'easy-circular-progress'
 // import VModal from 'vue-js-modal'
+import CourseSettings from "~/components/publishcourse/CourseSettings"
 import PuzzleComponent from "~/components/publishcourse/puzzlebuilder/PuzzleComponent.vue";
 import draggable from "vuedraggable";
 import RawDisplayer from "~/components/publishcourse/RawDisplayer";
@@ -532,7 +723,8 @@ export default {
   components: {
     draggable,
     RawDisplayer,
-    PuzzleComponent
+    PuzzleComponent,
+    CourseSettings
   },
   // watch:{
 
@@ -551,7 +743,7 @@ export default {
       console.log(temp);
       return `${hours}:${minutes > 10 ? minutes : "0" + minutes}:${
         second > 10 ? second : "0" + second
-      } `;
+      }`;
     },
     totalDuration2() {
       let temp = 0;
@@ -559,16 +751,28 @@ export default {
       this.course.forEach(curriculum => {
         curriculum.lessons.forEach(lesson => (temp += lesson.video.duration));
       });
-  
-
       return temp
     },
     totalPuzzles() {
       let temp = 0;
+      let temp2 = 0;
+      console.log('count Puzzles', temp)
+      if (this.course.length == 0) return 0;
       this.course.forEach(curriculum => {
-        curriculum.lessons.forEach(lesson => (temp += lesson.puzzles.length));
+        curriculum.lessons.forEach(lesson => {temp += lesson.puzzles.length; lesson.puzzles.forEach(puzzle=>puzzle.order=temp2++);} );
       });
       console.log('Total puzzles:', temp)
+      return temp
+    },
+    totalPreview() {
+      let temp = 0
+      if (this.course.length == 0) return 0;
+      this.course.forEach(curriculum => {
+        curriculum.lessons.forEach(lesson => {
+          if(lesson.preview)
+          temp++
+        });
+      })
       return temp
     },
     courseWithoutOrdering() {
@@ -594,14 +798,18 @@ export default {
       lastLessonOrder:0,
       transitionName: "",
       transitionName2: "",
-      saveInterval:null
+      saveInterval:null,
+      isComponent:'curriculum',
+      course:this.courseProp.curriculum,
+      isSaving:false,
+      helpButton:true
     };
   },
   props: {
-    course: {
-      type: Array,
+    courseProp: {
+      type: Object,
       require: true
-    }
+    },
   },
 
   created() {
@@ -614,10 +822,21 @@ export default {
       }
       this.lastLessonOrder = temp;
   },
-
+  notifications: {
+      successNotification: { 
+        title: 'Success',
+        message: 'Very good',
+        type: 'success' 
+      },
+      errorNotification: { 
+        title: 'Problem',
+        message: 'Something wrong, try later.',
+        type: 'error' 
+      },
+    },
   methods: {
      saveData(seconds=0) {
-
+       
       if(this.saveInterval) {
         console.log('hey')
         clearTimeout(this.saveInterval);
@@ -626,13 +845,20 @@ export default {
       // this.saveInterval.clear()
         console.log('interval',this.saveInterval)
       
-      
+      this.isSaving=true
       this.saveInterval = setTimeout( async ()=>{
-      const curriculum = JSON.stringify(this.courseWithoutOrdering)
-      const good=  await axios({url:`/buildcourse/${this.$route.params.id}`,data:{curriculum,lessons:this.lastLessonOrder,duration:this.totalDuration2,totalPuzzles:this.totalPuzzles},method:"PUT",headers:{"Content-Type":"application/json"}})
-      console.log('Save')
-      if(this.$store.getters.myBuildCourses)
-      this.$store.commit('setMyBuildCourseCurriculum',{courseId:this.$route.params.id,curriculum})
+        try {
+          const curriculum = JSON.stringify(this.courseWithoutOrdering)
+          const good=  await axios({url:`/buildcourse/${this.$route.params.id}`,data:{curriculum,lessons:this.lastLessonOrder,duration:this.totalDuration2,totalPuzzles:this.totalPuzzles},method:"PUT",headers:{"Content-Type":"application/json"}})
+          this.successNotification({message:"Saved!"})
+          this.isSaving = false
+          if(this.$store.getters.myBuildCourses)
+          this.$store.commit('setMyBuildCourseCurriculum',{courseId:this.$route.params.id,curriculum})
+          
+        } catch (error) {
+          this.errorNotification()
+          this.isSaving = false
+        }
       }, seconds*1000)
       // this.saveInterval
     },
@@ -649,15 +875,21 @@ export default {
         var video = document.createElement("video");
         video.preload = "metadata";
         video.onloadedmetadata = async () => {
-          window.URL.revokeObjectURL(video.src);
-          if (video.duration < 1) return;
-          this.$set(lesson.video, "duration", video.duration);
-          // this.saveData()
-          const curriculum = JSON.stringify(this.courseWithoutOrdering)
-          const good=  await axios({url:`/buildcourse/${this.$route.params.id}`,data:{curriculum,lessons:this.lastLessonOrder,duration:this.totalDuration2},method:"PUT",headers:{"Content-Type":"application/json"}})
-          console.log('Save')
-          if(this.$store.getters.myBuildCourses)
-          this.$store.commit('setMyBuildCourseCurriculum',{courseId:this.$route.params.id,curriculum})
+          try {
+            window.URL.revokeObjectURL(video.src);
+            if (video.duration < 1) return;
+            this.$set(lesson.video, "duration", video.duration);
+            const curriculum = JSON.stringify(this.courseWithoutOrdering)
+            const good=  await axios({url:`/buildcourse/${this.$route.params.id}`,data:{curriculum,lessons:this.lastLessonOrder,duration:this.totalDuration2,totalPuzzles:this.totalPuzzles},method:"PUT",headers:{"Content-Type":"application/json"}})
+            console.log('Save')
+            this.successNotification({message:"Video was downloaded"})
+            this.isSaving = false
+            if(this.$store.getters.myBuildCourses)
+            this.$store.commit('setMyBuildCourseCurriculum',{courseId:this.$route.params.id,curriculum})
+          } catch (error) {
+            this.errorNotification()
+            this.isSaving = false
+          }
           
         };
         video.src = URL.createObjectURL(file);
@@ -690,6 +922,7 @@ export default {
         },
          onSuccess: async ()=> {
           validateFile(file);
+          // this.course.splice()
           // setTimeout(()=>{
 
           // })
@@ -757,24 +990,24 @@ export default {
         }
       }
       this.lastLessonOrder = temp
-      this.saveData()
+      this.saveData(5)
     },
     // Lesson
 
     createLesson(number, group) {
-      let bool = false;
-      let j = 0;
-      let index;
-      while (bool == false && j < this.course.length) {
-        bool = this.course[j].lessons.some(lesson => lesson.name == "");
-        index = this.course[j].lessons.find(lesson => lesson.name == "");
-        if (index) index = index.order;
-        j++;
-      }
+      // let bool = false;
+      // let j = 0;
+      // let index;
+      // while (bool == false && j < this.course.length) {
+      //   bool = this.course[j].lessons.some(lesson => lesson.name == "");
+      //   index = this.course[j].lessons.find(lesson => lesson.name == "");
+      //   if (index) index = index.order;
+      //   j++;
+      // }
 
-      if (bool) {
-        window.location.href = `#${index}`;
-      } else {
+      // if (bool) {
+      //   window.location.href = `#${index}`;
+      // } else {
         this.transitionName2 = "list2";
         this.course[group].lessons.splice(number + 1, 0, {
           name: "",
@@ -784,7 +1017,7 @@ export default {
           puzzles: []
         });
         this.onSort(false);
-      }
+      // }
     },
     async deleteLesson(number, group) {
       const isDeleted = confirm("Are you sure, you want to delete lesson?");
@@ -883,6 +1116,22 @@ export default {
     setPreviewTrue(lesson) {
       this.$set(lesson,'preview',true)
       this.saveData(5)
+    },
+    validateModule(chapter) {
+     return !chapter.lessons.find(lesson=>!lesson.name) && chapter.name && !chapter.lessons.find(lesson=>!(lesson.video.vimeoId||lesson.puzzles.length>0))
+    },
+    validateCurriculum(course) {
+    console.log('Val curric')
+    return course.filter(chapter=> this.validateModule(chapter)).length==course.length
+    },
+    validateSettings(course) {
+      console.log('Validate course')
+      return course.title && course.pictureUri && course.promoVideo
+    },
+    askToCloseModalPuzzleBuilder(event) {
+      console.log('cancel', event)
+      if(!confirm('Are you want to close PuzzleBuilder?'))
+      event.stop()
     }
   }
 };
@@ -960,6 +1209,9 @@ input[type="file"]::-webkit-file-upload-button {
 .sortable-ghost {
   opacity: 0;
 }
+// .prisma-bg {
+//   background:  center -50px no-repeat, radial-gradient( 37.86% 77.79% at 50% 50%, rgba(113,128,150,0.25) 0%, rgba(113,128,150,0) 100% ), linear-gradient(180deg,#1a202c 0%,#2d3748 100%), linear-gradient(180deg,#0d0f14 0%,rgba(27,32,43,0) 100%),#2f3747;
+// }
 
 .sortable-drag {
   opacity: 1;
@@ -981,5 +1233,30 @@ input[type="file"]::-webkit-file-upload-button {
    left: .4rem;
   //  right: 0;
   //  left: 50%;
+}
+.drag-class {
+  // z-index: 100;
+  // color:red !important;
+  // opacity: 1 !important;
+  // z-index: 100;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: blue orange;
+}
+
+/* Works on Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+  width: 8px;
+}
+*::-webkit-scrollbar-track {
+  @apply bg-gray-300;
+  // background: orange;
+}
+*::-webkit-scrollbar-thumb {
+  @apply bg-gray-500  rounded-lg m-px;
+  // background-color: blue;
+  // border-radius: 20px;
+  // border: 3px solid orange;
 }
 </style>

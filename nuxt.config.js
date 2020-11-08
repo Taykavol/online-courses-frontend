@@ -36,12 +36,19 @@ export default {
   */
   plugins: [
     "~plugins/vue-js-modal.js",
+    "~plugins/vue-notifications.js"
   ],
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    baseUrlBackend: process.env.BASE_URL_BACKEND || 'http://localhost:4000'
+  },
   /*
   ** Auto import components
   ** See https://nuxtjs.org/api/configuration-components
   */
   components: true,
+
+  
   /*
   ** Nuxt.js dev-modules
   */
@@ -59,6 +66,9 @@ export default {
   ** Build configuration
   ** See https://nuxtjs.org/api/configuration-build/
   */
-  build: {
-  }
+
+ build: {
+  vendor: ['vue-notifications','vue-js-modal']
+},
+
 }
