@@ -1,7 +1,7 @@
 <template>
 
     <div   class=" ">
-          <modal v-if="!boughtCourse.review" :name="`review${boughtCourse.id}`" width="40%" height="auto" class="">
+          <modal v-if="!boughtCourse.review" :name="`review${boughtCourse.id}`" width="60%" height="auto" class="">
             <course-review class="" :fn="hideReviewButton" :course="boughtCourse"/>
           </modal>
           <div @click="pushToGo" @mouseover="isVisible=true" @mouseleave="isVisible=false" class="md:flex  rounded-lg shadow-lg cursor-pointer    max-w-lg md:max-w-2xl md:h-48  relative">
@@ -39,7 +39,7 @@
                   <div :style="`width:${100-boughtCourse.progress}%`" class=" bg-blue-100"></div>
                 </div>
               </div>
-              <div v-if="mode=='BUYER'&&boughtCourse.reviewId==null" @click.stop="showReview()" @mouseover="isReview=true" @mouseleave="isReview=false" class=" flex items-center mt-1 hover:text-blue-500  ">
+              <div v-if="mode=='BUYER'&&boughtCourse.reviewId==null&&visibleLeaveReview" @click.stop="showReview()" @mouseover="isReview=true" @mouseleave="isReview=false" class=" flex items-center mt-1 hover:text-blue-500  ">
                 <svg
                         v-for="item of 5"
                         :key="item"
@@ -80,7 +80,8 @@ export default {
   data() {
     return {
       isVisible:false,
-      isReview:false
+      isReview:false,
+      visibleLeaveReview:true
     }
   },
   methods:{
@@ -88,6 +89,7 @@ export default {
       this.$modal.show(`review${this.boughtCourse.id}`);
     },
     hideReviewButton() {
+      this.visibleLeaveReview =false
       this.reviewButtonVisible = false
     },
     pushToGo() {

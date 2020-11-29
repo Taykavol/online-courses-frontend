@@ -4,10 +4,11 @@ export const state = () => ({
   status: '',
   token: localStorage.getItem('token') || '',
   user : { email:localStorage.getItem('email') || '', role:localStorage.getItem('role') || ''},
-  bestCoursesFromHomePage:[],
-  newestCoursesFromHomePage:[],
-  topCoursesFromHomePage:[],
-  recommendedCoursesFromHomePage:[],
+  courseList1:[],
+  courseList2:[],
+  courseList3:[],
+  courseList4:[],
+  boughtCoursesIds:localStorage.getItem('boughtcourses')||[],
   boughtCourses:[],
   myBuildCourses:null,
   profile:null,
@@ -77,17 +78,17 @@ export const mutations = {
       good()
     },2000)
   },
-  setBestCoursesFromHomePage(state, courses) {
-    state.bestCoursesFromHomePage = courses
+  setCourseList1(state, courses) {
+    state.courseList1 = courses
   },
-  setNewestCoursesFromHomePage(state, courses) {
-    state.newestCoursesFromHomePage = courses
+  setCourseList2(state, courses) {
+    state.courseList2 = courses
   },
-  setTopCoursesFromHomePage(state, courses) {
-    state.topCoursesFromHomePage = courses
+  setCourseList3(state, courses) {
+    state.courseList3 = courses
   },
-  setRecommendedCoursesFromHomePage(state, courses) {
-    state.recommendedCoursesFromHomePage = courses
+  setCourseList4(state, courses) {
+    state.courseList4 = courses
   },
   setBoughtCourses(state, courses) {
     state.boughtCourses = courses
@@ -97,6 +98,9 @@ export const mutations = {
     console.log('SetProfile!')
     state.profile = profile
     localStorage.setItem('profile',JSON.stringify(profile))
+  },
+  addMyBuildCourses(state,course){
+    state.myBuildCourses.push(course)
   }
   
   // nullAlert(state) {
@@ -174,7 +178,7 @@ export const actions = {
       /* --- Fill in your app config here --- */
       const port = 3000;
       const clientId = 'IKGglix7XImcYLPc';
-      const redirectUri = process.env.baseUrl+`/test`;
+      const redirectUri = process.env.baseUrl+`/auth/?provider=lichess`;
 
       const scopes = [
         "email:read"
@@ -190,39 +194,49 @@ export const actions = {
      })
    },
    
-   bestCoursesFromHomePage: async ({state,commit}) =>{
-    if(state.bestCoursesFromHomePage.length==0) {
+   courseList1: async ({state,commit}) =>{
+    if(state.courseList1.length==0) {
       
-      const {data} = await axios.get('/buildcourse/published')
-      // state.bestCoursesFromHomePage = data
-      commit('setBestCoursesFromHomePage',data)
+      let {data} = await axios.get('/buildcourse/published')
+      data = data.filter(course=>!state.boughtCoursesIds.includes(course.id))
+
+      // state.courseList1 = data
+      commit('setCourseList1',data)
       return data
     }
-    return state.bestCoursesFromHomePage
+    return state.courseList1
   },
-  newestCoursesFromHomePage: async ({state,commit}) =>{
-    if(state.newestCoursesFromHomePage.length==0) {
-      const {data} = await axios.get('/buildcourse/newest')
-      commit('setNewestCoursesFromHomePage',data)
+  courseList2: async ({state,commit}) =>{
+    if(state.courseList2.length==0) {
+      let {data} = await axios.get('/buildcourse/newest')
+      console.log('good',data)
+      data = data.filter(course=>!state.boughtCoursesIds.includes(course.id))
+      console.log()
+      console.log('good',data)
+
+      commit('setCourseList2',data)
       return data
     }
-    return state.newestCoursesFromHomePage
+    return state.courseList2
   },
-  topCoursesFromHomePage: async ({state,commit}) =>{
-    if(state.topCoursesFromHomePage.length==0) {
-      const {data} = await axios.get('/buildcourse/top')
-      commit('setTopCoursesFromHomePage',data)
+  courseList3: async ({state,commit}) =>{
+    if(state.courseList3.length==0) {
+      let {data} = await axios.get('/buildcourse/top')
+      data = data.filter(course=>!state.boughtCoursesIds.includes(course.id))
+
+      commit('setCourseList3',data)
       return data
     }
-    return state.topCoursesFromHomePage
+    return state.courseList3
   },
-  recommendedCoursesFromHomePage: async ({state,commit}) =>{
-    if(state.recommendedCoursesFromHomePage.length==0) {
-      const {data} = await axios.get('/buildcourse/recommended')
-      commit('setRecommendedCoursesFromHomePage',data)
+  courseList4: async ({state,commit}) =>{
+    if(state.courseList4.length==0) {
+      let {data} = await axios.get('/buildcourse/recommended')
+      data = data.filter(course=>!state.boughtCoursesIds.includes(course.id))
+      commit('setCourseList4',data)
       return data
     }
-    return state.recommendedCoursesFromHomePage
+    return state.courseList4
   },
   boughtCourses: async ({state,commit}) =>{
     if(state.boughtCourses.length==0) {
@@ -250,34 +264,35 @@ export const getters = {
   alert: state=>state.alert,
   revenue: state=>state.revenue,
   coursesHome: state=>{
-   return state.bestCoursesFromHomePage.concat(state.newestCoursesFromHomePage).concat(state.topCoursesFromHomePage).concat(state.recommendedCoursesFromHomePage)
+   return state.courseList1.concat(state.courseList2).concat(state.courseList3).concat(state.courseList4)
   },
   profile: state => {
     if(localStorage.getItem('profile')) return JSON.parse(localStorage.getItem('profile')) 
     return state.profile
-  }
-  // bestCoursesFromHomePage: async (state) =>{
-  //   if(state.bestCoursesFromHomePage.length==0) {
+  },
+  boughtcourse: state => state.boughtCourses
+  // courseList1: async (state) =>{
+  //   if(state.courseList1.length==0) {
       
   //     const {data} = await axios.get('http://localhost:4000/buildcourse/published')
-  //     // state.bestCoursesFromHomePage = data
+  //     // state.courseList1 = data
   //     // commit()
   //     return data
   //   }
-  //   return state.bestCoursesFromHomePage
+  //   return state.courseList1
   // },
-  // newestCoursesFromHomePage: async state =>{
-  //   if(state.newestCoursesFromHomePage.length==0) {
+  // courseList2: async state =>{
+  //   if(state.courseList2.length==0) {
   //     const {data} = await axios.get('http://localhost:4000/buildcourse/newest')
   //     return data
   //   }
-  //   return state.newestCoursesFromHomePage
+  //   return state.courseList2
   // },
-  // topCoursesFromHomePage: async state =>{
-  //   if(state.topCoursesFromHomePage.length==0) {
+  // courseList3: async state =>{
+  //   if(state.courseList3.length==0) {
   //     const {data} = await axios.get('http://localhost:4000/buildcourse/top')
   //     return data
   //   }
-  //   return state.topCoursesFromHomePage
+  //   return state.courseList3
   // },
 }

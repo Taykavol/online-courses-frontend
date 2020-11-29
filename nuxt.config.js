@@ -22,13 +22,16 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {rel:"stylesheet", href:"https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"},
+      {rel:"stylesheet",href:"https://unpkg.com/pattern.css"}
     ]
   },
   /*
   ** Global CSS
   */
   css: [
+    
   ],
   /*
   ** Plugins to load before mounting the App
@@ -36,11 +39,14 @@ export default {
   */
   plugins: [
     "~plugins/vue-js-modal.js",
-    "~plugins/vue-notifications.js"
+    "~plugins/vue-notifications.js",
   ],
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
-    baseUrlBackend: process.env.BASE_URL_BACKEND || 'http://localhost:4000'
+    baseUrl: process.env.NODE_ENV == 'production'? "production Frontend" : 'http://localhost:3000',
+    dev: process.env.NODE_ENV !== 'production',
+    // https://my-prisma-app-vologda.herokuapp.com
+    baseUrlBackend: process.env.NODE_ENV == 'production'? 'production Backend' : 'http://localhost:4000',
+    s3Url:process.env.s3Url || 'https://chess-courses.hb.bizmrg.com/'
   },
   /*
   ** Auto import components
@@ -59,7 +65,6 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
-    'vue-scrollto/nuxt'
   ],
   
   /*

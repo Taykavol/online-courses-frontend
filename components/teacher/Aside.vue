@@ -173,7 +173,7 @@ export default {
       const redirect_url = 'https%3A%2F%2Flocalhost%3A3000'
       const SCOPES = 'user:email'
       // &state=CSRF_TOKEN
-      const url = `https://accounts.binance.com/en/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirect_url}&scope=${SCOPES}`
+      const url = `https://accounts.binance.com/en/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirect_url}&scope=${SCOPES}&state=CSRF_TOKEN`
       console.log(url)
       location.href= url
     },

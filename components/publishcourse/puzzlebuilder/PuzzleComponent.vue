@@ -74,6 +74,7 @@ methods:{
     this.$set(this.puzzles[index],'fen', payload.fen)
     this.$set(this.puzzles[index],'solution',payload.solution)
     this.$set(this.puzzles[index],'moveComments',payload.moveComments)
+    this.$set(this.puzzles[index],'difficulty',payload.difficulty)
     this.saveFunction()
   },
   deletePuzzle(id) {

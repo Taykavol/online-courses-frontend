@@ -13,7 +13,7 @@
             <img
               :src="selectedUrl"
               alt=""
-              class="flex-shrink-0 h-6 w-6 rounded-full"
+              class="flex-shrink-0 h-6 w-6 "
             />
             <span class="block truncate">
               {{ currentVal }}
@@ -76,11 +76,11 @@
               }"
               class=" cursor-pointer select-none relative py-1 pl-2 pr-9 hover:bg-indigo-600 hover:text-white "
             >
-              <div class="flex items-center space-x-3">
+              <div class="flex items-center space-x-3 ">
                 <img
                   :src="option.url"
                   alt=""
-                  class="flex-shrink-0 h-6 w-6 rounded-full object-cover"
+                  class="flex-shrink-0 h-6 w-6 "
                 />
                 <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
                 <span class="font-normal block truncate">
@@ -174,7 +174,7 @@ export default {
 
 <style>
 .z-kill {
-  z-index: 150;
+  z-index: 150 ;
   /* position: relative; */
 }
 </style>

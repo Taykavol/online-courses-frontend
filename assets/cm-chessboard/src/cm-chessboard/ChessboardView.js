@@ -497,6 +497,8 @@ export class Svg {
     static loadSprite(url, elementIds, callback, grid = 1) {
         const request = new XMLHttpRequest();
         request.open("GET", url);
+        // Cache is optional
+        // request.setRequestHeader("Cache-Control","public, max-age=100000")
         request.send();
         request.onload = () => {
             const response = request.response;

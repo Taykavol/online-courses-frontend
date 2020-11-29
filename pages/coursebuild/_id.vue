@@ -69,7 +69,8 @@ export default {
     // }
   },
   async created(){
-    try {
+    // try {
+      console.log('good')
       if(this.$store.getters.myBuildCourses&&this.$store.getters.myBuildCourses.find(course=>course.id ==this.$route.params.id)) {
         console.log('We were here',this.$store.getters.myBuildCourses)
         let course = {...this.$store.getters.myBuildCourses.find(course => course.id ==this.$route.params.id)}
@@ -79,7 +80,10 @@ export default {
         this.isLoaded=true
         return;
       }
+      console.log('Before fetching',this.$route.params.id)
       const data = await axios({url:`/buildcourse/${this.$route.params.id}`})
+      console.log('After fetching')
+
       console.log(data)
       let JSONcourse = data.data
       console.log(JSONcourse)
@@ -90,10 +94,10 @@ export default {
       // this.$router.push('/dashboard')
       this.course1=course
       this.isLoaded=true
-    } catch (error) {
-      console.log(error)
+    // } catch (error) {
+      // console.log(error)
       // this.$router.push('/dashboard')
-    }
+    // }
      
   },
   data() {

@@ -2,7 +2,7 @@
 <!-- <div class=""> -->
     <!-- <Alert  v-if="$store.getters.alert" class=" absolute  right-0 top-0 opacity-75" :alert='$store.getters.alert' /> -->
   <div class="  ">
-    <Header class="lg:container mx-auto" :key="$store.getters.isLoggedIn"/>
+    <Header class="lg:container mx-auto " :key="$store.getters.isLoggedIn" />
     <Nuxt keep-alive />
   </div>
 <!-- </div> -->
@@ -32,8 +32,9 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
-  scroll-behavior: smooth;
-  background: #f5f5f5;
+  // scroll-behavior: smooth;
+  // background: #f6f9fc;
+  background: whitesmoke;
   overflow-y:scroll;
   @media (max-width: 1024px) {
     font-size: 12px;

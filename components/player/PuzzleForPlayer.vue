@@ -6,10 +6,10 @@
         <div class=" w-full text-center ">{{puzzle.author}}</div>
         
         </div> -->
-    <div class=" flex flex-col">
-      <div ref="chessboard" class=" z-50  chessboard relative ">
-        <div class=" absolute place1 w-64  text-lg flex justify-center   ">
-          <div v-html="puzzle.level" class=""></div>
+    <div class=" flex flex-col justify-center ">
+      <div ref="chessboard" :class="{'mt-4':level}" class=" z-50  chessboard relative ">
+        <div  class=" absolute place1  w-full  text-lg flex justify-start   ">
+          <div v-html="level" class=""></div>
         </div>
         <div v-if="isPromotionMove" class=" absolute  inset-0 w-56   text-lg flex   h-full  items-center justify-center  ">
           <div v-if="turn=='w'" class=" flex justify-center items-center bg-gray-800 bg-opacity-50 h-10 ">
@@ -225,10 +225,10 @@
             </div>
           </div>
         </div>
-        <div class=" absolute place2 w-64  text-center italic  font-light">
-          <div v-html="comment?comment:`<p class=' text-gray-800 ' >White to move and win</p>`" class="font-display"></div>
-        </div>
       </div>
+        <div class=" flex justify-center w-full font-neucha  items-center  text-center italic  font-light text-2xl">
+          <div v-html="comment?comment:`<p class=' text-gray-800 ' >Find the best move!</p>`" class="font-display"></div>
+        </div>
     </div>
   </div>
 </template>
@@ -259,12 +259,22 @@ export default {
       comment:null,
       isPromotionMove:false,
       interval:null,
-      sleep:null
+      sleep:null,
+
     };
   },
   computed:{
     turn(){
       return this.chess.turn()
+    },
+    level() {
+        switch(this.puzzle.difficulty) {
+            case 'HARD' : return `<div class=" flex items-baseline -mt-2 "> <div class=" w-3 h-3 bg-red-600 ml-2 mr-1"></div><div class=" mr-2 font-neucha text-2xl ">hard</div></div>`;
+            case 'INTERMEDIATE' : return `<div class=" flex items-baseline -mt-2"><div class=" w-3 h-3 bg-blue-600 ml-2 mr-1"></div><div class=" mr-2 font-neucha text-2xl ">intermediate</div></div>`;
+            case 'EASY': return `<div class=" flex items-baseline -mt-2"><div class=" w-3 h-3 bg-green-600 ml-2 mr-1"></div><div class=" mr-2 font-neucha text-2xl ">easy</div></div>`                    
+            default : return ''
+        }
+        
     }
   },
   mounted() {
@@ -278,10 +288,10 @@ export default {
       style: {
         cssClass: "blue",
         showCoordinates: false, // show ranks and files
-        // showBorder: true 
+        showBorder: true 
       }
     });
-
+    this.comment = this.puzzle.moveComments[this.temp]
     let inputHandler =async event => {
       if (event.type == INPUT_EVENT_TYPE.moveDone) {
         const move = { from: event.squareFrom, to: event.squareTo };
@@ -297,7 +307,7 @@ export default {
               )
               const promotion = await this.sleep()
               this.isPromotionMove = false
-              console.log('Promotional',promotion)
+              // console.log('Promotional',promotion)
               // const promotion = prompt('What piece you want promote to?')
               result = this.chess.move(`${event.squareFrom}-${event.squareTo}=${promotion}`, { sloppy: true })
           }
@@ -313,31 +323,39 @@ export default {
               console.log("Good move");
               this.comment = `<p class=' text-green-800'>Good move!</p>`
               this.chess.move(this.puzzle.solution[this.temp + 1]);
+              const nextMoveInterval = setTimeout(()=>{
+                this.comment = this.comment = this.puzzle.moveComments[this.temp]
+              },2000)
                 console.log('I hope we are not')
               event.chessboard.setPosition(this.chess.fen());
               this.temp = this.temp + 2;
               if (this.temp > this.puzzle.solution.length) {
+                clearInterval(nextMoveInterval)
                 event.chessboard.disableMoveInput();
-                this.comment = `<p class=' text-green-800'>You solve it!</p>`
-                this.fn()
+                this.comment = `<p class=' text-green-800'>You solved this puzzle!</p>`
+                this.fn(this.puzzle.order)
                 return;
               }
             } else {
-              this.comment=`<p class=' text-red-700'>Bad decision!</p>`
+              this.comment=`<p class=' text-red-700'>Bad decision! Try again.</p>`
               setTimeout(() => {
                 this.chess.undo();
                 console.log('I hope we are not')
                 event.chessboard.setPosition(this.chess.fen());
-              }, 1000);
+              }, 200);
             }
             setTimeout(()=>{
               event.chessboard.enableMoveInput(inputHandler, this.orientation);
             },300)
           });
         } else {
+          event.chessboard.disableMoveInput();
           this.comment = `<p class=' text-orange-700'>Invalid move!</p>`
           console.log("invalid move");
           event.chessboard.setPosition(this.chess.fen());
+          setTimeout(()=>{
+            event.chessboard.enableMoveInput(inputHandler, this.orientation);
+          },300)
           
         }
         return result;
@@ -368,7 +386,7 @@ $height: 20rem;
   transform: translateX(-50%);
 }
 .place2 {
-  bottom:-1.7rem;
+  bottom:-2.5rem;
   left: 50%;
   transform: translateX(-50%);
   

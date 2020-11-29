@@ -6,7 +6,6 @@
       </ColumnCourses>
       <!-- <card  :course="{...item,pictureUri:item.pictureUri?'https://chess-courses.hb.bizmrg.com/'+item.pictureUri:'https://images.unsplash.com/photo-1601758002737-1919f3ba2774?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'}" /> -->
     </div>
-      course
   </div>
 </template>
 
@@ -19,7 +18,7 @@ export default {
      VerifCard,ColumnCourses
  },
  async created() {
-   const {data} = await Axios.get('/buildcourse/top')
+   const {data} = await Axios.get('/buildcourse/verified')
    this.courses = data
   //  Axios({url:''})
  },

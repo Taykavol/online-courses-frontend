@@ -1,9 +1,20 @@
 <template>
-  <div @click="$router.push(`course/${course.id}`)" @mouseover="isVisible=true" @mouseleave="isVisible=false"  class=" cursor-pointer   relative      ">
+  <div  @click="$router.push(`course/${course.id}`)"   class=" cursor-pointer   relative   animate__animated animate__fadeIn z-50  ">
+    <div  @mousemove="popupVisible=false"  v-if="course.sentences.length>0&&popupVisible "  class="absolute  bg-white z-50     popup p-5 rounded-lg border animate__animated animate__fadeIn   ">
+          <div class=" text-black font-semibold text-lg">What you will learn: </div>
+          <div class="  leading-5  flex flex-col space-y-1 mt-1   ">
+                  <div v-for="(item,index) in course.sentences" :key="index" class=" flex items-center"> 
+                      <div v-if="item" class=" mr-1 self-start">
+                          <svg class="w-6 h-6 flex-shrink-0 text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                      </div>
+                      <div class="">{{item}}</div>
+                  </div>
+          </div>
+    </div>
     <div v-if="course.sale==true" class=" absolute z-50 left-0">
         <div class="sale bg-red-600">88%</div>
     </div>
-    <div class="md:flex    rounded-lg shadow-lg    max-w-lg md:max-w-2xl  md:h-48 bg-white">
+    <div @mouseover="isVisible=true;popupVisible=true" @mouseleave="isVisible=false;popupVisible=false" class="md:flex    rounded-lg shadow-lg    max-w-lg md:max-w-2xl  md:h-48 bg-white">
       <div class="h-40 md:h-full w-full md:w-1/3   rounded-lg rounded-r-none relative">
         <img
           class="h-full  w-full object-cover"
@@ -32,7 +43,7 @@
         </div>
         <div class="flex items-baseline space-x-1 mt-1 truncate">
             <!-- <div class="">By</div> -->
-            <div class=" bg-blue-700 text-white px-1 rounded-lg font-sans font-semibold text-xs">GM</div>
+            <div :class="{'bg-blue-700':course.author.title=='GM','bg-red-700':course.author.title=='IM','bg-pink-600':course.author.title=='WGM'}" class="  text-white px-1 rounded-lg font-sans font-semibold text-xs">{{course.author.title}}</div>
             <div class="">{{course.author?course.author.teacherName:''}}</div>
         </div>
         <div class=" flex items-center mt-1 " >
@@ -94,7 +105,8 @@ export default {
   data() {
     return {
       // course.averageRating:4.5,
-      isVisible:false
+      isVisible:false,
+      popupVisible:false
     }
   },
   computed: {
@@ -113,7 +125,19 @@ export default {
 </script>
 
 <style lang='scss'>
-
+.popup {
+  // right: 0;
+  // left: 0;
+  // top: -70%;
+  bottom:103%;
+  // right: -19rem;
+  min-width: 20rem;
+  max-width: 30rem;
+  // width: 20rem;
+  // margin-top:-50%;
+  // margin-top: -5rem;
+  margin-right: -6rem;
+}
 .sale {
 	position: relative;
 	// display: inline-block;

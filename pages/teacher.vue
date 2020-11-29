@@ -29,7 +29,7 @@
                 <!-- <div class=" ml-auto">Upload photo</div> -->
                         <div class=" ml-auto relative self-center w-8  mr-2 duration-150 transform hover:scale-110  ">
                             <input
-                                accept="image/jpeg"
+                                accept=".jpg, .jpeg, .png"
                                 @change="
                                 handleImageUpload($event);
                                 isActive = true;
@@ -40,10 +40,11 @@
                             <svg class="svg-inline--fa fa-camera-retro fa-w-16 w-8 h-8   absolute inset-0 text-center text-gray-700  cursor-pointer border-yellow-700 flex justify-around" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="camera-retro"  role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M48 32C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48H48zm0 32h106c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H38c-3.3 0-6-2.7-6-6V80c0-8.8 7.2-16 16-16zm426 96H38c-3.3 0-6-2.7-6-6v-36c0-3.3 2.7-6 6-6h138l30.2-45.3c1.1-1.7 3-2.7 5-2.7H464c8.8 0 16 7.2 16 16v74c0 3.3-2.7 6-6 6zM256 424c-66.2 0-120-53.8-120-120s53.8-120 120-120 120 53.8 120 120-53.8 120-120 120zm0-208c-48.5 0-88 39.5-88 88s39.5 88 88 88 88-39.5 88-88-39.5-88-88-88zm-48 104c-8.8 0-16-7.2-16-16 0-35.3 28.7-64 64-64 8.8 0 16 7.2 16 16s-7.2 16-16 16c-17.6 0-32 14.4-32 32 0 8.8-7.2 16-16 16z"></path></svg>
                         </div>
             </div>
-              <div v-if="profile" class=" border bg-white ">
+              <div v-if="profile" class=" relative border bg-white ">
                     <div class="relative">
-
-                        <img class=" h-64 object-cover w-full" :src="currentUrl?currentUrl:'https://ssl.gstatic.com/accounts/ui/avatar_2x.png'" onerror="this.src='https://ssl.gstatic.com/accounts/ui/avatar_2x.png'" alt="">
+                        <div class="w-full relative flex justify-center bg-green-300">
+                            <img class=" h-64  object-contain w-1/2  " :src="currentUrl?currentUrl:'https://ssl.gstatic.com/accounts/ui/avatar_2x.png'" onerror="this.src='https://ssl.gstatic.com/accounts/ui/avatar_2x.png'" alt="">
+                        </div>
                         <div class=" absolute bottom-0 bg-gray-900 h-12 w-full opacity-75"></div>
                         <div class=" absolute bottom-0 flex h-12 items-center text-lg text-white  w-full">
                             <div  class="ml-2 bg-blue-700  px-1 rounded-lg font-sans font-semibold  ">{{profile.title}}</div>
@@ -53,8 +54,7 @@
                                 <div @click="nameVisible=true" class=" ml-1  cursor-pointer self-center ">
                                     <svg class="w-5 h-5 hover:text-blue-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
                                 </div>
-
-                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="px-4 pt-2 w-full flex">
@@ -154,7 +154,10 @@ methods:{
       if(!course) return
       const {id} = course.data
       if(!id) return 
-      this.$router.push('/coursebuild/'+id)
+      // this.$store.commit('addMyBuildCourses',course)
+      setTimeout(()=>{
+        this.$router.push('/coursebuild/'+id)
+      },3000)
       
     },
     async changeProfileName() {

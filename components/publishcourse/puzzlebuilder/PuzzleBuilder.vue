@@ -395,7 +395,7 @@
                     <div  v-show="step==3&&!isRight" style="clip-path: polygon(100% 0, 0 0, 50% 100%);" class=" bg-white w-12 h-12 -mt-px -mb-10"></div>
                     <div  v-show="step==3&&isRight" class="block w-56 rounded-lg h-24  p-2   border-gray-400 bg-white ">Nice job! Now is time to save puzzle!</div>
                     <div  v-show="step==3&&isRight" style="clip-path: polygon(100% 0, 0 0, 50% 100%);" class=" bg-white w-12 h-12 -mt-px -mb-10"></div>
-                    <img  v-show="step==3" src="/images/courselist/graphic-designer.svg" alt="">
+                    <img  v-show="step==3" src="/images/courselist/graphic-designer.svg" class=" w-40 h-40" alt="">
                 </div>
                 <div v-show="step==2" class=" w-24 z-20 whitespace-pre text-2xl ">{{pgnGood}} </div>
             </div>
@@ -420,6 +420,16 @@
                     <div @click="moveCommentTextAreaVisible?'':stepTwoToThree()" :class="{'bg-gray-400':moveCommentTextAreaVisible, 'bg-gray-800 text-white':!moveCommentTextAreaVisible}" class=" ml-1 w-full px-4 py-2  rounded-md text-center cursor-pointer">Next step</div>
                 </div>
             </div>
+            <div v-if="step==3" class=" flex flex-col">
+                <!-- <input type="select"> -->
+                <div class="">Difficulty of puzzle</div>
+                <select class=" outline-none block" v-model="difficulty" >
+                    <option  value="">None</option>
+                    <option value="EASY">Easy</option>
+                    <option value="INTERMIDEATE">Intermideate</option>
+                    <option value="HARD">Hard</option>
+                </select>
+            </div>
             <div v-if="step==3" class=" mt-auto self-stretch flex mb-1">
                 <!-- <div class=" text-center">Step {{step}} from 3</div> -->
                 <div   @click="goThreeToTwo" class=" w-full items-center justify-center px-4 py-2 text-base leading-5 rounded-md border font-medium shadow-sm transition ease-in-out duration-150 focus:outline-none focus:shadow-outline bg-red-900 text-white border-gray-300  cursor-pointer select-none text-center ">Go on {{step-1}} step </div>
@@ -430,7 +440,7 @@
 </template>
 
 <script>
-import { Chessboard,MOVE_INPUT_MODE,INPUT_EVENT_TYPE,COLOR } from "cm-chessboard";
+import { Chessboard,MOVE_INPUT_MODE,INPUT_EVENT_TYPE,COLOR } from "~/assets/cm-chessboard";
 import chess from "chess.js"
 export default {
 data() {
@@ -449,7 +459,8 @@ data() {
         isRight:false,
         moveComments:[],
         moveComment:'',
-        moveCommentTextAreaVisible:true
+        moveCommentTextAreaVisible:true,
+        difficulty:""
     }
 },
 props:{
@@ -491,7 +502,7 @@ this.chess = new chess()
 this.chess2 = new chess()
 this.chessboard = new Chessboard(this.$refs.chessboard, {
       moveInputMode:MOVE_INPUT_MODE.dragPiece,
-      position: "start",
+      position: "empty",
       sprite: { url: "/images/chessboard-sprite.svg" },
       responsive: true,
       style: {
@@ -501,7 +512,9 @@ this.chessboard = new Chessboard(this.$refs.chessboard, {
         // aspectRatio:null
       }
     });
+console.log('How are you:',this.chessboard.getPosition())
     if(this.puzzle.id==-1) {
+        console.log('Good games!:',this.chessboard.getPosition())
         this.step=1
         this.fen = this.chessboard.getPosition()
         return
@@ -511,6 +524,7 @@ this.chessboard = new Chessboard(this.$refs.chessboard, {
     this.chessboard.setOrientation(this.turn)
     this.solution = this.puzzle.solution
     this.moveComments = this.puzzle.moveComments
+    this.difficulty = this.puzzle.difficulty
     // this.chess.load(this.fen)
     await this.chessboard.setPosition(this.fen)
     // this.chessboard.disableMoveInput()
@@ -520,6 +534,7 @@ methods:{
         this.moveCommentTextAreaVisible = true
         this.step=2
         if(this.wasChange) {
+            console.log('loaded position', this.finalFen)
             const isLoaded = this.chess.load(this.finalFen)
             this.moveComments=[]
             this.solution=[]
@@ -541,9 +556,25 @@ methods:{
                                 // return `true`, if input is accepted/valid, `false` aborts the interaction, the piece will not move
                 return true
                 case INPUT_EVENT_TYPE.moveDone:
-                    const move = {from: event.squareFrom, to: event.squareTo}
+                    let move = {from: event.squareFrom, to: event.squareTo}
+                    console.log('Move trying',move)
                     // if(this.solution[temp].from==move.from)
-                    const result = this.chess.move(move)
+                    let result = this.chess.move(move)
+                    if(!result) {
+                        result = this.chess.move(`${event.squareFrom}-${event.squareTo}`, { sloppy: true })
+                        if(result) 
+                        {
+                            this.chess.undo()
+                            const promotion = prompt('What piece would you like to see?')
+                            console.log('promotion', promotion)
+                            console.log('FenBeforeMove',this.chess.fen())
+                            this.chess.move(`${event.squareFrom}-${event.squareTo}=${promotion}`, { sloppy: true })
+                            console.log('FenAfterMove',this.chess.fen())
+
+                        }
+                    }
+
+                    console.log('Result', result)
                     if(result) {
                         event.chessboard.disableMoveInput()
                         this.$nextTick(()=>{
@@ -576,6 +607,8 @@ methods:{
                             event.chessboard.enableMoveInput(inputHandler)
                         })
                     } else {
+                        
+                        console.log(result)
                         console.warn('invalid move')
                         return false
                     }
@@ -598,7 +631,21 @@ methods:{
         const inputHandler =  (event)=>{
             if(event.type==INPUT_EVENT_TYPE.moveDone) {
                 const move = {from: event.squareFrom, to: event.squareTo}
-                const result = this.chess2.move(move)
+                let result = this.chess2.move(move)
+                // Checking for promotional move
+                if(!result) {
+                        console.log('Promotional move 1')
+                    console.log('Before',result,this.chess2.fen())
+
+                    result = this.chess2.move(`${event.squareFrom}-${event.squareTo}`, { sloppy: true })
+                    console.log('Resualt',result,this.chess2.fen())
+                    if(result) {
+                        console.log('Promotional move')
+                        this.chess2.undo()
+                        const promotion = prompt('What piece you want promote to?')
+                        result = this.chess2.move(`${event.squareFrom}-${event.squareTo}=${promotion}`, { sloppy: true })
+                    }
+                }
                 if(result) {
                     event.chessboard.disableMoveInput()
                     this.$nextTick(()=>{
@@ -652,7 +699,20 @@ methods:{
                 case INPUT_EVENT_TYPE.moveDone:
                     const move = {from: event.squareFrom, to: event.squareTo}
                     // if(this.solution[temp].from==move.from)
-                    const result = this.chess.move(move)
+                    let result = this.chess.move(move)
+                    if(!result) {
+                        result = this.chess.move(`${event.squareFrom}-${event.squareTo}`, { sloppy: true })
+                        if(result) 
+                        {
+                            this.chess.undo()
+                            const promotion = prompt('What piece would you like to see?')
+                            console.log('promotion', promotion)
+                            console.log('FenBeforeMove',this.chess.fen())
+                            this.chess.move(`${event.squareFrom}-${event.squareTo}=${promotion}`, { sloppy: true })
+                            console.log('FenAfterMove',this.chess.fen())
+
+                        }
+                    }
                     if(result) {
                         event.chessboard.disableMoveInput()
                         this.$nextTick(()=>{
@@ -780,13 +840,9 @@ methods:{
     },
     async savePuzzle() {
         if(!this.isRight) return
-        const puzzle = {
-            id:Math.random(),
-            fen:this.finalFen,
-            solution:this.solution,
-            moveComments:this.moveComments
-        }
+        
         if(this.puzzle.id!=-1) {
+            // Here is update
             this.step=0
             for(let i=0; i<this.solution.length;i++)
             this.chess2.undo()
@@ -795,9 +851,17 @@ methods:{
         {
             fen:this.finalFen,
             solution:this.solution,
-            moveComments:this.moveComments
+            moveComments:this.moveComments,
+            difficulty:this.difficulty
         })
         } 
+        const puzzle = {
+            id:Math.random(),
+            fen:this.finalFen,
+            solution:this.solution,
+            moveComments:this.moveComments,
+            difficulty:this.difficulty
+        }
         this.addPuzzle(puzzle)
         for(let i=0; i<this.solution.length;i++)
             this.chess2.undo()

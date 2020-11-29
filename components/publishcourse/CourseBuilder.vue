@@ -47,7 +47,7 @@
       </div>
     </div>
     <div class=" flex justify-center mt-4 z-10 relative">
-        <div :class="{'bg-yellow-200 cursor-not-allowed text-gray-600 ':((!validateCurriculum(course)||totalPuzzles<5||totalPreview<2 ||totalPreview>5 ||totalDuration2<7200)||!validateSettings(courseProp)) ,'text-gray-800  hover:bg-yellow-500 bg-yellow-400 cursor-pointer':!((!validateCurriculum(course)||totalPuzzles<5||totalPreview<2 ||totalPreview>5||totalDuration2<7200)||!validateSettings(courseProp))}"
+        <div @click="sentToVerify()" :class="{'bg-yellow-200 cursor-not-allowed text-gray-600 ':verifyCurriculum ,'text-gray-800  hover:bg-yellow-500 bg-yellow-400 cursor-pointer':!verifyCurriculum}"
 					   class="flex flex-row justify-center items-center h-10 px-2 rounded-lg   w-3/4   mr-3 ">
 						<span class="flex items-center justify-center text-lg ">
               <svg class="w-6 h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
@@ -361,8 +361,9 @@
                     class="flex mx-1 xl:mx-16  bg-white shadow-lg rounded-lg overflow-hidden  lesson relative ignore-elements-module lesson-handle "
                   >
                     <!-- Black stripe -->
+                    <!-- :class="{'bg-green-700':(lesson.video.vimeoId||lesson.puzzles.length)&&lesson.name}" -->
                     <div
-                      :class="{'bg-green-700':(lesson.video.vimeoId||lesson.puzzles.length)&&lesson.name}"
+                      :class="{'bg-green-700':lesson.video.vimeoId&&lesson.name}"
                       class="w-2 flex-none bg-red-500"
                     ></div>
                     <!-- Info -->
@@ -731,6 +732,10 @@ export default {
   // },
 
   computed: {
+    verifyCurriculum() {
+      // ||this.totalDuration2<7200 TODO:
+      return (!this.validateCurriculum(this.course)||this.totalPuzzles<5||this.totalPreview<2 ||this.totalPreview>5 )||!this.validateSettings(this.courseProp)
+    },
     totalDuration() {
       let temp = this.totalDuration2;
       // if (this.course.length == 0) return;
@@ -1118,7 +1123,8 @@ export default {
       this.saveData(5)
     },
     validateModule(chapter) {
-     return !chapter.lessons.find(lesson=>!lesson.name) && chapter.name && !chapter.lessons.find(lesson=>!(lesson.video.vimeoId||lesson.puzzles.length>0))
+    //  return !chapter.lessons.find(lesson=>!lesson.name) && chapter.name && !chapter.lessons.find(lesson=>!(lesson.video.vimeoId||lesson.puzzles.length>0))
+     return !chapter.lessons.find(lesson=>!lesson.name) && chapter.name && !chapter.lessons.find(lesson=>!lesson.video.vimeoId)
     },
     validateCurriculum(course) {
     console.log('Val curric')
@@ -1132,6 +1138,10 @@ export default {
       console.log('cancel', event)
       if(!confirm('Are you want to close PuzzleBuilder?'))
       event.stop()
+    },
+    async sentToVerify() {
+     const response =  await axios({url:`/buildcourse/verifying/${this.$route.params.id}`, method:"PUT"})
+     console.log(response)
     }
   }
 };

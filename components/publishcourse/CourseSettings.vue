@@ -3,6 +3,19 @@
   <div class=" flex flex-col-reverse lg:flex-row">
     
     <div class="bg-white border flex flex-col w-full lg:w-6/10 p-5  ">
+      <div class=" flex justify-center mb-8 ">
+        <div
+          @click="isActive ? save() : ''"
+          class=" w-full text-center"
+          :class="
+            isActive
+              ? 'bg-blue-500 px-5 text-xl mt-2 py-1  cursor-pointer text-white'
+              : 'bg-gray-200 cursor-not-allowed px-5 text-xl mt-2 py-1'
+          "
+        >
+          Save
+        </div>
+      </div>
       <div class="-mx-3 md:flex mb-3">
         <div class=" w-full px-3  md:mb-0">
           <label
@@ -43,18 +56,62 @@
           <label
             class="block  tracking-wide   font-bold  text-center"
           >
-            Description
+            About course
           </label>
           <textarea
             @input="isActive = true"
             v-model="description"
-            rows="8"
+            rows="5"
             class=" outline-none  appearance-none resize-none block w-full text-grey-darker border  rounded pt-3 px-4 "
             type="password"
             placeholder=""
           />
         </div>
       </div>
+      <div class="-mx-3 md:flex mb-3">
+        <div class="md:w-full px-3 ">
+          <label
+            class="block  tracking-wide   font-bold  text-center"
+          >
+            Who this course is for?
+          </label>
+          <textarea
+            @input="isActive = true"
+            v-model="forWho"
+            rows="5"
+            class=" outline-none  appearance-none resize-none block w-full text-grey-darker border  rounded pt-3 px-4 "
+            type="password"
+            placeholder=""
+          />
+        </div>
+      </div>
+      <div class="-mx-3 md:flex mb-3">
+        <div class="md:w-full px-3 ">
+          <label
+            class="block  tracking-wide   font-bold  text-center "
+          >
+            What your students get from studying this course?
+          </label>
+          <textarea
+            @input="isActive = true"
+            v-model="whatStudentsGet"
+            rows="5"
+            class=" outline-none  appearance-none resize-none block w-full text-grey-darker border  rounded pt-3 px-4 "
+            type="password"
+            placeholder=""
+          />
+        </div>
+      </div>
+      <div class=" ">
+         <label class="block  tracking-wide   font-bold  text-center">What your students will learn</label>
+              <div v-for="(item,index) in sentences" :key="index" class="flex items-center   ">
+                <div class=" transform scale-150 ">&#8226;</div>
+                <input @change=" isActive=true" class="border-gray-300 border m-1 p-1 outline-none w-3/4" v-model="sentences[index]" type="text" placeholder="Subject">
+                <div v-if="sentences.length!=1" @click="sentences.splice(index,1);isActive=true" class=" m-2 px-2 bg-red-700 hover:bg-red-600 text-white cursor-pointer">-</div>
+                <div v-if="index==sentences.length-1" @click="addSentence()" class=" m-2 px-2 bg-blue-700 hover:bg-blue-600 text-white cursor-pointer">+</div>
+              </div>
+              
+        </div>
       <div class=" flex ">
         <div class=" flex flex-col  justify-around mb-2 w-full">
           <div class=" px-3">
@@ -198,17 +255,8 @@
           </div>
         </div>
       </div>
-       <div class=" ">
-         <label class="block  tracking-wide   font-bold  text-center">What your students will learn</label>
-              <div v-for="(item,index) in sentences" :key="index" class="flex items-center   ">
-                <div class=" transform scale-150 ">&#8226;</div>
-                <input @change=" isActive=true" class="border-gray-300 border m-1 p-1 outline-none w-3/4" v-model="sentences[index]" type="text" placeholder="Subject">
-                <div v-if="sentences.length!=1" @click="sentences.splice(index,1);isActive=true" class=" m-2 px-2 bg-red-700 hover:bg-red-600 text-white cursor-pointer">-</div>
-                <div v-if="index==sentences.length-1" @click="addSentence()" class=" m-2 px-2 bg-blue-700 hover:bg-blue-600 text-white cursor-pointer">+</div>
-              </div>
-              
-        </div>
-      <div class=" mt-4 ">
+       
+      <div class=" my-4  ">
          <label class="block  tracking-wide   font-bold  text-center">level</label>
         <VueSlider :lazy="true" @change="isActive=true" class=" " :marks="marks1" v-model="value" :data="data" >
           <template v-slot:label="{ label,  value }">
@@ -225,19 +273,7 @@
       <!-- <div class="">
         <UploadPhoto/>
       </div> -->
-      <div class=" flex justify-center mt-16 ">
-        <div
-          @click="isActive ? save() : ''"
-          class=" w-full text-center"
-          :class="
-            isActive
-              ? 'bg-blue-500 px-5 text-xl mt-2 py-1  cursor-pointer text-white'
-              : 'bg-gray-200 cursor-not-allowed px-5 text-xl mt-2 py-1'
-          "
-        >
-          Save
-        </div>
-      </div>
+      
     </div>
     <div class="  flex flex-col p-5 pt-0 w-full lg:w-4/10">
       <!-- ?'https://chess-courses.hb.bizmrg.com/'+course.pictureUri:'https://ssl.gstatic.com/accounts/ui/avatar_2x.png' -->
@@ -259,7 +295,7 @@
           
           <div class=" relative self-center w-8 overflow-hidden mb-1 transform duration-150 hover:scale-110 ">
           <input
-            accept="image/jpeg"
+            accept=".jpg, .jpeg, .png"
             @change="
               handleImageUpload($event);
             "
@@ -396,7 +432,8 @@ export default {
     if(this.course.sentences.length>0)
     this.sentences = this.course.sentences.slice()
     else this.sentences =['']
-
+    this.whatStudentsGet = this.course.whatStudentsGet
+    this.forWho = this.course.forWho
     this.category = this.course.category;
     this.currentUrl =
       "https://chess-courses.hb.bizmrg.com/" + this.course.pictureUri;
@@ -415,6 +452,8 @@ export default {
       // level: "",
       isSale: false,
       subtitle: "",
+      forWho:"",
+      whatStudentsGet:"",
       // photoSave:false,
       // https://chess-courses.hb.bizmrg.com/course/image5.jpg
       currentUrl: "",
@@ -513,7 +552,9 @@ export default {
             level: this.value,
             category: this.category,
             price: this.price,
-            salePrice: this.salePrice
+            salePrice: this.salePrice,
+            forWho:this.forWho,
+            whatStudentsGet:this.whatStudentsGet
           }
         });
         this.$set(this.course,'title',this.title)
