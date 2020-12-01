@@ -1,6 +1,6 @@
 <template>
-  <div  @click="$router.push(`course/${course.id}`)"   class=" cursor-pointer   relative   animate__animated animate__fadeIn z-50  ">
-    <div  @mousemove="popupVisible=false"  v-if="course.sentences.length>0&&popupVisible "  class="absolute  bg-white z-50     popup p-5 rounded-lg border animate__animated animate__fadeIn   ">
+  <div  @click="$router.push(`course/${course.id}`)"   class=" cursor-pointer   relative   animate__animated animate__fadeIn   ">
+    <div   @mousemove="popupVisible=false"  v-if="course.sentences.length>0&&popupVisible "  class="absolute z-50  bg-white      popup p-5 rounded-lg border animate__animated animate__fadeIn   ">
           <div class=" text-black font-semibold text-lg">What you will learn: </div>
           <div class="  leading-5  flex flex-col space-y-1 mt-1   ">
                   <div v-for="(item,index) in course.sentences" :key="index" class=" flex items-center"> 

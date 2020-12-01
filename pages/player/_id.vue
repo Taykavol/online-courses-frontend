@@ -134,7 +134,7 @@ export default {
         this.progressOfLessons.splice()
     }
     // ||data.progressOfPuzzles.length!=data.course.totalPuzzles
-    if(data.progressOfPuzzles.length==0||data.progressOfPuzzles.length!=data.course.totalPuzzles) {
+    if(data.progressOfPuzzles.length==0) {
         console.log('Solutions are empty')
         for(let i=0; i<data.course.totalPuzzles;i++)
         this.progressOfPuzzles[i] = false

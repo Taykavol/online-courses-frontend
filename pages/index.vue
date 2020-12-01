@@ -14,10 +14,10 @@
         </div>
           
       <div class="  flex flex-col sm:flex-row  justify-center w-full h-full  space-x-6      ">
-            <div class=" z-20  text-5xl w-full sm:w-7/12 lg:w-1/3 mt-12  text-gray-800 leading-none tracking-tight break-normal  relative ">
+            <div class="   text-5xl w-full sm:w-7/12 lg:w-1/3 mt-12  text-gray-800 leading-none tracking-tight break-normal  relative ">
                 <div class=" z-10 relative text-gray-300 flex flex-col -mt-64 sm:mt-0 ">
                     <div class=" z-10 relative mt-8 w-full font-monser">
-                        Amazine platform for <span> <div class=" inline-block text-blue-500 animate__animated animate__flipInX">learning </div> and <span class=" text-orange-500"> creating </span> chess courses </span>
+                        Amazine platform for <span> <div class=" inline-block text-blue-500 animate__animated animate__lightSpeedInLeft">learning </div> and <span class=" text-orange-500 animate__animated animate__flipInX"> creating </span> chess courses </span>
                     </div>
                     <div class="self-start w-full flex justify-center sm:justify-start space-x-4 font-neucha text-gray-300 tracking-normal ">
                         <nuxt-link to="/teachersinfo"   class=" flex items-center   text-xl mt-10  bg-green-600 rounded-lg  p-2  hover:bg-green-700 cursor-pointer duration-1000 transform scale-98    "> 
@@ -34,7 +34,7 @@
             <div class=" relative  sm:w-1/4  ">
                 <!-- <img class=" absolute bottom-0 mb-40 xl:mb-48 -ml-56 xl:-ml-64   h-64 " src="/images/bg/chess-pieces.png" alt=""> -->
                 <div class="absolute ">
-                    <div  class=" z-30  mt-12 rounded-2xl relative   phone--card  bg-white  border-2 border-t-4 border-gray-600 border-opacity-25 ">
+                    <div  class="   mt-12 rounded-2xl relative   phone--card  bg-white  border-2 border-t-4 border-gray-600 border-opacity-25 ">
                     <img style="height:18rem; width:20rem" class=" select-none absolute bottom-0 right-0 mb-10  -mr-64    " src="/images/bg/chess-pieces.png" alt="">
                         <div class=" m-4 mb-20 h-full flex flex-col items-center">
                             <div class=" flex">
@@ -87,14 +87,14 @@
                     <div  class="delay-500  duration-500 flex flex-col ph2:flex-row sm:block justify-between">
                         <div class="  border-gray-300 rounded-t-lg flex flex-col items-center">
                             <div class=" text-sm text-center">Review</div>
-                            <Select  class=" z-50 relative w-48" :ignoreValue="[]" :currentValue="reviewFilter" :options="reviewOptions"/>
+                            <Select   class=" relative w-48" :ignoreValue="[]" :currentValue="reviewFilter" :options="reviewOptions"/>
                         </div>
                         <div class="  border-gray-300 rounded-t-lg flex flex-col items-center">
                             <div class=" text-sm text-center">Category</div>
-                            <Select  class=" z-40 relative w-48" :ignoreValue="[]" :currentValue="categoryFilter" :options="categoryOptions"/>
+                            <Select   class=" relative w-48" :ignoreValue="[]" :currentValue="categoryFilter" :options="categoryOptions"/>
                         </div>
                     </div>
-                    <div  class=" w-full sm:w-1/2 mt-8 delay-500  duration-500 mx-2 z-50 ">
+                    <div  style=" opacity:0.99" class=" w-full sm:w-1/2 mt-8 delay-500  duration-500 mx-2 z-0 ">
                         <div class=" text-sm text-center">Low &larr; Difficulty &rarr; High</div>
                         <VueSlider :lazy="true"   @change="changeLevel(value)" class=" " :marks="marks1" v-model="value" :data="data" >
                             <template v-slot:label="{ label,  value }">
@@ -116,11 +116,11 @@
                     <div  class="delay-500  duration-500 flex flex-col ph2:flex-row sm:block justify-between">
                         <div class="  border-gray-300 rounded-t-lg flex flex-col items-center">
                             <div class=" text-sm text-center">Price</div>
-                            <Select  class=" z-20 relative w-48" :ignoreValue="[]" :currentValue="priceFilter" :options="priceOptions"/>
+                            <Select  class="  relative w-48" :ignoreValue="[]" :currentValue="priceFilter" :options="priceOptions"/>
                         </div>
                         <div class="  border-gray-300 rounded-t-lg flex flex-col items-center">
                             <div class=" text-sm text-center">Sale</div>
-                            <Select  class=" z-20 relative w-48" :ignoreValue="[]" :currentValue="saleFilter" :options="saleOptions"/>
+                            <Select   class="  relative w-48" :ignoreValue="[]" :currentValue="saleFilter" :options="saleOptions"/>
                         </div>
                     </div>
                     
@@ -451,11 +451,11 @@ methods:{
     stroke: black;
     stroke-width: 5px;
 }
-.filters {
-  max-height: 0;
-  overflow: hidden;
-  transition: all 1s ease-out;
-}
+// .filters {
+//   max-height: 0;
+//   overflow: hidden;
+//   transition: all 1s ease-out;
+// }
 .bg-wk {
     background-image: url('/images/courselist/star.svg');
     background-repeat: no-repeat;

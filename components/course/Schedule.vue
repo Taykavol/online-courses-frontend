@@ -1,5 +1,8 @@
 <template>
   <div class=" border w-full">
+     <modal @closed="getWindowWidth()" :name="`publicVideo`" :width="windowWidth>1024?`60%`:'90%'" :key="windowWidth" height="auto" class="">
+       <VideoPreview :id="videoId" :key="videoId"/>
+      </modal>
     <div v-for="(chapter,index) in curriculum" :key="index" class="">
       <div @click="clickEvent(index)" :class="{'bg-white newbg hover:text-gray-700':index%2==0,'bg-gray-200 hover:text-gray-700':index%2==1}" class=" lesson transform  duration-300  p-2 text-lg flex cursor-pointer">
         <div class="index flex items-center transform duration-300">
@@ -13,7 +16,7 @@
         </div>
       </div>
         <div :ref="`card`" class="  panel border-b ">
-          <div :class="{'   cursor-default':!lesson.preview,'cursor-pointer':lesson.preview, 'border-t':index2==0,'border-b':index2!=chapter.lessons.length}"  class=" duration-300 relative  flex bg-white " @mouseover="isVisible[index*3+index2+1]=true; isVisible.splice()" @mouseleave="isVisible[index*3+index2+1]=false; isVisible.splice()"  v-for="(lesson,index2) in chapter.lessons" :key="index2"   >
+          <div @click="lesson.preview?showVideo(lesson.video.vimeoId):''" :class="{'   cursor-default':!lesson.preview,'cursor-pointer':lesson.preview, 'border-t':index2==0,'border-b':index2!=chapter.lessons.length}"  class=" duration-300 relative  flex bg-white " @mouseover="isVisible[index*3+index2+1]=true; isVisible.splice()" @mouseleave="isVisible[index*3+index2+1]=false; isVisible.splice()"  v-for="(lesson,index2) in chapter.lessons" :key="index2"   >
             <div v-if="!lesson.preview" class=" absolute inset-0  pattern-dots-sm text-gray-400 z-0 "></div>
             <div class=" relative ml-4 self-center flex-none">
               <div class="relative">
@@ -28,7 +31,8 @@
               </div>
             </div>
             <div class=" m-2 flex flex-col relative">
-              <div   class=" text-sm ph2:text-lg font-medium self-start ">{{lesson.order+1}}. {{lesson.name}}</div>
+              <!-- {{lesson.order+1}}. -->
+              <div   class=" text-sm ph2:text-lg font-medium self-start "> {{lesson.name}}</div>
               <!-- <div class="h-1 w-24 bg-blue-200"></div> -->
               <div class=" hidden ph2:block ">{{lesson.description}}</div>
             </div>
@@ -45,7 +49,11 @@
 </template>
 
 <script>
+import VideoPreview from '~/components/common/PlyrVideo'
 export default {
+  components:{
+    VideoPreview,
+  },
   props:{
     curriculum:{
       type:Array
@@ -71,10 +79,17 @@ export default {
   data() {
     return {
       isActive:[],
-      isVisible:[]
+      isVisible:[],
+      videoId:'',
+      windowWidth:document.documentElement.clientWidth,
     }
   },
+  
   methods: {
+    getWindowWidth(event) {
+        this.windowWidth = document.documentElement.clientWidth;
+        // this.$modal.show('publicVideo')
+      },
     setActive() {
       for(let i =0;i<4;i++) {
         this.isActive[i]=true
@@ -110,6 +125,29 @@ export default {
       const seconds = temp%60
       // const seconds = temp%60
       return `${hours}:${minutes>=10?minutes:'0'+ minutes}:${seconds>=10?seconds:'0'+seconds}`
+    },
+    showVideo ( videoId) {
+      console.log(videoId)
+      this.$modal.show('publicVideo')
+      this.videoId = videoId
+      // const controls =['play-large','rewind', 'play','fast-forward', 'progress', 'current-time', 'mute', 'volume',  'settings', 'pip', 'airplay', 'fullscreen']
+    //   this.player = new plyr(this.$refs.plyr,{
+    //   controls,
+    //   vimeo:{
+    //     responsive:true,
+    //   }
+    // });
+      // console.log('Googd?')
+
+    // this.player.source = {
+    //     type: 'video',
+    //     sources: [
+    //         {
+    //         src: '471962833',
+    //         provider: 'vimeo',
+    //         },
+    //     ],
+    //     };
     }
   }
 }

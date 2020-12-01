@@ -54,10 +54,12 @@
       >
         <div
           v-show="paymentSelect == true"
-          class="absolute mt-1 w-full rounded-md bg-white shadow-lg z-kill "
+          style=" opacity:0.99"
+          class="absolute mt-1 w-full rounded-md bg-white shadow-lg z-50 "
         >
           <ul
-            class="z-kill max-h-56 rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5"
+            style=" opacity:0.99"
+            class=" max-h-56 rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5"
           >
             <!--
                 Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
@@ -173,8 +175,7 @@ export default {
 </script>
 
 <style>
-.z-kill {
+/* .z-kill {
   z-index: 150 ;
-  /* position: relative; */
-}
+} */
 </style>

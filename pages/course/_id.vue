@@ -63,7 +63,7 @@
                         <div class=" ml-1 tracking-tight text-base ">{{course.registedStudents}} students</div>
                     </div>
                 </div> -->
-                <div class=" lg:mt-4 font-neucha text-gray-700 text-lg tracking-tighter">This course includes:</div>
+                <div class=" lg:mt-4 font-neucha  text-lg tracking-tighter">This course includes:</div>
                 <div class=" grid gap-x-4 gap-y-1  grid-cols-2">
                         <div class=" flex items-center ">
                             <img class=" w-10 h-10" src="/icons/chess-clock-svgrepo-com.svg" alt="">

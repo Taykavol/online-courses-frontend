@@ -1,6 +1,6 @@
 <template>
 <div class="">
-  <div v-if="courses.length>=1" class=" relative">
+  <div  class=" relative">
     <div  class=" pagination absolute z-10 right-0 bottom-0 -mb-10 ph2:mb-0 ph2:bottom-auto  ph2:-mt-10    text-xl  flex justify-between ">
       <div class="w-1/3"></div>
       <div class="w-2/3 text-center">
@@ -25,9 +25,7 @@
       <card class=" mb-4 mt-2 " v-for="item in paginatedData" :key="item.id" :course="{...item,pictureUri:item.pictureUri?'https://chess-courses.hb.bizmrg.com/'+item.pictureUri:'https://images.unsplash.com/photo-1601758002737-1919f3ba2774?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'}" />
     </slot>
   </div>
-  <div v-else class="">
-    Sorry,
-  </div>
+  
 </div>
 </template>
 
