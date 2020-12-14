@@ -51,12 +51,29 @@
         />
        
       </div>
-      <div class="-mx-3 md:flex mb-3">
+      <div class=" border ">
+         <label class="block  tracking-wide   font-bold  text-center">Description</label>
+              <div v-for="(item,index) in description" :key="index" class="flex flex-col m-4   ">
+                <!-- <div class=" transform scale-150 ">&#8226;</div> -->
+                <div class=" flex">
+                  <div v-if="descriptionTitleVisible[index]" :class="{'text-red-700':!item.title}" class=" ">{{item.title?item.title:'Please add some title, otherwise will be invisible for users '}}</div>
+                  <input v-else @change="isActive=true" @blur="$set(descriptionTitleVisible,index,true)" v-focus v-model="item.title" type="text">
+                  <svg class="w-6 h-6 cursor-pointer" @click="$set(descriptionTitleVisible,index,false)" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                </div>
+                <div class=" flex">
+                  <textarea @change=" isActive=true" class="border-gray-300 border m-1 p-1 outline-none w-3/4" v-model="description[index].description" type="text" placeholder="Subject"></textarea>
+                  <!-- <textarea name="" id="" cols="30" rows="10"></textarea> -->
+                  <div v-if="description.length!=1" @click="description.splice(index,1);isActive=true" class=" self-start m-2 px-2 bg-red-700 hover:bg-red-600 text-white cursor-pointer">-</div>
+                  <div v-if="index==description.length-1" @click="addDescription()" class="self-start m-2 px-2 bg-blue-700 hover:bg-blue-600 text-white cursor-pointer">+</div>
+                </div>
+              </div>
+        </div>
+      <!-- <div v-for="item in 4" class="-mx-3 md:flex mb-3">
         <div class="md:w-full px-3 ">
           <label
             class="block  tracking-wide   font-bold  text-center"
           >
-            About course
+            {{item}}
           </label>
           <textarea
             @input="isActive = true"
@@ -67,8 +84,11 @@
             placeholder=""
           />
         </div>
-      </div>
-      <div class="-mx-3 md:flex mb-3">
+        <div  class="">
+            {{item}}
+        </div>
+      </div> -->
+      <!-- <div class="-mx-3 md:flex mb-3">
         <div class="md:w-full px-3 ">
           <label
             class="block  tracking-wide   font-bold  text-center"
@@ -101,7 +121,7 @@
             placeholder=""
           />
         </div>
-      </div>
+      </div> -->
       <div class=" ">
          <label class="block  tracking-wide   font-bold  text-center">What your students will learn</label>
               <div v-for="(item,index) in sentences" :key="index" class="flex items-center   ">
@@ -110,7 +130,6 @@
                 <div v-if="sentences.length!=1" @click="sentences.splice(index,1);isActive=true" class=" m-2 px-2 bg-red-700 hover:bg-red-600 text-white cursor-pointer">-</div>
                 <div v-if="index==sentences.length-1" @click="addSentence()" class=" m-2 px-2 bg-blue-700 hover:bg-blue-600 text-white cursor-pointer">+</div>
               </div>
-              
         </div>
       <div class=" flex ">
         <div class=" flex flex-col  justify-around mb-2 w-full">
@@ -409,6 +428,16 @@ import Plyr from "~/components/common/PlyrVideo";
 import VueSlider from "vue-slider-component";
 import axios from "axios";
 export default {
+  directives: {
+    focus: {
+      // определение директивы
+      inserted: function(el) {
+        // console.log('sdf',el.value)
+        // if(el.value)        
+        el.focus();
+      }
+    }
+  },
   components: {
     Card,
     Plyr,
@@ -437,7 +466,12 @@ export default {
     this.category = this.course.category;
     this.currentUrl =
       "https://chess-courses.hb.bizmrg.com/" + this.course.pictureUri;
-    this.description = this.course.description;
+    this.description = this.course.description.slice()
+    console.log('again')
+    if(!this.course.description) 
+      this.description = [{description:'',title:''}]
+    else 
+      this.description = this.course.description.slice()
     this.price = this.course.price;
     // this.level = this.course.level;
     this.salePrice = this.course.salePrice;
@@ -457,7 +491,9 @@ export default {
       // photoSave:false,
       // https://chess-courses.hb.bizmrg.com/course/image5.jpg
       currentUrl: "",
-      description: "",
+      description: [],
+      // protoTypeDescription:[{description:'very super',title:'good'}],
+      descriptionTitleVisible:[],
       category: "",
       sentences:[],
       price: "",
@@ -514,6 +550,13 @@ export default {
       },
     },
   methods: {
+    addDescription() {
+      if(this.description.length<5) {
+        this.description.push({title:'',description:''});
+        this.isActive=true
+      }
+      else this.errorNotification({message:"You can't add more than 5 items"})
+    },
     addSentence() {
       if(this.sentences.length<5) {
         this.sentences.push('');

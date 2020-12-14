@@ -15,7 +15,9 @@ export const state = () => ({
   teacherName:null,
   title:null,
   revenue:null,
-  alert:{}
+  instructors:null,
+
+  // alert:{}
 })
   
 export const mutations = {
@@ -47,37 +49,30 @@ export const mutations = {
   setRevenue(state, value) {
     state.revenue = value
   },
-  // setMyCourses(state,courses) {
-  //   state.myCourses=courses
-  // },
+  
   setMyBuildCourses(state,courses) {
     state.myBuildCourses=courses
   },
   setMyBuildCourseCurriculum(state,{courseId,curriculum}) {
-    
     const courseIndex = state.myBuildCourses.findIndex(course=>course.id==courseId)
-    // console.log('from state)', courseIndex,state.myBuildCourses[courseIndex] )
     state.myBuildCourses[courseIndex].curriculum = curriculum
-    // console.log('from state 2',curriculum, state.myBuildCourses[courseIndex] ,state.myBuildCourses[courseIndex].curriculum)
-
-    // state.myBuildCourses = state.myBuildCourses.splice(index,1,newCourse)
   },
   setMyBuildCourseCredentials(state,{courseId,title}) {
     const courseIndex = state.myBuildCourses.findIndex(course=>course.id==courseId)
     state.myBuildCourses[courseIndex].title = title
   },
-  setAlert(state, {mode,message}) {
-    console.log('Done')
-    state.alert.mode = mode
-    state.alert.message = message
-    state.alert.visible = true
-    const good= ()=>{
-      state.alert = {}
-    }
-    setTimeout(()=>{
-      good()
-    },2000)
-  },
+  // setAlert(state, {mode,message}) {
+  //   console.log('Done')
+  //   state.alert.mode = mode
+  //   state.alert.message = message
+  //   state.alert.visible = true
+  //   const good= ()=>{
+  //     state.alert = {}
+  //   }
+  //   setTimeout(()=>{
+  //     good()
+  //   },2000)
+  // },
   setCourseList1(state, courses) {
     state.courseList1 = courses
   },
@@ -93,6 +88,17 @@ export const mutations = {
   setBoughtCourses(state, courses) {
     state.boughtCourses = courses
   },
+  editBoughtCourse(state, {courseId, course}) {
+    if(state.boughtCourses.length==0) return
+    console.log(courseId,course)
+  let index = state.boughtCourses.findIndex(course=>course.id==courseId)
+  // state.boughtCourses.splice(index,1,course)
+
+  state.boughtCourses.splice(index,1,JSON.parse(JSON.stringify(course)))
+  
+  // console.log('Hey from Vuex!',boughtCourse)
+    // boughtCourse = course
+  },
   setProfile(state, profile) {
 
     console.log('SetProfile!')
@@ -101,7 +107,10 @@ export const mutations = {
   },
   addMyBuildCourses(state,course){
     state.myBuildCourses.push(course)
-  }
+  },
+  setIntructors(state,instructors) {
+    state.instructors = instructors
+  },
   
   // nullAlert(state) {
   //   state.alert = {}
@@ -172,28 +181,23 @@ export const actions = {
       resolve()
     })
    },
-   loginLichess({commit}) {
-     return new Promise((resolve,reject) =>{
-      commit('auth_request')
-      /* --- Fill in your app config here --- */
-      const port = 3000;
-      const clientId = 'IKGglix7XImcYLPc';
-      const redirectUri = process.env.baseUrl+`/auth/?provider=lichess`;
-
-      const scopes = [
-        "email:read"
-      ];
-        /* --- Lichess config --- */
-      const tokenHost = 'https://oauth.lichess.org';
-      const authorizePath = '/oauth/authorize';
-      // const tokenPath = '/oauth';
-
-      const state = Math.random().toString(36).substring(2);
-      const authorizationUri = `${tokenHost}${authorizePath}?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&state=${state}`;
-      window.location.href = authorizationUri;
-     })
+   setInstructors: async({state , commit})=>{
+    if(!state.instructors) {
+      const data = await axios({url:"/profile/all"})
+      commit('setIntructors', data.data)
+      return data.data
+    } else {
+      return state.instructors
+    }
    },
-   
+   setInstructor: async({state,commit},id)=>{
+    if(!state.instructors) {
+      let {data} = await axios.get(`/profile/${id}`)
+      return data
+    } else {
+      return state.instructors.find(instructor=>instructor.id==id)
+    }
+   },
    courseList1: async ({state,commit}) =>{
     if(state.courseList1.length==0) {
       
@@ -209,11 +213,7 @@ export const actions = {
   courseList2: async ({state,commit}) =>{
     if(state.courseList2.length==0) {
       let {data} = await axios.get('/buildcourse/newest')
-      console.log('good',data)
       data = data.filter(course=>!state.boughtCoursesIds.includes(course.id))
-      console.log()
-      console.log('good',data)
-
       commit('setCourseList2',data)
       return data
     }
@@ -241,6 +241,7 @@ export const actions = {
   boughtCourses: async ({state,commit}) =>{
     if(state.boughtCourses.length==0) {
       const {data} = await axios.get('/boughtcourse/all')
+      console.log('data', data)
       commit('setBoughtCourses',data)
       return data
     }
@@ -261,7 +262,7 @@ export const getters = {
     return state.teacherName
   },
   title: state=>state.title,
-  alert: state=>state.alert,
+  // alert: state=>state.alert,
   revenue: state=>state.revenue,
   coursesHome: state=>{
    return state.courseList1.concat(state.courseList2).concat(state.courseList3).concat(state.courseList4)
@@ -270,29 +271,6 @@ export const getters = {
     if(localStorage.getItem('profile')) return JSON.parse(localStorage.getItem('profile')) 
     return state.profile
   },
-  boughtcourse: state => state.boughtCourses
-  // courseList1: async (state) =>{
-  //   if(state.courseList1.length==0) {
-      
-  //     const {data} = await axios.get('http://localhost:4000/buildcourse/published')
-  //     // state.courseList1 = data
-  //     // commit()
-  //     return data
-  //   }
-  //   return state.courseList1
-  // },
-  // courseList2: async state =>{
-  //   if(state.courseList2.length==0) {
-  //     const {data} = await axios.get('http://localhost:4000/buildcourse/newest')
-  //     return data
-  //   }
-  //   return state.courseList2
-  // },
-  // courseList3: async state =>{
-  //   if(state.courseList3.length==0) {
-  //     const {data} = await axios.get('http://localhost:4000/buildcourse/top')
-  //     return data
-  //   }
-  //   return state.courseList3
-  // },
+  boughtcourse: state => state.boughtCourses,
+  instructors: state =>state.instructors
 }

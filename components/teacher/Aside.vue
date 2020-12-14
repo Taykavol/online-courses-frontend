@@ -179,9 +179,9 @@ export default {
     },
     paypalAuth() {
       const SCOPES ='email'
-      const clientId = 'AQecO_cPaI4jsY-S7rBVo0QxhQv_NP7gzZML2kACL8P6LqDWabpeo1JfkLFuwFYl3zRG6wB7cxu2h7NO'
-      const redirectUrl = 'http%3A%2F%2F127.0.0.1:3000%2Fpaypal'
-      const url = `https://www.sandbox.paypal.com/connect?flowEntry=static&client_id=${clientId}&scope=${SCOPES}&redirect_uri=${redirectUrl}`
+      // const clientId = 'AQecO_cPaI4jsY-S7rBVo0QxhQv_NP7gzZML2kACL8P6LqDWabpeo1JfkLFuwFYl3zRG6wB7cxu2h7NO'
+      const redirectUrl = 'https%3A%2F%2Fmany-woman-must-be.surge.sh%2Fpaypal/'
+      const url = `${process.env.paypalURL}/connect?flowEntry=static&client_id=${process.env.paypalClientId}&scope=${SCOPES}&redirect_uri=${redirectUrl}`
       location.href= url
     },
     selectPayment(option) {

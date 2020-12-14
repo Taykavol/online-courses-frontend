@@ -124,7 +124,7 @@ export default {
     },
     pushToGo() {
       console.log('sdgdsf')
-      this.$router.push(`coursebuild/${this.course.id}`)
+      this.$router.push(`/coursebuild/${this.course.id}`)
     },
     
   }

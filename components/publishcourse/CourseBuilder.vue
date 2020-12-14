@@ -687,10 +687,10 @@
         </div>
       </transition-group>
     </draggable>
-
+<!-- 
     <rawDisplayer class="col-3" :value="course" title="List" />
     <rawDisplayer class="col-3" :value="showLessonInput" title="List" />
-    <rawDisplayer class="col-3" :value="courseWithoutOrdering" title="List" />
+    <rawDisplayer class="col-3" :value="courseWithoutOrdering" title="List" /> -->
  </div>
   <CourseSettings v-else class=" w-3/4 p-8 " :course="courseProp"/>
   </keep-alive>
@@ -854,7 +854,7 @@ export default {
       this.saveInterval = setTimeout( async ()=>{
         try {
           const curriculum = JSON.stringify(this.courseWithoutOrdering)
-          const good=  await axios({url:`/buildcourse/${this.$route.params.id}`,data:{curriculum,lessons:this.lastLessonOrder,duration:this.totalDuration2,totalPuzzles:this.totalPuzzles},method:"PUT",headers:{"Content-Type":"application/json"}})
+          const good=  await axios({url:`/buildcourse/${this.$route.params.id}`,data:{curriculum,lessons:this.lastLessonOrder,duration:Math.floor(this.totalDuration2) ,totalPuzzles:this.totalPuzzles},method:"PUT",headers:{"Content-Type":"application/json"}})
           this.successNotification({message:"Saved!"})
           this.isSaving = false
           if(this.$store.getters.myBuildCourses)
@@ -885,7 +885,7 @@ export default {
             if (video.duration < 1) return;
             this.$set(lesson.video, "duration", video.duration);
             const curriculum = JSON.stringify(this.courseWithoutOrdering)
-            const good=  await axios({url:`/buildcourse/${this.$route.params.id}`,data:{curriculum,lessons:this.lastLessonOrder,duration:this.totalDuration2,totalPuzzles:this.totalPuzzles},method:"PUT",headers:{"Content-Type":"application/json"}})
+            const good=  await axios({url:`/buildcourse/${this.$route.params.id}`,data:{curriculum,lessons:this.lastLessonOrder,duration:Math.floor(this.totalDuration2),totalPuzzles:this.totalPuzzles},method:"PUT",headers:{"Content-Type":"application/json"}})
             console.log('Save')
             this.successNotification({message:"Video was downloaded"})
             this.isSaving = false

@@ -7,7 +7,7 @@
         
         </div> -->
     <div class=" flex flex-col">
-      <div ref="chessboard" class=" z-50  chessboard relative ">
+      <div ref="chessboard" class=" z-50   chessboard relative ">
         <div class=" absolute place1 w-64  text-lg flex justify-center   ">
           <div v-html="puzzle.level" class=""></div>
         </div>
@@ -358,9 +358,10 @@ export default {
 </style>
 <style lang="scss" scoped>
 
-$height: 20rem;
+// $height: 20rem;
 .chessboard {
-  
+  height: 15.5rem;
+  width: 15.5rem;
 }
 .place1 {
   top: -1.7rem;

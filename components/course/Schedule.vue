@@ -17,7 +17,7 @@
       </div>
         <div :ref="`card`" class="  panel border-b ">
           <div @click="lesson.preview?showVideo(lesson.video.vimeoId):''" :class="{'   cursor-default':!lesson.preview,'cursor-pointer':lesson.preview, 'border-t':index2==0,'border-b':index2!=chapter.lessons.length}"  class=" duration-300 relative  flex bg-white " @mouseover="isVisible[index*3+index2+1]=true; isVisible.splice()" @mouseleave="isVisible[index*3+index2+1]=false; isVisible.splice()"  v-for="(lesson,index2) in chapter.lessons" :key="index2"   >
-            <div v-if="!lesson.preview" class=" absolute inset-0  pattern-dots-sm text-gray-400 z-0 "></div>
+            <div v-if="!lesson.preview" class=" absolute inset-0 texture--bg  text-gray-400 z-0 "></div>
             <div class=" relative ml-4 self-center flex-none">
               <div class="relative">
                 <img class=" h-16 w-24 p-2 ph2:h-20 ph2:w-32 object-cover " :src="`https://chess-courses.hb.bizmrg.com/${pictureUri}`" alt="">
@@ -127,9 +127,9 @@ export default {
       return `${hours}:${minutes>=10?minutes:'0'+ minutes}:${seconds>=10?seconds:'0'+seconds}`
     },
     showVideo ( videoId) {
-      console.log(videoId)
-      this.$modal.show('publicVideo')
+      if(!videoId) return
       this.videoId = videoId
+      this.$modal.show('publicVideo')
       // const controls =['play-large','rewind', 'play','fast-forward', 'progress', 'current-time', 'mute', 'volume',  'settings', 'pip', 'airplay', 'fullscreen']
     //   this.player = new plyr(this.$refs.plyr,{
     //   controls,

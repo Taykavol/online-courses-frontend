@@ -14,8 +14,10 @@
         </div>
           
       <div class="  flex flex-col sm:flex-row  justify-center w-full h-full  space-x-6      ">
-            <div class="   text-5xl w-full sm:w-7/12 lg:w-1/3 mt-12  text-gray-800 leading-none tracking-tight break-normal  relative ">
+            <div class="  text-4xl p-2 lg:p-0  lg:text-5xl w-full sm:w-7/12 lg:w-1/3 mt-12  text-gray-800 leading-none tracking-tight break-normal  relative ">
                 <div class=" z-10 relative text-gray-300 flex flex-col -mt-64 sm:mt-0 ">
+                    <img style="height:16rem; width:18rem" class=" select-none absolute right-0  bottom-0 hidden md:block md:-mb-32 lg:-mr-20  xl:mr-0 xl:-mb-48      " src="/images/bg/chess-pieces.png" alt="">
+
                     <div class=" z-10 relative mt-8 w-full font-monser">
                         Amazine platform for <span> <div class=" inline-block text-blue-500 animate__animated animate__lightSpeedInLeft">learning </div> and <span class=" text-orange-500 animate__animated animate__flipInX"> creating </span> chess courses </span>
                     </div>
@@ -33,9 +35,23 @@
             </div>
             <div class=" relative  sm:w-1/4  ">
                 <!-- <img class=" absolute bottom-0 mb-40 xl:mb-48 -ml-56 xl:-ml-64   h-64 " src="/images/bg/chess-pieces.png" alt=""> -->
-                <div class="absolute ">
+                <div class="absolute flex justify-center items-center ">
                     <div  class="   mt-12 rounded-2xl relative   phone--card  bg-white  border-2 border-t-4 border-gray-600 border-opacity-25 ">
-                    <img style="height:18rem; width:20rem" class=" select-none absolute bottom-0 right-0 mb-10  -mr-64    " src="/images/bg/chess-pieces.png" alt="">
+                        <div class=" absolute right-0 top-0 hidden   -mr-20 lg:flex flex-col space-y-3   "> 
+                            <!-- Facebook svg -->
+                            <svg class=" w-10 h-10 cursor-pointer transform hover:scale-105 duration-300" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                            <path style="fill:#1976D2;" d="M448,0H64C28.704,0,0,28.704,0,64v384c0,35.296,28.704,64,64,64h384c35.296,0,64-28.704,64-64V64
+                                C512,28.704,483.296,0,448,0z"/>
+                            <path style="fill:#FAFAFA;" d="M432,256h-80v-64c0-17.664,14.336-16,32-16h32V96h-64l0,0c-53.024,0-96,42.976-96,96v64h-64v80h64
+                                v176h96V336h48L432,256z"/>
+                            </svg>
+                            <!-- Instagramm svg -->
+                            <svg class=" w-10 h-10 transform duration-300 hover:rotate-180 cursor-pointer" enable-background="new 0 0 24 24" height="512" viewBox="0 0 24 24" width="512" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><linearGradient id="SVGID_1_" gradientTransform="matrix(0 -1.982 -1.844 0 -132.522 -51.077)" gradientUnits="userSpaceOnUse" x1="-37.106" x2="-26.555" y1="-72.705" y2="-84.047"><stop offset="0" stop-color="#fd5"/><stop offset=".5" stop-color="#ff543e"/><stop offset="1" stop-color="#c837ab"/></linearGradient><path d="m1.5 1.633c-1.886 1.959-1.5 4.04-1.5 10.362 0 5.25-.916 10.513 3.878 11.752 1.497.385 14.761.385 16.256-.002 1.996-.515 3.62-2.134 3.842-4.957.031-.394.031-13.185-.001-13.587-.236-3.007-2.087-4.74-4.526-5.091-.559-.081-.671-.105-3.539-.11-10.173.005-12.403-.448-14.41 1.633z" fill="url(#SVGID_1_)"/><path d="m11.998 3.139c-3.631 0-7.079-.323-8.396 3.057-.544 1.396-.465 3.209-.465 5.805 0 2.278-.073 4.419.465 5.804 1.314 3.382 4.79 3.058 8.394 3.058 3.477 0 7.062.362 8.395-3.058.545-1.41.465-3.196.465-5.804 0-3.462.191-5.697-1.488-7.375-1.7-1.7-3.999-1.487-7.374-1.487zm-.794 1.597c7.574-.012 8.538-.854 8.006 10.843-.189 4.137-3.339 3.683-7.211 3.683-7.06 0-7.263-.202-7.263-7.265 0-7.145.56-7.257 6.468-7.263zm5.524 1.471c-.587 0-1.063.476-1.063 1.063s.476 1.063 1.063 1.063 1.063-.476 1.063-1.063-.476-1.063-1.063-1.063zm-4.73 1.243c-2.513 0-4.55 2.038-4.55 4.551s2.037 4.55 4.55 4.55 4.549-2.037 4.549-4.55-2.036-4.551-4.549-4.551zm0 1.597c3.905 0 3.91 5.908 0 5.908-3.904 0-3.91-5.908 0-5.908z" fill="#fff"/></svg>
+                            <!-- Youtube -->
+                            <svg class=" w-10 h-10 cursor-pointer " height="512pt" viewBox="0 0 512 512.00038" width="512pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><linearGradient id="a" gradientUnits="userSpaceOnUse" x1="116.4724094584" x2="485.3952722936" y1="-12.8049247178" y2="697.9363124434"><stop offset="0" stop-color="#fffcf8"/><stop offset=".1875" stop-color="#faf8f6"/><stop offset=".4041" stop-color="#eceef2"/><stop offset=".6353" stop-color="#d5dcea"/><stop offset=".875" stop-color="#b5c4df"/><stop offset="1" stop-color="#a1b5d8"/></linearGradient><linearGradient id="b"><stop offset="0" stop-color="#a1b5d8" stop-opacity="0"/><stop offset=".3094" stop-color="#90a2bd" stop-opacity=".309804"/><stop offset=".7554" stop-color="#7c8b9c" stop-opacity=".756863"/><stop offset="1" stop-color="#748290"/></linearGradient><linearGradient id="c" gradientUnits="userSpaceOnUse" x1="196.3726539866" x2="-671.0159540134" xlink:href="#b" y1="222.4596783332" y2="-265.4464136668"/><linearGradient id="d" gradientUnits="userSpaceOnUse" x1="256.0003" x2="256.0003" xlink:href="#b" y1="451.9660859688" y2="531.7738692808"/><linearGradient id="e" gradientUnits="userSpaceOnUse" x1="423.506191583" x2="72.2556688904" xlink:href="#b" y1="422.9150930938" y2="71.6646707934"/><linearGradient id="f" gradientUnits="userSpaceOnUse" x1="236.6364516796" x2="283.6559416872" y1="199.8905078512" y2="336.8001698168"><stop offset="0" stop-color="#e52d27"/><stop offset="1" stop-color="#b31217"/></linearGradient><path d="m420.421875 503.234375c-109.503906 11.6875-219.339844 11.6875-328.84375 0-43.664063-4.660156-78.152344-39.148437-82.8125-82.816406-11.6875-109.503907-11.6875-219.335938 0-328.839844 4.660156-43.664063 39.148437-78.152344 82.8125-82.8125 109.503906-11.6875 219.335937-11.6875 328.839844 0 43.667969 4.660156 78.15625 39.148437 82.816406 82.8125 11.6875 109.503906 11.6875 219.335937 0 328.839844-4.660156 43.667969-39.144531 78.15625-82.8125 82.816406zm0 0" fill="url(#a)"/><path d="m475.386719 110.097656c-4.132813-38.746094-34.734375-69.351562-73.484375-73.488281-97.171875-10.367187-194.632813-10.367187-291.804688 0-38.746094 4.136719-69.351562 34.742187-73.488281 73.488281-10.367187 97.171875-10.367187 194.632813 0 291.800782 4.136719 38.75 34.742187 69.355468 73.488281 73.488281 97.171875 10.371093 194.632813 10.371093 291.800782 0 38.75-4.132813 69.355468-34.738281 73.488281-73.488281 10.371093-97.167969 10.371093-194.628907 0-291.800782zm0 0" fill="url(#c)"/><path d="m7.671875 409.804688c.351563 3.539062.714844 7.078124 1.09375 10.617187 4.660156 43.664063 39.148437 78.152344 82.816406 82.8125 109.503907 11.6875 219.335938 11.6875 328.839844 0 43.667969-4.660156 78.152344-39.148437 82.8125-82.8125.378906-3.539063.742187-7.078125 1.097656-10.617187zm0 0" fill="url(#d)"/><path d="m420.421875 503.234375c43.667969-4.660156 78.152344-39.148437 82.8125-82.816406 5.113281-47.882813 7.988281-95.828125 8.628906-143.785157l-111.21875-111.214843c-5.710937-7.078125-10.875-7.734375-21.578125-9.824219-8.671875-1.695312-17.542968-2.851562-26.367187-3.199219-28.214844-1.113281-56.449219-2.171875-84.683594-2.441406-41.457031-.394531-82.921875-.257813-124.214844 4.539063-17.804687 2.066406-36.625 16.03125-38.644531 35.066406-1.035156 9.78125-2.832031 19.507812-3.390625 29.3125-2.042969 35.707031-2.46875 71.394531 2.523437 106.960937 1.671876 11.910157 3.511719 17.359375 11.539063 24l162.011719 162.011719c47.550781-.675781 95.097656-3.542969 142.582031-8.609375zm0 0" fill="url(#e)"/><path d="m264.773438 366.203125c-41.328126-1.386719-73.316407-2.175781-105.265626-3.699219-9.75-.46875-19.785156-1.792968-29.019531-4.792968-16.996093-5.515626-26.691406-17.945313-29.210937-35.894532-4.992188-35.566406-4.566406-71.253906-2.523438-106.960937.5625-9.804688 2.359375-19.53125 3.394532-29.3125 2.011718-19.035157 20.835937-33.003907 38.640624-35.066407 41.296876-4.796874 82.757813-4.933593 124.21875-4.539062 28.234376.269531 56.464844 1.328125 84.679688 2.441406 8.824219.347656 17.695312 1.507813 26.367188 3.199219 19.109374 3.730469 30.164062 15.683594 33.53125 34.882813 4.554687 25.976562 5.746093 52.203124 4.789062 78.441406-.722656 19.859375-2.769531 39.6875-4.828125 59.46875-2.273437 21.832031-21.175781 34.761718-38.199219 35.882812-38.582031 2.542969-77.207031 4.347656-106.574218 5.949219zm0 0" fill="url(#f)"/><path d="m225.800781 304.300781c26.679688-16.378906 52.707031-32.367187 79.515625-48.828125-26.753906-16.441406-52.777344-32.433594-79.515625-48.863281zm0 0" fill="#fff"/></svg>
+                        
+                        </div>
                         <div class=" m-4 mb-20 h-full flex flex-col items-center">
                             <div class=" flex">
                                 <div class=" rounded-2xl w-4 h-4 bg-gray-800 flex items-center justify-center -mt-3 mb-4 ">
@@ -43,9 +59,6 @@
 
                                     </div>
                                 </div>
-                                <!-- <div class="">
-                                    {{time.getTime()}}
-                                </div> -->
                             </div>
                             <div class=" mt-8 ">
                                 <puzzle :class="{'animate__jackInTheBox':firstLoaded==false}" v-if="currentPuzzle" class="animate__animated   " :key="currentPuzzle.fen" :fn="onSolvePuzzle" :puzzle='currentPuzzle'/>
@@ -73,8 +86,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class=" self-end  ml-10 z-50  relative" >
+                        <img style="height:22rem; width:40rem" class=" hidden ph2:block sm:hidden object-contain transform scale-150 ph2:scale-125 " src="/images/bg/chess-pieces.png" alt="">
+                    </div>
                 </div>
                 
+            </div>
+            <div class=" mt-12 z-50 relative">
+                
+
+                <!-- <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="facebook-square" class="svg-inline--fa fa-facebook-square fa-w-14 w-6 h-6 text-blue-700 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"></path></svg> -->
             </div>
         </div>
     
@@ -83,8 +104,8 @@
         </div> -->
       </div>
       <div class="lg:container mx-auto relative filter--container ">
-            <div ref="filters"   class="-mt-24 p-6 py-3 border  col-span-2 flex flex-col sm:flex-row lg:justify-between  bg-white my-4   relative   ">
-                    <div  class="delay-500  duration-500 flex flex-col ph2:flex-row sm:block justify-between">
+            <div ref="filters"   class="-mt-24 p-6 py-3 border  col-span-2 flex flex-col lg:flex-row lg:justify-between  bg-white my-4   relative   ">
+                    <div  class="delay-500  duration-500 flex flex-col ph2:flex-row lg:block justify-between">
                         <div class="  border-gray-300 rounded-t-lg flex flex-col items-center">
                             <div class=" text-sm text-center">Review</div>
                             <Select   class=" relative w-48" :ignoreValue="[]" :currentValue="reviewFilter" :options="reviewOptions"/>
@@ -94,7 +115,7 @@
                             <Select   class=" relative w-48" :ignoreValue="[]" :currentValue="categoryFilter" :options="categoryOptions"/>
                         </div>
                     </div>
-                    <div  style=" opacity:0.99" class=" w-full sm:w-1/2 mt-8 delay-500  duration-500 mx-2 z-0 ">
+                    <div  style=" opacity:0.99" class=" w-full lg:w-1/2 mt-8 delay-500  duration-500 mx-2 z-0 ">
                         <div class=" text-sm text-center">Low &larr; Difficulty &rarr; High</div>
                         <VueSlider :lazy="true"   @change="changeLevel(value)" class=" " :marks="marks1" v-model="value" :data="data" >
                             <template v-slot:label="{ label,  value }">
@@ -113,7 +134,7 @@
                         </div>
                     </div>
 
-                    <div  class="delay-500  duration-500 flex flex-col ph2:flex-row sm:block justify-between">
+                    <div  class="delay-500  duration-500 flex flex-col ph2:flex-row lg:block justify-between">
                         <div class="  border-gray-300 rounded-t-lg flex flex-col items-center">
                             <div class=" text-sm text-center">Price</div>
                             <Select  class="  relative w-48" :ignoreValue="[]" :currentValue="priceFilter" :options="priceOptions"/>
@@ -126,9 +147,9 @@
                     
             </div>
             <div class=" grid grid-cols-8  mt-4 section--courses relative">
-                <div class="pattern-dots-lg absolute w-1/3 h-64 text-gray-400 right-0 mt-48 -mr-48"></div>
+                <!-- <div class="pattern-dots-lg absolute w-1/3 h-64 text-gray-400 right-0 mt-48 -mr-48"></div> -->
                 
-                <div   class="col-span-10 sm:col-span-10 lg:col-span-8 grid grid-cols-9 gap-y-12 ph2:gap-y-0 gap-x-6 relative">
+                <div   class="col-span-10 sm:col-span-10 lg:col-span-8 grid grid-cols-9 gap-y-12 ph2:gap-y-0 gap-x-6 relative mx-8 ph2:mx-0">
                     
                     
                     
@@ -343,7 +364,7 @@ computed: {
         }
     }
     if(this.reviewFilter != 'all') newCourses = newCourses.filter(course => course.averageRating >=this.reviewFilter)
-    if(!(this.levelFilter[0]==1000&&this.levelFilter[1]==2900)) newCourses = newCourses.filter(course => {return course.level[0]>=this.levelFilter[0]&&course.level[1]<=this.levelFilter[1]} )
+    if(!(this.levelFilter[0]==1000&&this.levelFilter[1]==2900)) newCourses = newCourses.filter(course => { console.log('filters',course.level,this.levelFilter ); return ( (course.level[0]>=this.levelFilter[0])&&(course.level[0]<=this.levelFilter[1])) || ((course.level[1]>=this.levelFilter[0]) && (course.level[1]<=this.levelFilter[1]))||(course.level[0]<=this.levelFilter[0]&&course.level[1]>=this.levelFilter[1]) } )
     return newCourses
   }
  },
@@ -504,7 +525,7 @@ methods:{
     //   @media (max-width:450px) {
     //       margin-top:25rem
     //   }
-      @media (max-width:640px) {
+      @media (max-width:639px) {
           margin-top: 25rem;
       }
   }

@@ -1,12 +1,13 @@
 <template>
 <!-- <div class="plyr__video-embed " ref="plyr">
   <iframe
-    :src="`https://player.vimeo.com/video/${id}?loop=false&amp;byline=false&amp;portrait=false&amp;title=false&amp;speed=true&amp;transparent=1&amp;gesture=media`"
+    :src="`https://player.vimeo.com/video/${id}?loop=false&amp;byline=false&amp;portrait=false&amp;title=false&amp;speed=true&amp;transparent=1&amp;gesture=media;playsinline=true`"
     allowfullscreen
     allowtransparency
     allow="autoplay"
   ></iframe>
 </div> -->
+
   <div
     ref="plyr"
     data-plyr-provider="vimeo"
@@ -30,7 +31,8 @@ export default {
     this.player = new plyr(this.$refs.plyr,{
       controls,
       vimeo:{
-        responsive:true
+        responsive:true,
+        playsinline:true
       }
     });
 

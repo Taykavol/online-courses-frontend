@@ -1,6 +1,6 @@
 <template>
-  <div  @click="$router.push(`course/${course.id}`)"   class=" cursor-pointer   relative   animate__animated animate__fadeIn   ">
-    <div   @mousemove="popupVisible=false"  v-if="course.sentences.length>0&&popupVisible "  class="absolute z-50  bg-white      popup p-5 rounded-lg border animate__animated animate__fadeIn   ">
+  <div  @click="$router.push(`/course/${course.id}`)"   class=" cursor-pointer   relative   animate__animated animate__fadeIn   ">
+    <div   @mousemove="popupVisible=false"  v-if="course.sentences.length>0&&popupVisible "  class="absolute z-50  bg-white      popup p-5 rounded-lg border animate__animated animate__fadeIn animate__delay-1s   ">
           <div class=" text-black font-semibold text-lg">What you will learn: </div>
           <div class="  leading-5  flex flex-col space-y-1 mt-1   ">
                   <div v-for="(item,index) in course.sentences" :key="index" class=" flex items-center"> 
@@ -14,7 +14,7 @@
     <div v-if="course.sale==true" class=" absolute z-50 left-0">
         <div class="sale bg-red-600">88%</div>
     </div>
-    <div @mouseover="isVisible=true;popupVisible=true" @mouseleave="isVisible=false;popupVisible=false" class="md:flex    rounded-lg shadow-lg    max-w-lg md:max-w-2xl  md:h-48 bg-white">
+    <div @mouseover="isVisible=true;popupVisible=true" @mouseleave="isVisible=false;popupVisible=false" class="card--homepage md:flex rounded-lg shadow-lg    max-w-lg md:max-w-2xl  md:h-48 bg-white">
       <div class="h-40 md:h-full w-full md:w-1/3   rounded-lg rounded-r-none relative">
         <img
           class="h-full  w-full object-cover"
@@ -29,7 +29,7 @@
               <!-- <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg> -->
             </div>
       </div>
-      <div class="w-full md:w-2/3 px-4 py-2 h-full  rounded-lg flex flex-col">
+      <div class="w-full md:w-2/3 px-4 py-2 h-40 md:h-full  rounded-lg flex flex-col ">
         <div class=" ">
           <!-- <div class=" flex float-right h-8">
             <div class=" font-semibold tracking-tighter float-right  text-xl text-green-800">
@@ -170,5 +170,10 @@ export default {
 	from {	transform: rotate(-20deg) scale(1); }
 	to {	transform: rotate(-20deg) scale(1.1); }
 }
+}
+.card--homepage {
+  @media (max-width:768px) {
+    min-height: 18rem;
+  }
 }
 </style>

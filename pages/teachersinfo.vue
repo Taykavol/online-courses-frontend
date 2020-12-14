@@ -1,9 +1,7 @@
 <template>
   <!-- component -->
 <div class="container  mx-auto w-full  text-gray-900">
-    <Header>
-        <div class=""></div>
-    </Header>
+
   <div class="relative flex  flex-wrap  mt-8   ">
     <!-- <div class=" text-center mb-8 text-5xl font-neucha font-bold">How to publish a course</div> -->
     <!-- <div class="z-20 relative flex items-center bg-gray-700   p-2 rounded-lg  self-center my-4 ">
@@ -202,12 +200,17 @@ import Typewriter from 'typewriter-effect/dist/core';
 import Header from '~/components/layout/Header'
 import PuzzleComponent from "~/components/publishcourse/puzzlebuilder/PuzzleComponent.vue";
 export default {
-    layout:'builder',
     components:{
         Header,PuzzleComponent
     },
     data() {
         return {
+            typewriter:null,
+            typewriter1:null,
+            typewriter2:null,
+            typewriter3:null,
+            typewriter4:null,
+            typewriter5:null,
             information:[{title:"Registration", html:""}],
             fakeChapters:[{lessons:["",""]},{lessons:[""]}],
             courseRequires:['Minimum 2 hours of video course uploading.', 'Promo photo', 'Promo video (0-5 mins)', 'Course detail infromation (description,level,etc.)']
@@ -216,16 +219,28 @@ export default {
     mounted() {
         this.typeWriteAnimation()
     },
+    beforeDestroy() {
+        try {
+            this.typewriter.stop()
+            this.typewriter1.stop()
+            this.typewriter2.stop()
+            this.typewriter3.stop()
+            this.typewriter4.stop()
+            this.typewriter5.stop()
+        } catch {
+
+        }
+    },
     methods:{
         typeWriteAnimation() {
         let app = this.$refs.typewriter[0]
 
-    let typewriter = new Typewriter(app, {
+    this.typewriter = new Typewriter(app, {
     delay: 70,
     // deleteSpeed:75
     });
 
-    typewriter
+    this.typewriter
     .pauseFor(1000)
     .typeString('Exchange variation: 3.Bb5')
     .pauseFor(300)
@@ -235,10 +250,10 @@ export default {
     .pauseFor(1000)
     .callFunction(()=>{
         let app1 = this.$refs.lesson[0]
-        let typewriter1 = new Typewriter(app1, {
+        this.typewriter1 = new Typewriter(app1, {
         delay: 70,
         });
-        typewriter1
+        this.typewriter1
         .pauseFor(1000)
         .typeString('4...bc?')
         .pauseFor(300)
@@ -248,10 +263,10 @@ export default {
         .callFunction(()=>{
             let app2 = this.$refs.lesson[1]
             this.$refs.lessonarea[1].setAttribute('style','display:flex')
-            let typewriter2 = new Typewriter(app2, {
+            this.typewriter2 = new Typewriter(app2, {
             delay: 70,
             });
-            typewriter2
+            this.typewriter2
             .pauseFor(1000)
             .typeString('4...dc')
             .pauseFor(300)
@@ -260,10 +275,10 @@ export default {
             .pauseFor(1000)
             .callFunction(()=>{
                 this.$refs.module[1].setAttribute('style','display:flex')
-                let typewriter3 = new Typewriter(this.$refs.typewriter[1], {
+                this.typewriter3 = new Typewriter(this.$refs.typewriter[1], {
                 delay: 70,
                 });
-                typewriter3
+                this.typewriter3
                 .pauseFor(1000)
                 .typeString('Open Defence: ')
                 .pauseFor(300)
@@ -272,19 +287,19 @@ export default {
                 .pauseFor(1000)
                 .callFunction(()=>{ })
                 .callFunction(()=>{
-                    let typewriter4 = new Typewriter(this.$refs.lesson[2],{
+                    this.typewriter4 = new Typewriter(this.$refs.lesson[2],{
                         delay:70
                     })
-                    typewriter4
+                    this.typewriter4
                     .pauseFor(1000)
                     .typeString('...')
                     .callFunction((args)=>{console.log(args.elements.cursor); args.elements.cursor.setAttribute('style','display:none')})
                     .pauseFor(300)
                     .callFunction(()=>{this.isRoadMap=true; this.roadMapStep=1;setTimeout(() => {
-                        let typewriter5 = new Typewriter(this.$refs.coursename, {
+                        this.typewriter5 = new Typewriter(this.$refs.coursename, {
                             delay: 70,
                         });
-                        typewriter5
+                        this.typewriter5
                         .pauseFor(400)
                         .typeString('Amazine Ruy Lopez course')
                         .callFunction((args)=>{console.log(args.elements.cursor); args.elements.cursor.setAttribute('style','display:none')})

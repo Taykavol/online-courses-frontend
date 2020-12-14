@@ -1,7 +1,10 @@
 <template>
  <!-- component -->
   <div class="flex flex-col  w-full bg-white   mx-auto h-full text-base">
+      <div class=" relative">
         <img  class=" w-full h-56   object-cover" src="/images/photo-register.jpg" alt="">
+        <div :class="{'bg-green-300':authType=='register','bg-blue-300':authType=='login'}" class=" absolute px-4 py-2  text-lg top-0 mt-8 text-gray-900 flex items-center justify-center">{{authType=="register"?'Registration':'Login'}}</div>
+      </div>
 
         <div class=" px-5 h-full  flex flex-col   ">
             <!-- <div class=" flex justify-center text-xl my-5 text-gray-700   uppercase tracking-tighter">
@@ -93,6 +96,11 @@
 
 <script>
 export default {
+    props:{
+        authType:{
+            type:String
+        }
+    },
     data() {
         return {
             isLogin:true,
@@ -134,18 +142,23 @@ export default {
             this.$modal.hide('registration');
         },
         async loginLichess() {
-            await this.$store.dispatch('loginLichess')
+            const redirectUri = process.env.baseUrl+`/auth/?provider=lichess`;
+            const state = Math.random().toString(36).substring(2);
+            const authorizationUri = `https://oauth.lichess.org/oauth/authorize?response_type=code&client_id=${process.env.lichessClientId}&redirect_uri=${redirectUri}&scope=email:read&state=${state}`;
+            window.location.href = authorizationUri;
         },
         loginGoogle() {
-            window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${process.env.baseUrl}/auth/?provider=google&response_type=code&access_type=offline&scope=https://www.googleapis.com/auth/userinfo.email&client_id=231498108232-bqrk6v0pmvnm8o8igcn6en22f42g41ls.apps.googleusercontent.com` 
-            // await this.$store.
+            window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${process.env.baseUrl}/auth/?provider=google-${this.authType}&response_type=code&access_type=offline&scope=https://www.googleapis.com/auth/userinfo.email&client_id=231498108232-bqrk6v0pmvnm8o8igcn6en22f42g41ls.apps.googleusercontent.com` 
         },
+        // registerGoogle() {
+        //     window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${process.env.baseUrl}/auth/?provider=google-register&response_type=code&access_type=offline&scope=https://www.googleapis.com/auth/userinfo.email&client_id=231498108232-bqrk6v0pmvnm8o8igcn6en22f42g41ls.apps.googleusercontent.com` 
+        // },
         loginFacebook() {
             // &scope=email
-            window.location.href = `https://www.facebook.com/v9.0/dialog/oauth?client_id=314836566324405&redirect_uri=${process.env.baseUrl}/auth/?provider=facebook&scope=email&state={st=state123abc,ds=123456789}`
+            window.location.href = `https://www.facebook.com/v9.0/dialog/oauth?client_id=314836566324405&redirect_uri=${process.env.baseUrl}/auth/?provider=facebook-${this.authType}&scope=email&state={st=state123abc,ds=123456789}`
         },
         loginVK() {
-            window.location.href = `https://oauth.vk.com/authorize?client_id=7678450&display=page&redirect_uri=http://localhost:3000/auth?provider=vk&scope=email`
+            window.location.href = `https://oauth.vk.com/authorize?client_id=7678450&display=page&redirect_uri=${process.env.baseUrl}/auth/?provider=vk&scope=email`
         }
     }
 

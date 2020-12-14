@@ -27,23 +27,39 @@
             <div class=" mt-4  flex items-baseline" > 
                 <div class="text-xl font-medium mt-2">Profile</div>
                 <!-- <div class=" ml-auto">Upload photo</div> -->
-                        <div class=" ml-auto relative self-center w-8  mr-2 duration-150 transform hover:scale-110  ">
+                        <!-- <div class=" ml-auto relative self-center w-8  mr-2 duration-150 transform hover:scale-110  ">
                             <input
                                 accept=".jpg, .jpeg, .png"
                                 @change="
-                                handleImageUpload($event);
+                                handleImageUpload($event, savePhoto);
                                 isActive = true;
                                 "
                                 type="file"
-                                class="  relative block  w-8 h-8 overflow-hidden mx-auto status bg-green-800  opacity-0 z-20"
+                                class="  relative block  w-8 h-8 overflow-hidden mx-auto  bg-green-800  opacity-0 z-20"
                             />
                             <svg class="svg-inline--fa fa-camera-retro fa-w-16 w-8 h-8   absolute inset-0 text-center text-gray-700  cursor-pointer border-yellow-700 flex justify-around" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="camera-retro"  role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M48 32C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48H48zm0 32h106c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H38c-3.3 0-6-2.7-6-6V80c0-8.8 7.2-16 16-16zm426 96H38c-3.3 0-6-2.7-6-6v-36c0-3.3 2.7-6 6-6h138l30.2-45.3c1.1-1.7 3-2.7 5-2.7H464c8.8 0 16 7.2 16 16v74c0 3.3-2.7 6-6 6zM256 424c-66.2 0-120-53.8-120-120s53.8-120 120-120 120 53.8 120 120-53.8 120-120 120zm0-208c-48.5 0-88 39.5-88 88s39.5 88 88 88 88-39.5 88-88-39.5-88-88-88zm-48 104c-8.8 0-16-7.2-16-16 0-35.3 28.7-64 64-64 8.8 0 16 7.2 16 16s-7.2 16-16 16c-17.6 0-32 14.4-32 32 0 8.8-7.2 16-16 16z"></path></svg>
+                        </div> -->
+                        <div class="relative w-64 ml-auto duration-150 transform hover:text-blue-700   ">
+                            <input
+                                accept=".jpg, .jpeg, .png"
+                                @change="
+                                handleImageUpload($event, savePhoto);
+                                isActive = true;
+                                "
+                                type="file"
+                                class="  relative h-full w-full  overflow-hidden   opacity-0 z-20"
+                            />
+                            <div class="absolute inset-0 flex items-center justify-start  ">
+                             <svg class=" w-6 h-6 text-blue-700 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path></svg>
+                              <div class="">Add photo without backgound</div>
+                            </div>
                         </div>
             </div>
               <div v-if="profile" class=" relative border bg-white ">
                     <div class="relative">
-                        <div class="w-full relative flex justify-center bg-green-300">
-                            <img class=" h-64  object-contain w-1/2  " :src="currentUrl?currentUrl:'https://ssl.gstatic.com/accounts/ui/avatar_2x.png'" onerror="this.src='https://ssl.gstatic.com/accounts/ui/avatar_2x.png'" alt="">
+                        <div class=" p-2 text-sm flex items-center "><svg class="w-5 h-5 inline-block mr-px " fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>For instance, use <a class=" mx-1 text-blue-500 hover:text-blue-400" target="_blank" href="https://www.remove.bg">www.remove.bg</a> for revome background.</div>
+                        <div class="w-full relative flex justify-center bg-gray-300">
+                            <img class=" h-64  object-contain w-3/4  " :src="currentUrl?currentUrl:'https://ssl.gstatic.com/accounts/ui/avatar_2x.png'" onerror="this.src='https://ssl.gstatic.com/accounts/ui/avatar_2x.png'" alt="">
                         </div>
                         <div class=" absolute bottom-0 bg-gray-900 h-12 w-full opacity-75"></div>
                         <div class=" absolute bottom-0 flex h-12 items-center text-lg text-white  w-full">
@@ -58,15 +74,35 @@
                         </div>
                     </div>
                     <div class="px-4 pt-2 w-full flex">
-                      <div v-if="!aboutVisible" class=" w-full whitespace-pre-line ">{{profile.aboutMe}}</div>
-                      <textarea @keypress.enter="aboutVisible=false;" v-focus v-else @blur="aboutVisible=false;" @change="changeProfileTeacherName()" v-model="profile.aboutMe"  class=" resize-none  w-full outline-none h-32"/>
+                      <div v-if="!aboutVisible" :class="{' text-red-300':!profile.aboutMe}" class=" w-full whitespace-pre-line ">{{profile.aboutMe?profile.aboutMe:'Tell about yourself'}}</div>
+                      <textarea placeholder="Tell about yourself" @keypress.enter="aboutVisible=false;" v-focus v-else @blur="aboutVisible=false;" @change="changeProfileTeacherName()" v-model="profile.aboutMe"  class=" resize-none  w-full outline-none h-32"/>
                       <div v-if="!aboutVisible" class="">
-                        <div @click="aboutVisible=true" class="   cursor-pointer self-center inline-block ">
-                            <svg class="w-4 h-4 transform scale-150 hover:text-blue-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
+                        <div @click="aboutVisible=true" class="   cursor-pointer self-center flex items-center hover:text-blue-700 ">
+                            <svg class="w-4 h-4 transform scale-150 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
+                            <div class=" ml-1">Edit </div>
                           </div>
                       </div>
                     </div>
-                </div>
+                      <div class=" w-full h-px bg-gray-400 my-3"></div>
+                        <div class="relative w-56  duration-150 transform hover:text-blue-700   ">
+                            <input
+                                accept=".jpg, .jpeg, .png"
+                                @change="
+                                handleImageUpload($event, savePhotoBackground);
+                                isActive = true;
+                                "
+                                type="file"
+                                class="  relative h-full w-full  overflow-hidden   opacity-0 z-20"
+                            />
+                            <div class="absolute inset-0 flex items-center justify-start  ">
+                             <svg class=" w-6 h-6 text-blue-700 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path></svg>
+                              <div class=" ml-px">Add photo with backgound</div>
+                            </div>
+                        </div>
+                        <div class="w-full relative flex justify-center bg-gray-300 mb-4">
+                            <img class=" h-64  object-contain w-3/4  " :key="currentUrl2" :src="currentUrl2?currentUrl2:'https://ssl.gstatic.com/accounts/ui/avatar_2x.png'" onerror="this.src='https://ssl.gstatic.com/accounts/ui/avatar_2x.png'" alt="">
+                        </div>
+                    </div>
         </div>
       </div>
   </div>
@@ -100,7 +136,8 @@ async created() {
 
             if(this.$store.getters.profile) {
                 this.profile = this.$store.getters.profile
-                this.currentUrl ='https://chess-courses.hb.bizmrg.com/'+this.profile.avatar
+                this.currentUrl =process.env.s3Url+this.profile.avatar
+                this.currentUrl2 =process.env.s3Url+this.profile.avatarBackground
             }
             return;
         }
@@ -108,8 +145,11 @@ async created() {
         {
         this.courses = data.data.myCourses;
         this.profile = {...data.data}
+        this.currentUrl =process.env.s3Url+this.profile.avatar
+        this.currentUrl2 =process.env.s3Url+this.profile.avatarBackground
+
         if(this.profile.avatar)
-        this.currentUrl ='https://chess-courses.hb.bizmrg.com/'+this.profile.avatar
+        // this.currentUrl =process.env.s3Url+this.profile.avatar
         this.$store.commit('setProfile',{...this.profile})
         this.$store.commit('setMyBuildCourses',this.courses)
         })        
@@ -127,7 +167,9 @@ data() {
         profit:"",
         profile:null,
         file:null,
+        file2:null,
         currentUrl:null,
+        currentUrl2:null,
         aboutVisible:false
     }
 },
@@ -157,7 +199,7 @@ methods:{
       // this.$store.commit('addMyBuildCourses',course)
       setTimeout(()=>{
         this.$router.push('/coursebuild/'+id)
-      },3000)
+      },2000)
       
     },
     async changeProfileName() {
@@ -188,9 +230,12 @@ methods:{
 
         
     },
-    async savePhoto() {
+    async savePhoto(file) {
+      this.file=file
+      this.currentUrl = URL.createObjectURL(file);
       try {
         const formData = new FormData();
+
         formData.append("image", this.file);
         const { data } = await Axios({
           url: `/buildcourse/teacher`,
@@ -205,7 +250,27 @@ methods:{
         this.errorNotification()
       }
     },
-    async handleImageUpload(event) {
+    async savePhotoBackground(file) {
+      this.file2=file
+      this.currentUrl2 = URL.createObjectURL(file);
+
+      try {
+        const formData = new FormData();
+        formData.append("image", this.file2);
+        const { data } = await Axios({
+          url: `/buildcourse/teacher2`,
+          method: "PATCH",
+          data: formData
+        });
+        this.successNotification({message:"Photo is downloaded"})
+        console.log(data)
+        return data;
+
+      } catch (error) {
+        this.errorNotification()
+      }
+    },
+    async handleImageUpload(event , fn) {
       const imageFile = event.target.files[0];
       console.log("originalFile instanceof Blob", imageFile instanceof Blob); // true
       console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
@@ -224,9 +289,8 @@ methods:{
         console.log(
           `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
         ); // smaller than maxSizeMB
-        this.currentUrl = URL.createObjectURL(compressedFile);
-        this.file = compressedFile; // write your own logic
-        await this.savePhoto();
+        // this.file = compressedFile;
+        await fn(compressedFile);
 
         // this.alert = { mode: "success", message: "Photo is downloaded" };
         // this.photoSave = true

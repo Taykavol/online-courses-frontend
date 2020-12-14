@@ -41,7 +41,7 @@ module.exports = {
       sans: ["system-ui", "-apple-system", "sans-serif"],
       serif: ["Georgia", "Cambria", "serif"],
       mono: ["Menlo", "Monaco", "monospace"],
-      neucha: ["Neucha", "cursive"],
+      // neucha: ["Exo 2", "cursive"],
       monser:["Montserrat"],
       exo:["Exo 2"]
     },

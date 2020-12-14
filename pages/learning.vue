@@ -14,8 +14,9 @@
 
           </div>
       </div>
-      <div v-else class=" relative flex   ">
-              <div class=" border-l-4 border-red-500 pl-2">Sorry, we didn't find your purchased courses.</div>
+      <div v-else class=" relative flex flex-col items-center justify-center   ">
+              <div class=" text-2xl ">We didn't find your purchased courses.</div>
+                <img class=" w-1/2 -mt-20" src="/images/bg/courses-not-found.png" alt="">
       </div>
   </div>
   <div v-else class="">
@@ -45,6 +46,7 @@ data() {
 async created() {
     // const {data} = await Axios('/boughtcourse/all')
     // console.log(data, data.length)
+    console.log('we are here')
     this.courses = await this.$store.dispatch('boughtCourses')
     const setCoursesIds =[]
     this.courses.forEach(course => {

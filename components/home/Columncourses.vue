@@ -1,12 +1,12 @@
 <template>
 <div class="">
   <div  class=" relative">
-    <div  class=" pagination absolute z-10 right-0 bottom-0 -mb-10 ph2:mb-0 ph2:bottom-auto  ph2:-mt-10    text-xl  flex justify-between ">
+    <div  class=" pagination absolute z-10 right-0 bottom-0 -mb-10 lg:mb-0 lg:bottom-auto  lg:-mt-10    text-xl  flex justify-between ">
       <div class="w-1/3"></div>
       <div class="w-2/3 text-center">
         <!-- <Select class=" z-50 relative w-48" :currentValue="title.selectedValue" :options="title.options"/> -->
       </div>
-      <div class="w-1/3 text-right pr-8 flex justify-end space-x-1 font-bold">
+      <div class="w-1/3 text-right  flex justify-end space-x-1 font-bold">
         <paginate
         :class="{'invisible':pageCount==1}"
         class=" flex outline-none z-0 "
@@ -85,8 +85,9 @@ export default {
 
 <style>
 .pagination {
-  @media (max-width:640px) {
-    right: 25%;
+  @media (max-width:1024px) {
+    right: 50%;
+    transform:translateX(50%)
   }
 }
 

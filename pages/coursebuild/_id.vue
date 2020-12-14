@@ -21,26 +21,13 @@
       </div>
     </div> -->
     <div v-if='isLoaded' class=" ">
-      <!-- <div class=" w-1/6   ">
-      <course-nav :setComponent="setComponent" :course='course1'></course-nav>
-      </div> -->
       <div class=" flex ">
-        <!-- <div class=" w-1/3 mr-6 mt-10">
-        </div> -->
         <div :class="{'w-full':isSettings, 'w-full':!isSettings }"  class="  w-full  ">
         <keep-alive>
-        <CourseBuilder class=" " v-if="isSettings" :courseProp="this.course1"/>
-        <!-- <CourseSettings v-else class=" " :course="this.course1"/> -->
+        <CourseBuilder class=" " v-if="isSettings" :courseProp="JSON.parse(JSON.stringify(this.course1)) "/>
         </keep-alive>
-
         </div>
       </div>
-      <!-- <div class=""></div> -->
-        <!-- <div class=" w-full "> -->
-      <!-- <keep-alive> -->
-        <!-- <component v-bind:is="currentComponent" v-bind="currentProperties" ></component> -->
-      <!-- </keep-alive> -->
-      <!-- </div> -->
     </div>
   </div>
 </template>

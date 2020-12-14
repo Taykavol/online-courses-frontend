@@ -11,15 +11,15 @@
                 <div style="background-color:#183153; color:#ffd43b" class=" px-3  rounded-lg mr-2 font-bold ">
                     {{currentChapterOrder+1}}.<span class=" text-xl text-red-500">{{currentLessonIndex+1}}</span>
                 </div>
-                <div class=" ml-2  tracking-tight text-blue-800 font-semibold">
+                <div class=" ml-2  tracking-tight text-blue-800 font-semibold truncate ">
                     {{currentLessonTitle}}
                 </div>
-                <div v-if="mode" class=" ml-2 text-xl">(Puzzles)</div>
+                <div v-if="mode" class=" ml-2 text-xl hidden sm:block">(Puzzles)</div>
             </div>
         </div>
         <div class=" w-1/3   text-xl  flex  items-center justify-start">
-            <CircleProgress :percent='totalPuzzleSolved' src="/icons/player/chessboard.svg" class="text-blue-600"  :key="totalPuzzleSolved" />
-            <CircleProgress :percent='totalProgress' src="/icons/player/camera.svg" class="text-green-600" :key="totalProgress" />
+            <CircleProgress :percent='totalPuzzleSolved' src="/icons/player/chessboard.svg" class="text-blue-600 hidden sm:block"  :key="totalPuzzleSolved" />
+            <CircleProgress :percent='totalProgress' src="/icons/player/camera.svg" class="text-green-600 hidden sm:block" :key="totalProgress" />
             <div class="text-gray-700   flex items-center justify-center cursor-pointer ml-auto  z-50">
                 <svg v-if="buildCourse&&!buildCourse.reviewId&&visibleReviewButton" @click="showReview()" class="w-10 h-10 mr-2 hover:text-yellow-600 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                 <svg @click="$router.push('/learning')" class="w-10 h-10 hover:text-blue-600 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path></svg>
@@ -27,13 +27,17 @@
         </div>
 
     </div>
-    <div class="flex items-start">
+    <div :class="{'h-screen lg:h-auto':mode}" class="flex flex-col lg:flex-row items-start ">
     <!-- Player -->
-        <div  class=" w-2/3 bg-black mr-4  ">
-            <div class="relative bg-transparent">
-                <div  v-show="mode"   class=" absolute z-50 w-full h-full flex justify-center  bg-transparent ">
+        <div  class=" h-full  w-full lg:w-2/3  mr-4  ">
+            <div class="relative  bg-transparent h-full w-full">
+                <div  v-show="mode"   class=" absolute z-50 w-full h-full flex justify-center    ">
                     <PuzzleTraining style="max-width:40rem"  class=" w-full h-full "  v-if="puzzles" :author="author" :watchNextVideo="watchNextVideo" :puzzles="puzzles" :solvePuzzle="solvePuzzle" :progressOfPuzzles="progressOfPuzzles.slice(puzzles[0].order,puzzles[puzzles.length-1].order+1)" :key="puzzles" />
+
+                    
                 </div>
+                
+
                 <!-- <div v-if="endScreen"  class="absolute z-10 w-full h-full bg-gray-100"></div> -->
                 <div  v-show="!mode" >
 
@@ -42,7 +46,7 @@
             </div>
         </div>
         <!-- Curriculum -->
-        <div class=" w-1/3    curriculum--height overflow-y-auto puzzle-scroll    ">
+        <div :class="{'hidden lg:block':mode}" class=" w-full  lg:w-1/3    curriculum--height overflow-y-auto puzzle-scroll    ">
             <div class="  w-full">
                 <div v-for="(chapter,index) in curriculum" :key="index" :class="{'border-t':index==0}" class=" border-r border-b border-l  w-full">
                     <!-- bg-blue-900 -->
@@ -134,16 +138,22 @@ export default {
         this.progressOfLessons.splice()
     }
     // ||data.progressOfPuzzles.length!=data.course.totalPuzzles
-    if(data.progressOfPuzzles.length==0) {
+    console.log('Compare:',data.progressOfPuzzles.length,data.course.totalPuzzles)
+    if(data.progressOfPuzzles.length==0||data.progressOfPuzzles.length!=data.course.totalPuzzles) {
+        this.progressOfPuzzles=[]
         console.log('Solutions are empty')
         for(let i=0; i<data.course.totalPuzzles;i++)
         this.progressOfPuzzles[i] = false
     }
+    
     console.log('Progress puzzles',this.progressOfPuzzles)
         console.log('Progress',this.progressOfLessons) 
          if (!localStorage.getItem(`boughtCoursePlayer${this.$route.params.id}`))  {
-            this.$refs.card[0].style.maxHeight = this.$refs.card[0].scrollHeight + "px";
-            this.$refs.lesson[0].click()
+             console.log('Have localsorage')
+             this.$nextTick(()=>{
+                 this.$refs.card[0].style.maxHeight = this.$refs.card[0].scrollHeight + "px";
+                 this.$refs.lesson[0].click()
+             })
             return
          }
         const {chapter,lesson, vimeoId} = JSON.parse(localStorage.getItem(`boughtCoursePlayer${this.$route.params.id}`)) 
@@ -262,6 +272,8 @@ export default {
     solvePuzzle(order) {
         this.$set(this.progressOfPuzzles,order,true)
         console.log(this.progressOfPuzzles)
+        this.buildCourse.progressOfPuzzles = this.progressOfPuzzles
+        this.$store.commit('editBoughtCourse',{courseId:this.$route.params.id,course:this.buildCourse})
         const progress = Math.ceil((this.totalProgress + this.totalPuzzleSolved)/2)
         clearTimeout(this.interval)
         this.interval = setTimeout( async ()=>{

@@ -2,7 +2,7 @@
 import axios from 'axios'
 export default function ({ store, redirect }) {
     if (!store.getters.isLoggedIn) {
-      return redirect('/home')
+      return redirect('/')
     }
     axios.defaults.headers.common['Authorization'] ="Bearer "+ localStorage.getItem('token')
     console.log('Url',process.env.baseUrlBackend)
